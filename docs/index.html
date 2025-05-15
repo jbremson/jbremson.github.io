@@ -51,7 +51,6 @@
       <h1 class="text-4xl font-bold">Autopia Simulation Game</h1>
       <p class="mt-2 text-lg">Exploring Market Dynamics of Alternative Fuel and Vehicle Transitions</p>
 
-      <img src="./img/autopia/RD_dials.png">
     </div>
   </header>
 
@@ -59,6 +58,7 @@
     <section class="bg-white shadow-md rounded-lg p-6 mb-8">
       <h2 class="text-2xl font-semibold mb-4">About Autopia</h2>
       <p class="text-gray-700">
+        <img src="./img/autopia/RD_dials.png">
         Autopia is a serious game developed by Joel Bremson at the University of California, Davis, designed to simulate the complex market dynamics of transitioning to alternative fuel vehicles. By modeling interactions between consumers, vehicle producers, and fuel producers, Autopia provides insights into economic and technological factors influencing the adoption of alternative fuels.
       </p>
     </section>
@@ -74,17 +74,135 @@
 
     <section class="bg-white shadow-md rounded-lg p-6 mb-8">
       <h2 class="text-2xl font-semibold mb-4">Key Charts from the Dissertation</h2>
-      <p class="text-gray-700 mb-4">
-        The following descriptions summarize key charts from Joel Bremson’s dissertation, illustrating Autopia’s simulation results. For the original charts, please refer to the dissertation.
-      </p>
-      <ul class="list-disc pl-6 text-gray-700 mb-4">
-        <li><strong>Vehicle Market Share by Income Bracket:</strong> A chart showing the distribution of vehicle types across income levels under high fuel price scenarios, highlighting the dominance of small gasoline vehicles in lower-income segments and electric vehicles in the top 30% income bracket.</li>
-        <li><strong>Alternative Fuel Vehicle Sales vs. Price Differential:</strong> A graph illustrating the relationship between the price difference of alternative fuel vehicles compared to conventional vehicles and their market penetration, demonstrating the impact of cost barriers.</li>
-        <li><strong>Gasoline Demand Over Time:</strong> A line chart depicting the decline in gasoline demand as average fuel economy improves, with annotations showing fuel producers’ strategic adjustments.</li>
-      </ul>
-      <p class="text-gray-700">
-        These charts are available in the full dissertation, accessible via the link below.
-      </p>
+    <div class="gallery" id="gallery"></div>
+    <div class="modal" id="modal">
+        <span class="modal-close" onclick="closeModal()">&times;</span>
+        <img id="modal-image" src="">
+    </div>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        table {
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+        td {
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+        .thumbnail {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal img {
+            max-width: 90%;
+            max-height: 90%;
+            border: 2px solid #fff;
+            border-radius: 5px;
+        }
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: #fff;
+            font-size: 30px;
+            cursor: pointer;
+        }
+    </style>
+
+    <table id="gallery-table"></table>
+    <div class="modal" id="modal">
+        <span class="modal-close" onclick="closeModal()">×</span>
+        <img id="modal-image" src="">
+    </div>
+
+    <script>
+        // List of image filenames (assumes thumbnails and originals have same names)
+        const imageFiles = [
+                'RD_dials.png',
+                'auction.png',
+                'change_price.png',
+                'conference.png',
+                'drivetrains_by_turn.png',
+                'family.png',
+                'fleet_data.png',
+                'fuel_data.png',
+                'gsm_drivetrain_results.png',
+                'margins.png',
+                'refineries.png',
+                'steps_game_vehicle_purchases.png',
+                'vehicle_sales.png'
+        ];
+
+        const table = document.getElementById('gallery-table');
+        const modal = document.getElementById('modal');
+        const modalImage = document.getElementById('modal-image');
+        const columnsPerRow = 3; // Number of thumbnails per row
+
+        // Create table rows and cells
+        function createTable() {
+            let row;
+            imageFiles.forEach((filename, index) => {
+                // Start a new row for every 'columnsPerRow' images
+                if (index % columnsPerRow === 0) {
+                    row = document.createElement('tr');
+                    table.appendChild(row);
+                }
+                // Create table cell with thumbnail
+                const cell = document.createElement('td');
+                const thumb = document.createElement('img');
+                thumb.src = `img/thumbnails/thumb_${filename}`;
+                thumb.className = 'thumbnail';
+                thumb.alt = filename;
+                thumb.onclick = () => showModal(`img/autopia/${filename}`);
+                cell.appendChild(thumb);
+                row.appendChild(cell);
+            });
+        }
+
+        // Show modal with larger image
+        function showModal(imageSrc) {
+            modalImage.src = imageSrc;
+            modal.style.display = 'flex';
+        }
+
+        // Close modal
+        function closeModal() {
+            modal.style.display = 'none';
+            modalImage.src = '';
+        }
+
+        // Close modal when clicking outside the image
+        modal.onclick = function(event) {
+            if (event.target === modal) {
+                closeModal();
+            }
+        };
+
+        // Initialize table
+        createTable();
+    </script>
+
+
     </section>
 
 
