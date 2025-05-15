@@ -53,8 +53,8 @@
         border: 1px solid #ccc;
     }
     .gallery-table .thumbnail {
-        width: 200px;
-        height: 200px;
+        width: 150px;
+        height: 150px;
         object-fit: cover;
         cursor: pointer;
         border-radius: 5px;
@@ -68,12 +68,12 @@
         width: 100%;
         height: 100%;
         background-color: rgba(0, 0, 0, 0.8);
-        justify-content: center;
+        justify-content: left;
         align-items: center;
         z-index: 1000;
     }
     .gallery-modal-content {
-        text-align: center;
+        text-align: left;
         max-width: 90%;
         max-height: 90%;
         padding: 20px;
@@ -137,7 +137,7 @@
     const galleryModal = document.getElementById('gallery-modal');
     const galleryModalImage = document.getElementById('gallery-modal-image');
     const galleryModalDescription = document.getElementById('gallery-modal-description');
-    const columnsPerRow = 3; // Number of thumbnails per row
+    const columnsPerRow = 4; // Number of thumbnails per row
 
     // Create table rows and cells
     function createGalleryTable() {
