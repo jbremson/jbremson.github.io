@@ -1,44 +1,4 @@
-<script type="text/javascript">
-        var gk_isXlsx = false;
-        var gk_xlsxFileLookup = {};
-        var gk_fileData = {};
-        function filledCell(cell) {
-          return cell !== '' && cell != null;
-        }
-        function loadFileData(filename) {
-        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-            try {
-                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-                var firstSheetName = workbook.SheetNames[0];
-                var worksheet = workbook.Sheets[firstSheetName];
-
-                // Convert sheet to JSON to filter blank rows
-                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-                // Filter out blank rows (rows where all cells are empty, null, or undefined)
-                var filteredData = jsonData.filter(row => row.some(filledCell));
-
-                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-                var headerRowIndex = filteredData.findIndex((row, index) =>
-                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-                );
-                // Fallback
-                if (headerRowIndex === -1 || headerRowIndex > 25) {
-                  headerRowIndex = 0;
-                }
-
-                // Convert filtered JSON back to CSV
-                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-                return csv;
-            } catch (e) {
-                console.error(e);
-                return "";
-            }
-        }
-        return gk_fileData[filename] || "";
-        }
-        </script><!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -58,8 +18,10 @@
     <section class="bg-white shadow-md rounded-lg p-6 mb-8">
       <h2 class="text-2xl font-semibold mb-4">About Autopia</h2>
       <p class="text-gray-700">
-        <img src="./img/autopia/RD_dials.png">
         Autopia is a serious game developed by Joel Bremson at the University of California, Davis, designed to simulate the complex market dynamics of transitioning to alternative fuel vehicles. By modeling interactions between consumers, vehicle producers, and fuel producers, Autopia provides insights into economic and technological factors influencing the adoption of alternative fuels.
+      <div style="display: flex; justify-content: center; align-items: center;">
+    <img src="img/autopia/RD_dials.png" alt="Example Image" style="width: 25%;">
+</div>
       </p>
     </section>
 
@@ -73,136 +35,156 @@
     </section>
 
     <section class="bg-white shadow-md rounded-lg p-6 mb-8">
-      <h2 class="text-2xl font-semibold mb-4">Key Charts from the Dissertation</h2>
+      <h2 class="text-2xl font-semibold mb-4">Images from the Dissertation</h2>
     <div class="gallery" id="gallery"></div>
     <div class="modal" id="modal">
-        <span class="modal-close" onclick="closeModal()">&times;</span>
+        <span class="modal-close" onclick="closeModal()"></span>
         <img id="modal-image" src="">
     </div>
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            text-align: center;
-        }
-        table {
-            margin: 0 auto;
-            border-collapse: collapse;
-        }
-        td {
-            padding: 10px;
-            border: 1px solid #ccc;
-        }
-        .thumbnail {
-            width: 200px;
-            height: 200px;
-            object-fit: cover;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-        .modal img {
-            max-width: 90%;
-            max-height: 90%;
-            border: 2px solid #fff;
-            border-radius: 5px;
-        }
-        .modal-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            color: #fff;
-            font-size: 30px;
-            cursor: pointer;
-        }
-    </style>
+<style>
+    /* Gallery table styles */
+    .gallery-table {
+        margin: 20px auto;
+        border-collapse: collapse;
+    }
+    .gallery-table td {
+        padding: 10px;
+        border: 1px solid #ccc;
+    }
+    .gallery-table .thumbnail {
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+    /* Modal styles */
+    .gallery-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+    .gallery-modal-content {
+        text-align: center;
+        max-width: 90%;
+        max-height: 90%;
+        padding: 20px;
+        background-color: #000;
+    }
+    .gallery-modal-content img {
+        max-width: 100%;
+        max-height: 70vh;
+        border: 2px solid #fff;
+        border-radius: 5px;
+        display: block;
+        margin: 0 auto;
+    }
+    .gallery-modal-content p {
+        color: #fff;
+        font-size: 18px;
+        margin: 15px 0 0;
+        max-width: 600px;
+        word-wrap: break-word;
+    }
+    .gallery-modal-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        color: #fff;
+        font-size: 30px;
+        cursor: pointer;
+    }
+</style>
 
-    <table id="gallery-table"></table>
-    <div class="modal" id="modal">
-        <span class="modal-close" onclick="closeModal()">×</span>
-        <img id="modal-image" src="">
+<div>
+    <table class="gallery-table" id="gallery-table"></table>
+    <div class="gallery-modal" id="gallery-modal">
+        <span class="gallery-modal-close" onclick="closeGalleryModal()">×</span>
+        <div class="gallery-modal-content">
+            <img id="gallery-modal-image" src="">
+            <p id="gallery-modal-description"></p>
+        </div>
     </div>
+</div>
 
-    <script>
-        // List of image filenames (assumes thumbnails and originals have same names)
-        const imageFiles = [
-                'RD_dials.png',
-                'auction.png',
-                'change_price.png',
-                'conference.png',
-                'drivetrains_by_turn.png',
-                'family.png',
-                'fleet_data.png',
-                'fuel_data.png',
-                'gsm_drivetrain_results.png',
-                'margins.png',
-                'refineries.png',
-                'steps_game_vehicle_purchases.png',
-                'vehicle_sales.png'
-        ];
+<script>
+    // Array of objects containing image filenames and descriptions
+    const galleryImageData = [
+        { filename: 'RD_dials.png', description: 'Dials show the R&D investment and capability of the vehicle producer. Higher levels of expertise allow more efficient operation and production.' },
+        { filename: 'auction.png', description: 'A consumer buying vehicles in the vehicle auction turn segment.' },
+        { filename: 'change_price.png', description: 'Vehicle producers can change prices during the auction in response to consumer demand.' },
+        { filename: 'conference.png', description: 'A live run of the complete simulation.' },
+        { filename: 'drivetrains_by_turn.png', description: 'Simulation drivetrain outcomes example.' },
+        { filename: 'family.png', description: 'Home dashboard of a consumer player.' },
+        { filename: 'fleet_data.png', description: 'Consumer fleet data example.' },
+        { filename: 'fuel_data.png', description: 'Fuel data tables.' },
+        { filename: 'gsm_drivetrain_results.png', description: 'Drivetrain frequency data from a game run.' },
+        { filename: 'margins.png', description: 'Drivetrain margin data. It is hard to get a margin on highly electrified vehicles beyond a gasoline based plug-in electric hybrid with a 10 mile range.' },
+        { filename: 'refineries.png', description: 'Fuel producer refinery management interface.' },
+        { filename: 'steps_game_vehicle_purchases.png', description: 'Vehicle purchase distribution from a full-scale run.' },
+        { filename: 'vehicle_sales.png', description: 'Vehicle producer interface during an auction. The VP can change the price to respond to market demand.' }
+    ];
 
-        const table = document.getElementById('gallery-table');
-        const modal = document.getElementById('modal');
-        const modalImage = document.getElementById('modal-image');
-        const columnsPerRow = 3; // Number of thumbnails per row
+    const galleryTable = document.getElementById('gallery-table');
+    const galleryModal = document.getElementById('gallery-modal');
+    const galleryModalImage = document.getElementById('gallery-modal-image');
+    const galleryModalDescription = document.getElementById('gallery-modal-description');
+    const columnsPerRow = 3; // Number of thumbnails per row
 
-        // Create table rows and cells
-        function createTable() {
-            let row;
-            imageFiles.forEach((filename, index) => {
-                // Start a new row for every 'columnsPerRow' images
-                if (index % columnsPerRow === 0) {
-                    row = document.createElement('tr');
-                    table.appendChild(row);
-                }
-                // Create table cell with thumbnail
-                const cell = document.createElement('td');
-                const thumb = document.createElement('img');
-                thumb.src = `img/thumbnails/thumb_${filename}`;
-                thumb.className = 'thumbnail';
-                thumb.alt = filename;
-                thumb.onclick = () => showModal(`img/autopia/${filename}`);
-                cell.appendChild(thumb);
-                row.appendChild(cell);
-            });
-        }
-
-        // Show modal with larger image
-        function showModal(imageSrc) {
-            modalImage.src = imageSrc;
-            modal.style.display = 'flex';
-        }
-
-        // Close modal
-        function closeModal() {
-            modal.style.display = 'none';
-            modalImage.src = '';
-        }
-
-        // Close modal when clicking outside the image
-        modal.onclick = function(event) {
-            if (event.target === modal) {
-                closeModal();
+    // Create table rows and cells
+    function createGalleryTable() {
+        let row;
+        galleryImageData.forEach((item, index) => {
+            // Start a new row for every 'columnsPerRow' images
+            if (index % columnsPerRow === 0) {
+                row = document.createElement('tr');
+                galleryTable.appendChild(row);
             }
-        };
+            // Create table cell with thumbnail
+            const cell = document.createElement('td');
+            const thumb = document.createElement('img');
+            thumb.src = `img/thumbnails/thumb_${item.filename}`;
+            thumb.className = 'thumbnail';
+            thumb.alt = item.filename;
+            thumb.onclick = () => showGalleryModal(`img/autopia/${item.filename}`, item.description);
+            cell.appendChild(thumb);
+            row.appendChild(cell);
+        });
+    }
 
-        // Initialize table
-        createTable();
+    // Show modal with larger image and description
+    function showGalleryModal(imageSrc, description) {
+        galleryModalImage.src = imageSrc;
+        galleryModalDescription.textContent = description;
+        console.log('Showing modal with description:', description); // Debug log
+        galleryModal.style.display = 'flex';
+    }
+
+    // Close modal
+    function closeGalleryModal() {
+        galleryModal.style.display = 'none';
+        galleryModalImage.src = '';
+        galleryModalDescription.textContent = '';
+    }
+
+    // Close modal when clicking outside the content
+    galleryModal.onclick = function(event) {
+        if (event.target === galleryModal) {
+            closeGalleryModal();
+        }
+    };
+
+    // Initialize table
+    createGalleryTable();
     </script>
-
-
     </section>
 
 
