@@ -1,4 +1,5 @@
 import json
+import re
 
 
 def calculate_monthly_payment(principal, annual_interest_rate, years):
@@ -42,6 +43,32 @@ def calculate_payoff_miles(car1_name, car1_price, car1_mpg, car2_name, car2_pric
 
 
 def lambda_handler(event, context):
+    # Get the Origin header from the request
+    origin = event.get('headers', {}).get('origin', '')
+
+    # Define allowed origin pattern (subdomains of autopiaproject.org)
+    allowed_origin_pattern = r'^https?://([a-zA-Z0-9-]+\.)*autopiaproject\.org$'
+
+    # Check if the origin matches the allowed pattern
+    if re.match(allowed_origin_pattern, origin):
+        cors_origin = origin  # Allow the specific origin
+    else:
+        cors_origin = 'null'  # Deny non-matching origins
+
+    cors_headers = {
+        'Access-Control-Allow-Origin': cors_origin,
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type'
+    }
+
+    # Handle preflight OPTIONS request
+    if event['httpMethod'] == 'OPTIONS':
+        return {
+            'statusCode': 200,
+            'headers': cors_headers,
+            'body': json.dumps({'message': 'CORS preflight'})
+        }
+
     try:
 
         # Validate required fields
@@ -78,16 +105,19 @@ def lambda_handler(event, context):
 
         return {
             'statusCode': 200,
+            'headers': cors_headers,
             'event': json.dumps({'result': result})
         }
 
     except (ValueError, json.JSONDecodeError) as e:
         return {
             'statusCode': 400,
+            'headers': cors_headers,
             'event': json.dumps({'error': 'Invalid input format'})
         }
     except Exception as e:
         return {
             'statusCode': 500,
+            'headers': cors_headers,
             'event': json.dumps({'error': f'Server error: {e.str}'})
         }
