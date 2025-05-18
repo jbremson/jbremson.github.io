@@ -218,9 +218,9 @@
       </a>
     </section>
 
-      <section class="car-payoff-calculator">
+      <section class="car-payoff-calculator" class="bg-white shadow-md rounded-lg p-6">
     <h1>Car Payoff Calculator</h1>
-    <form id="carForm">
+       <form id="carForm">
         <div class="car-table-container">
             <table>
                 <tr>
@@ -231,13 +231,13 @@
                     <td>
                         <div class="form-group">
                             <label for="car1_name">Name:</label>
-                            <input type="text" id="car1_name" name="car1_name" maxlength="25" size="25" required>
+                            <input type="text" id="car1_name" name="car1_name" maxlength="25" size="25" value="Car 1" required>
                         </div>
                     </td>
                     <td>
                         <div class="form-group">
                             <label for="car2_name">Name:</label>
-                            <input type="text" id="car2_name" name="car2_name" maxlength="25" size="25" required>
+                            <input type="text" id="car2_name" name="car2_name" maxlength="25" size="25" value="Car 2" required>
                         </div>
                     </td>
                 </tr>
@@ -245,13 +245,13 @@
                     <td>
                         <div class="form-group">
                             <label for="car1_price">Price ($):</label>
-                            <input type="number" id="car1_price" name="car1_price" step="0.01" maxlength="8" size="8" required>
+                            <input type="number" id="car1_price" name="car1_price" step="0.01" maxlength="8" size="8" value="30000" required>
                         </div>
                     </td>
                     <td>
                         <div class="form-group">
                             <label for="car2_price">Price ($):</label>
-                            <input type="number" id="car2_price" name="car2_price" step="0.01" maxlength="8" size="8" required>
+                            <input type="number" id="car2_price" name="car2_price" step="0.01" maxlength="8" size="8" value="25000" required>
                         </div>
                     </td>
                 </tr>
@@ -259,13 +259,13 @@
                     <td>
                         <div class="form-group">
                             <label for="car1_mpg">MPG:</label>
-                            <input type="number" id="car1_mpg" name="car1_mpg" step="0.1" maxlength="8" size="8" required>
+                            <input type="number" id="car1_mpg" name="car1_mpg" step="0.1" maxlength="8" size="8" value="35" required>
                         </div>
                     </td>
                     <td>
                         <div class="form-group">
                             <label for="car2_mpg">MPG:</label>
-                            <input type="number" id="car2_mpg" name="car2_mpg" step="0.1" maxlength="8" size="8" required>
+                            <input type="number" id="car2_mpg" name="car2_mpg" step="0.1" maxlength="8" size="8" value="25" required>
                         </div>
                     </td>
                 </tr>
@@ -276,15 +276,15 @@
             <div class="global-values-row">
                 <div class="form-group">
                     <label for="fuel_cost">Fuel Cost per Gallon ($):</label>
-                    <input type="number" id="fuel_cost" name="fuel_cost" step="0.01" maxlength="8" size="8" required>
+                    <input type="number" id="fuel_cost" name="fuel_cost" step="0.01" maxlength="8" size="8" value="3.50" required>
                 </div>
                 <div class="form-group">
                     <label for="interest_rate">Annual Interest Rate (%):</label>
-                    <input type="number" id="interest_rate" name="interest_rate" step="0.01" maxlength="8" size="8" required>
+                    <input type="number" id="interest_rate" name="interest_rate" step="0.01" maxlength="8" size="8" value="5.5" required>
                 </div>
                 <div class="form-group">
                     <label for="financing_years">Financing Period (Years):</label>
-                    <input type="number" id="financing_years" name="financing_years" maxlength="8" size="8" required>
+                    <input type="number" id="financing_years" name="financing_years" maxlength="8" size="8" value="5" required>
                 </div>
             </div>
         </div>
