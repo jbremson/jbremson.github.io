@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Break-Even Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .form-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            display: none;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Car Break-Even Calculator</h2>
+        <form id="carForm">
+            <div class="form-group">
+                <label for="car1_mpg">Car 1 MPG:</label>
+                <input type="number" id="car1_mpg" name="car1_mpg" step="0.1" required>
+            </div>
+            <div class="form-group">
+                <label for="car1_price">Car 1 Price ($):</label>
+                <input type="number" id="car1_price" name="car1_price" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="car2_mpg">Car 2 MPG:</label>
+                <input type="number" id="car2_mpg" name="car2_mpg" step="0.1" required>
+            </div>
+            <div class="form-group">
+                <label for="car2_price">Car 2 Price ($):</label>
+                <input type="number" id="car2_price" name="car2_price" step="0.01" required>
+            </div>
+            <button type="submit">Calculate Break-Even</button>
+        </form>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        document.getElementById('carForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'none';
+            resultDiv.innerHTML = '';
+
+            const car1_mpg = document.getElementById('car1_mpg').value;
+            const car1_price = document.getElementById('car1_price').value;
+            const car2_mpg = document.getElementById('car2_mpg').value;
+            const car2_price = document.getElementById('car2_price').value;
+
+            // Nest the payload under a "body" key
+            const payload = {
+                body: {
+                    car1_mpg: parseFloat(car1_mpg),
+                    car1_price: parseFloat(car1_price),
+                    car2_mpg: parseFloat(car2_mpg),
+                    car2_price: parseFloat(car2_price)
+                }
+            };
+
+            try {
+                const response = await fetch(
+                    'https://vqo4f512yl.execute-api.us-east-1.amazonaws.com/dev/payoff',
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(payload)
+                    }
+                );
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    const result = JSON.parse(data.body);
+                    if (result.error) {
+                        resultDiv.innerHTML = `<p class="error">Error: ${result.error}</p>`;
+                    } else {
+                        resultDiv.innerHTML = `
+                            <h3>Result</h3>
+                            <p>Break-even mileage: ${result.break_even_miles.toLocaleString()} miles</p>
+                            <p>Higher MPG Car: ${result.higher_mpg_car.mpg} MPG, $${result.higher_mpg_car.price.toLocaleString()}</p>
+                            <p>Lower MPG Car: ${result.lower_mpg_car.mpg} MPG, $${result.lower_mpg_car.price.toLocaleString()}</p>
+                            ${result.message ? `<p>${result.message}</p>` : ''}
+                        `;
+                    }
+                } else {
+                    resultDiv.innerHTML = `<p class="error">Error: ${data.message || 'Failed to fetch data'}</p>`;
+                }
+                resultDiv.style.display = 'block';
+            } catch (error) {
+                resultDiv.innerHTML = `<p class="error">Error: ${error.message}</p>`;
+                resultDiv.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
