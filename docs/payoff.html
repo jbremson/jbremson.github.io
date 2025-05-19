@@ -87,10 +87,10 @@
             resultDiv.style.display = 'none';
             resultDiv.innerHTML = '';
 
-            const car1_mpg = document.getElementById('car1_mpg').value;
-            const car1_price = document.getElementById('car1_price').value;
-            const car2_mpg = document.getElementById('car2_mpg').value;
-            const car2_price = document.getElementById('car2_price').value;
+            const car1_mpg = parseFloat(document.getElementById('car1_mpg').value);
+            const car1_price = parseFloat(document.getElementById('car1_price').value);
+            const car2_mpg = parseFloat(document.getElementById('car2_mpg').value);
+            const car2_price = parseFloat(document.getElementById('car2_price').value);
 
             // Nest the payload under a "body" key
             const payload = {
