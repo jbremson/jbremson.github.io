@@ -53,19 +53,20 @@
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ value: parseFloat(valueInput) }),
+                    body: JSON.stringify({ body: JSON.stringify({ value: parseFloat(valueInput) }) }),
                 });
 
                 const data = await response.json();
+                const body = JSON.parse(data.body); // Parse the nested body string
 
                 if (response.ok) {
                     // Success response
-                    originalSpan.textContent = data.original || '';
-                    processedSpan.textContent = data.processed || '';
-                    messageSpan.textContent = data.message || '';
+                    originalSpan.textContent = body.original || '';
+                    processedSpan.textContent = body.processed || '';
+                    messageSpan.textContent = body.message || '';
                 } else {
                     // Error response
-                    errorSpan.textContent = data.error || 'Unknown error occurred';
+                    errorSpan.textContent = body.error || 'Unknown error occurred';
                     errorSpan.classList.remove('hidden');
                 }
 
