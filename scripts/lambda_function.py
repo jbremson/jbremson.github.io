@@ -44,22 +44,20 @@ def calculate_payoff_miles(car1_name, car1_price, car1_mpg, car2_name, car2_pric
 
 def lambda_handler(event, context):
     # Get the Origin header from the request
+    print("Received event:")
+    print(json.dumps(event))  # Log the entire event object
+
     origin = event.get('headers', {}).get('origin', '')
 
     # Define allowed origin pattern (subdomains of autopiaproject.org)
-    allowed_origin_pattern = r'^https?://([a-zA-Z0-9-]+\.)*autopiaproject\.org$'
-
-    # Check if the origin matches the allowed pattern
-    if re.match(allowed_origin_pattern, origin):
-        cors_origin = origin  # Allow the specific origin
-    else:
-        cors_origin = 'null'  # Deny non-matching origins
-
     cors_headers = {
-        'Access-Control-Allow-Origin': cors_origin,
-        'Access-Control-Allow-Methods': 'POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type'
+        'Access-Control-Allow-Origin': "https://www.autopiaproject.org",
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type,content-type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'
     }
+
+    if not event.get('httpMethod'):
+        event['httpMethod'] = None
 
     # Handle preflight OPTIONS request
     if event['httpMethod'] == 'OPTIONS':
@@ -78,23 +76,26 @@ def lambda_handler(event, context):
             'fuel_cost', 'interest_rate', 'financing_years'
         ]
 
+        body = json.loads(event.get('body', '{}'))
+
+        print(f"body = {body}")
         for field in required_fields:
-            if field not in event:
+            if field not in body:
                 return {
                     'statusCode': 400,
-                    'body': json.dumps({'error': f"Missing required field: {field}"})
+                    'body': json.dumps({'error': f"Missing required field: {field} - {event}"})
                 }
 
         # Extract and convert inputs
-        car1_name = event['car1_name']
-        car1_price = float(event['car1_price'])
-        car1_mpg = float(event['car1_mpg'])
-        car2_name = event['car2_name']
-        car2_price = float(event['car2_price'])
-        car2_mpg = float(event['car2_mpg'])
-        fuel_cost = float(event['fuel_cost'])
-        interest_rate = float(event['interest_rate'])
-        financing_years = int(event['financing_years'])
+        car1_name = body['car1_name']
+        car1_price = float(body['car1_price'])
+        car1_mpg = float(body['car1_mpg'])
+        car2_name = body['car2_name']
+        car2_price = float(body['car2_price'])
+        car2_mpg = float(body['car2_mpg'])
+        fuel_cost = float(body['fuel_cost'])
+        interest_rate = float(body['interest_rate'])
+        financing_years = int(body['financing_years'])
 
         # Calculate result
         result = calculate_payoff_miles(
@@ -119,5 +120,5 @@ def lambda_handler(event, context):
         return {
             'statusCode': 500,
             'headers': cors_headers,
-            'event': json.dumps({'error': f'Server error: {e.str}'})
+            'event': json.dumps({'error': f'Server error: {e}'})
         }
