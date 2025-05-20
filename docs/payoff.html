@@ -95,11 +95,13 @@
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
 
-                // Parse Lambda response (assuming API Gateway returns JSON)
+                // Parse Lambda response
                 const result = await response.json();
                 const responseDiv = document.getElementById('response');
                 responseDiv.style.display = 'block';
-                responseDiv.innerHTML = `<strong>Response:</strong> <pre>${JSON.stringify(result, null, 2)}</pre>`;
+
+                // Display only the message as a plain string, or error if message is missing
+                responseDiv.innerHTML = `<strong>Response:</strong> ${result.message || 'Error: No message returned from Lambda'}`;
             } catch (error) {
                 // Display error if Lambda or API Gateway fails
                 const responseDiv = document.getElementById('response');
