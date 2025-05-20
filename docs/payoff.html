@@ -100,8 +100,13 @@
                 const responseDiv = document.getElementById('response');
                 responseDiv.style.display = 'block';
 
-                // Display only the message as a plain string, or error if message is missing
-                responseDiv.innerHTML = `<strong>Response:</strong> ${result.message || 'Error: No message returned from Lambda'}`;
+                // Parse the body string and extract the message
+                try {
+                    const bodyData = JSON.parse(result.body);
+                    responseDiv.innerHTML = `<strong>Response:</strong> ${bodyData.message || 'Error: No message in response body'}`;
+                } catch (e) {
+                    responseDiv.innerHTML = `<strong>Error:</strong> Failed to parse response body: ${e.message}`;
+                }
             } catch (error) {
                 // Display error if Lambda or API Gateway fails
                 const responseDiv = document.getElementById('response');
