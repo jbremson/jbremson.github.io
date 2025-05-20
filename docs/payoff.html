@@ -39,10 +39,26 @@
             border: 1px solid #ccc;
             display: none;
         }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
     </style>
 </head>
 <body>
-    <h1>Car Input Form for Lambda</h1>
+    <h1>Fuel Economy Payoff Calculator</h1>
     <div>
         <div class="form-group">
             <label for="car1_price">Car 1 Price ($):</label>
@@ -112,7 +128,46 @@
                     const message = bodyData.message || 'Error: No message in response body';
                     // Split message on newline and take the second part (break-even sentence)
                     const breakEvenMessage = message.split('\n')[1] || 'Error: No break-even message found';
-                    responseDiv.innerHTML = `<strong>Response:</strong> ${breakEvenMessage}`;
+
+                    // Parse the break-even message to extract car, miles, and gallons
+                    const regex = /^(Car \d) must drive ([\d,.]+) miles to offset its higher price with better fuel efficiency, consuming ([\d,.]+) gallons for Car 1 and ([\d,.]+) gallons for Car 2\.$/;
+                    const errorRegex = /^(Car \d) is more expensive but not more fuel-efficient, so no break-even point exists\.$/;
+                    let tableHTML;
+
+                    if (regex.test(breakEvenMessage)) {
+                        const [, car, miles, gallonsCar1, gallonsCar2] = breakEvenMessage.match(regex);
+                        tableHTML = `
+                            <table>
+                                <tr>
+                                    <th>Car</th>
+                                    <th>Break-even Miles</th>
+                                    <th>Gallons Consumed (Car 1)</th>
+                                    <th>Gallons Consumed (Car 2)</th>
+                                </tr>
+                                <tr>
+                                    <td>${car}</td>
+                                    <td>${miles}</td>
+                                    <td>${gallonsCar1}</td>
+                                    <td>${gallonsCar2}</td>
+                                </tr>
+                            </table>
+                        `;
+                    } else if (errorRegex.test(breakEvenMessage)) {
+                        tableHTML = `
+                            <table>
+                                <tr>
+                                    <th>Result</th>
+                                </tr>
+                                <tr>
+                                    <td colspan="4">${breakEvenMessage}</td>
+                                </tr>
+                            </table>
+                        `;
+                    } else {
+                        tableHTML = `<strong>Error:</strong> Invalid break-even message format`;
+                    }
+
+                    responseDiv.innerHTML = `<strong>Response:</strong> ${tableHTML}`;
                 } catch (e) {
                     responseDiv.innerHTML = `<strong>Error:</strong> Failed to parse response body: ${e.message}`;
                 }
