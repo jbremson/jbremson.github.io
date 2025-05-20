@@ -46,19 +46,19 @@
     <div>
         <div class="form-group">
             <label for="car1_price">Car 1 Price ($):</label>
-            <input type="number" id="car1_price" name="car1_price" step="0.01" required>
+            <input type="number" id="car1_price" name="car1_price" step="0.01" value="10000" required>
         </div>
         <div class="form-group">
             <label for="car1_mpg">Car 1 MPG:</label>
-            <input type="number" id="car1_mpg" name="car1_mpg" step="0.1" required>
+            <input type="number" id="car1_mpg" name="car1_mpg" step="0.1" value="20" required>
         </div>
         <div class="form-group">
             <label for="car2_price">Car 2 Price ($):</label>
-            <input type="number" id="car2_price" name="car2_price" step="0.01" required>
+            <input type="number" id="car2_price" name="car2_price" step="0.01" value="20000" required>
         </div>
         <div class="form-group">
             <label for="car2_mpg">Car 2 MPG:</label>
-            <input type="number" id="car2_mpg" name="car2_mpg" step="0.1" required>
+            <input type="number" id="car2_mpg" name="car2_mpg" step="0.1" value="30" required>
         </div>
         <div class="form-group">
             <label for="gas_price">Gas Price ($/gallon):</label>
@@ -106,10 +106,13 @@
                 const responseDiv = document.getElementById('response');
                 responseDiv.style.display = 'block';
 
-                // Parse the body string and extract the message
+                // Parse the body string and extract the break-even message
                 try {
                     const bodyData = JSON.parse(result.body);
-                    responseDiv.innerHTML = `<strong>Response:</strong> ${bodyData.message || 'Error: No message in response body'}`;
+                    const message = bodyData.message || 'Error: No message in response body';
+                    // Split message on newline and take the second part (break-even sentence)
+                    const breakEvenMessage = message.split('\n')[1] || 'Error: No break-even message found';
+                    responseDiv.innerHTML = `<strong>Response:</strong> ${breakEvenMessage}`;
                 } catch (e) {
                     responseDiv.innerHTML = `<strong>Error:</strong> Failed to parse response body: ${e.message}`;
                 }
