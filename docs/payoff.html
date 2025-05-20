@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Number Input Form for Lambda</title>
+    <title>Car Input Form for Lambda</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -42,23 +42,23 @@
     </style>
 </head>
 <body>
-    <h1>Number Input Form for Lambda</h1>
+    <h1>Car Input Form for Lambda</h1>
     <div>
         <div class="form-group">
-            <label for="number1">Number 1:</label>
-            <input type="number" id="number1" name="number1" required>
+            <label for="car1_price">Car 1 Price ($):</label>
+            <input type="number" id="car1_price" name="car1_price" step="0.01" required>
         </div>
         <div class="form-group">
-            <label for="number2">Number 2:</label>
-            <input type="number" id="number2" name="number2" required>
+            <label for="car1_mpg">Car 1 MPG:</label>
+            <input type="number" id="car1_mpg" name="car1_mpg" step="0.1" required>
         </div>
         <div class="form-group">
-            <label for="number3">Number 3:</label>
-            <input type="number" id="number3" name="number3" required>
+            <label for="car2_price">Car 2 Price ($):</label>
+            <input type="number" id="car2_price" name="car2_price" step="0.01" required>
         </div>
         <div class="form-group">
-            <label for="number4">Number 4:</label>
-            <input type="number" id="number4" name="number4" required>
+            <label for="car2_mpg">Car 2 MPG:</label>
+            <input type="number" id="car2_mpg" name="car2_mpg" step="0.1" required>
         </div>
         <button onclick="submitForm()">Submit to Lambda</button>
     </div>
@@ -67,17 +67,17 @@
     <script>
         async function submitForm() {
             // Collect form inputs
-            const number1 = document.getElementById('number1').value;
-            const number2 = document.getElementById('number2').value;
-            const number3 = document.getElementById('number3').value;
-            const number4 = document.getElementById('number4').value;
+            const car1_price = document.getElementById('car1_price').value;
+            const car1_mpg = document.getElementById('car1_mpg').value;
+            const car2_price = document.getElementById('car2_price').value;
+            const car2_mpg = document.getElementById('car2_mpg').value;
 
             // Create the body dictionary for Lambda payload
             const body = {
-                number1: parseFloat(number1),
-                number2: parseFloat(number2),
-                number3: parseFloat(number3),
-                number4: parseFloat(number4)
+                car1_price: parseFloat(car1_price),
+                car1_mpg: parseFloat(car1_mpg),
+                car2_price: parseFloat(car2_price),
+                car2_mpg: parseFloat(car2_mpg)
             };
 
             try {
@@ -99,9 +99,7 @@
                 const result = await response.json();
                 const responseDiv = document.getElementById('response');
                 responseDiv.style.display = 'block';
-
-                // Handle Lambda response (assuming it returns a JSON object)
-                responseDiv.innerHTML = `< NaduResponse:</strong> ${JSON.stringify(result, null, 2)}`;
+                responseDiv.innerHTML = `<strong>Response:</strong> <pre>${JSON.stringify(result, null, 2)}</pre>`;
             } catch (error) {
                 // Display error if Lambda or API Gateway fails
                 const responseDiv = document.getElementById('response');
