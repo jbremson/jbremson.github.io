@@ -1,3 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Input Form for Lambda</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #response {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Number Input Form for Lambda</h1>
+    <div>
+        <div class="form-group">
+            <label for="number1">Number 1:</label>
+            <input type="number" id="number1" name="number1" required>
+        </div>
+        <div class="form-group">
+            <label for="number2">Number 2:</label>
+            <input type="number" id="number2" name="number2" required>
+        </div>
+        <div class="form-group">
+            <label for="number3">Number 3:</label>
+            <input type="number" id="number3" name="number3" required>
+        </div>
+        <div class="form-group">
+            <label for="number4">Number 4:</label>
+            <input type="number" id="number4" name="number4" required>
+        </div>
+        <button onclick="submitForm()">Submit to Lambda</button>
     </div>
     <div id="response"></div>
 
