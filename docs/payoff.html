@@ -60,7 +60,11 @@
             <label for="car2_mpg">Car 2 MPG:</label>
             <input type="number" id="car2_mpg" name="car2_mpg" step="0.1" required>
         </div>
-        <button onclick="submitForm()">Submit to Lambda</button>
+        <div class="form-group">
+            <label for="gas_price">Gas Price ($/gallon):</label>
+            <input type="number" id="gas_price" name="gas_price" step="0.01" value="4" required>
+        </div>
+        <button onclick="submitForm()">Calculate</button>
     </div>
     <div id="response"></div>
 
@@ -71,13 +75,15 @@
             const car1_mpg = document.getElementById('car1_mpg').value;
             const car2_price = document.getElementById('car2_price').value;
             const car2_mpg = document.getElementById('car2_mpg').value;
+            const gas_price = document.getElementById('gas_price').value;
 
             // Create the body dictionary for Lambda payload
             const body = {
                 car1_price: parseFloat(car1_price),
                 car1_mpg: parseFloat(car1_mpg),
                 car2_price: parseFloat(car2_price),
-                car2_mpg: parseFloat(car2_mpg)
+                car2_mpg: parseFloat(car2_mpg),
+                gas_price: parseFloat(gas_price)
             };
 
             try {
