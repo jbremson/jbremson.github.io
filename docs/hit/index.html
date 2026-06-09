@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SimSage HIT — Frontend Concepts</title>
+  <link rel="stylesheet" href="shared/base.css">
+  <style>
+    /* Local accents for this landing page only. */
+    body { background:
+      radial-gradient(1200px 500px at 50% -10%, #e8f0f0, transparent),
+      var(--color-bg); }
+    .hero { text-align: center; padding: var(--sp-7) var(--sp-4) var(--sp-5); }
+    .options {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--sp-5);
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .option { display: flex; flex-direction: column; gap: var(--sp-3); }
+    .swatches { display: flex; gap: var(--sp-2); }
+    .swatch { width: 28px; height: 28px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.08); }
+    .preview {
+      border-radius: var(--radius); overflow: hidden;
+      border: 1px solid var(--color-border);
+    }
+    .preview__bar { height: 38px; display: flex; align-items: center; padding: 0 var(--sp-3);
+      color: #fff; font-size: var(--fs-xs); font-weight: 600; letter-spacing: 0.04em; }
+    .preview__body { height: 70px; background: #fff; display: flex; gap: 6px; padding: var(--sp-3); }
+    .preview__line { flex: 1; border-radius: 6px; }
+    @media (max-width: 680px) { .options { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<div class="page">
+  <main class="page__body">
+
+    <div class="hero">
+      <p class="h-eyebrow">SimSage HIT · Frontend Concepts</p>
+      <h1 class="title" style="font-size: var(--fs-3xl)">Two directions to compare</h1>
+      <p class="lead" style="max-width: 540px; margin-inline: auto">
+        Both prototypes cover the same flow — <strong>Sign in → Single AB Proxy Test →
+        Result</strong> — so you can judge them side by side. Pick the look that feels right
+        and we'll build the full app around it.
+      </p>
+    </div>
+
+    <div class="options">
+
+      <!-- Theme A -->
+      <div class="card option">
+        <div class="preview">
+          <div class="preview__bar" style="background:#2f7a7a">Refined Teal</div>
+          <div class="preview__body">
+            <span class="preview__line" style="background:#eef3f3"></span>
+            <span class="preview__line" style="background:#79C3C3; flex:0 0 28%"></span>
+          </div>
+        </div>
+        <h2 class="title" style="font-size: var(--fs-lg); margin:0">Option A — Refined Teal</h2>
+        <p class="muted" style="margin:0; font-size: var(--fs-sm)">
+          Keeps SimSage's familiar teal brand, modernised with cleaner spacing,
+          cards and typography.
+        </p>
+        <div class="swatches">
+          <span class="swatch" style="background:#2f7a7a"></span>
+          <span class="swatch" style="background:#79C3C3"></span>
+          <span class="swatch" style="background:#eef3f3"></span>
+          <span class="swatch" style="background:#16302f"></span>
+        </div>
+        <a class="btn btn--primary btn--block" href="theme-a/login.html">View Option A</a>
+      </div>
+
+      <!-- Theme B -->
+      <div class="card option">
+        <div class="preview">
+          <div class="preview__bar" style="background:#3b5bdb">Fresh Neutral</div>
+          <div class="preview__body">
+            <span class="preview__line" style="background:#f1f4f8"></span>
+            <span class="preview__line" style="background:#5c7cfa; flex:0 0 28%"></span>
+          </div>
+        </div>
+        <h2 class="title" style="font-size: var(--fs-lg); margin:0">Option B — Fresh Neutral</h2>
+        <p class="muted" style="margin:0; font-size: var(--fs-sm)">
+          A clean, contemporary departure: slate neutrals, white surfaces and a single
+          indigo accent.
+        </p>
+        <div class="swatches">
+          <span class="swatch" style="background:#3b5bdb"></span>
+          <span class="swatch" style="background:#5c7cfa"></span>
+          <span class="swatch" style="background:#f1f4f8"></span>
+          <span class="swatch" style="background:#1a2233"></span>
+        </div>
+        <a class="btn btn--primary btn--block" href="theme-b/login.html"
+           style="background:#3b5bdb">View Option B</a>
+      </div>
+
+    </div>
+
+    <p class="center muted" style="margin-top: var(--sp-6); font-size: var(--fs-xs)">
+      Static prototype — illustrative data only, no live calculations. See README for details.
+    </p>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__row">
+        <span>&copy; SimSAGe Pty Ltd · Frontend concept prototype</span>
+        <a href="https://www.simsage.com.au">www.simsage.com.au</a>
+      </div>
+    </div>
+  </footer>
+</div>
+</body>
+</html>

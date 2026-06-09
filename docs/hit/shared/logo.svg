@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="32" viewBox="0 0 120 32" role="img" aria-label="SimSage HIT">
+  <rect x="0" y="3" width="26" height="26" rx="6" fill="#ffffff" opacity="0.18"/>
+  <path d="M7 9 v14 M7 16 h6 M13 9 v14" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+  <path d="M18 9 v14 M16 9 h4 M16 23 h4" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+  <text x="34" y="15" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="700" fill="#ffffff" letter-spacing="0.5">HIT</text>
+  <text x="34" y="26" font-family="Inter, system-ui, sans-serif" font-size="8" font-weight="500" fill="#ffffff" opacity="0.78" letter-spacing="0.5">SimSage</text>
+</svg>

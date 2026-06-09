@@ -1,0 +1,18 @@
+/* Theme A — "Refined Teal"
+   Keeps SimSage's existing teal brand (#528B8B) as the anchor, modernised:
+   softer background, warmer surfaces, more depth. Same markup as Theme B. */
+:root {
+  --color-brand:        #2f7a7a;
+  --color-brand-strong: #215a5a;
+  --color-accent:       #79C3C3;
+  --color-bg:           #eef3f3;
+  --color-surface:      #ffffff;
+  --color-surface-2:    #f3f8f8;
+  --color-border:       #d8e5e5;
+  --color-text:         #16302f;
+  --color-text-muted:   #5a716f;
+  --color-on-brand:     #ffffff;
+
+  --shadow:    0 8px 24px rgba(20, 64, 62, 0.10);
+  --shadow-lg: 0 20px 50px rgba(20, 64, 62, 0.16);
+}
