@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard — Hardness Index Test</title>
+  <link rel="stylesheet" href="../assets/base.css">
+</head>
+<body>
+<div class="app">
+
+  <header class="topbar">
+    <a class="topbar__brand" href="dashboard.html">
+      <img class="logo" src="../assets/logo.svg" alt="">
+      <span>Hardness Index Test<small>SimSage Calculator</small></span>
+    </a>
+    <div class="topbar__right">
+      <span class="badge-role">Administrator</span>
+      <span class="topbar__user">hit_admin</span>
+      <a class="topbar__link" href="../login.html">Log Out</a>
+    </div>
+  </header>
+
+  <div class="app__body">
+    <aside class="sidebar">
+      <div class="sidebar__group">Administration</div>
+      <a class="sidebar__link is-active" href="dashboard.html"><span class="ico">🏠</span> Dashboard</a>
+      <a class="sidebar__link" href="create-user.html"><span class="ico">➕</span> Create New User</a>
+      <a class="sidebar__link" href="users.html"><span class="ico">👥</span> Inspect Users</a>
+      <a class="sidebar__link" href="view-logs.html"><span class="ico">📋</span> View User Logs</a>
+      <div class="sidebar__spacer"></div>
+      <a class="sidebar__link sidebar__logout" href="../login.html"><span class="ico">↩</span> Log Out</a>
+    </aside>
+
+    <main class="content">
+      <div class="content__inner">
+        <div class="page-head">
+          <p class="h-eyebrow">Administration</p>
+          <h1 class="title">Admin Console</h1>
+          <p class="lead">Manage HIT machine accounts, their calibration parameters, and access logs.</p>
+        </div>
+
+        <div class="tile-grid">
+          <a class="tile" href="create-user.html">
+            <div class="tile__icon">➕</div>
+            <div class="tile__title">Create New User</div>
+            <div class="tile__desc">Provision a HIT machine account and set its calibration coefficients.</div>
+            <div class="tile__cta">Create &rarr;</div>
+          </a>
+          <a class="tile" href="users.html">
+            <div class="tile__icon">👥</div>
+            <div class="tile__title">Inspect Users</div>
+            <div class="tile__desc">Review and update machine parameters for existing accounts.</div>
+            <div class="tile__cta">View &rarr;</div>
+          </a>
+          <a class="tile" href="view-logs.html">
+            <div class="tile__icon">📋</div>
+            <div class="tile__title">View User Logs</div>
+            <div class="tile__desc">Inspect and export per-user access and invoice records.</div>
+            <div class="tile__cta">Open &rarr;</div>
+          </a>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__row"><span>&copy; SimSAGe Pty Ltd</span><a href="https://www.simsage.com.au">www.simsage.com.au</a></div>
+      <p>For authorised HIT machine users only. Calculator output does not constitute advice and must be used by qualified persons.</p>
+    </div>
+  </footer>
+
+</div>
+<script src="../assets/app.js"></script>
+</body>
+</html>

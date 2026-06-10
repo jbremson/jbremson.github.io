@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View User Logs — Hardness Index Test</title>
+  <link rel="stylesheet" href="../assets/base.css">
+</head>
+<body>
+<div class="app">
+
+  <header class="topbar">
+    <a class="topbar__brand" href="dashboard.html">
+      <img class="logo" src="../assets/logo.svg" alt="">
+      <span>Hardness Index Test<small>SimSage Calculator</small></span>
+    </a>
+    <div class="topbar__right">
+      <span class="badge-role">Administrator</span>
+      <span class="topbar__user">hit_admin</span>
+      <a class="topbar__link" href="../login.html">Log Out</a>
+    </div>
+  </header>
+
+  <div class="app__body">
+    <aside class="sidebar">
+      <div class="sidebar__group">Administration</div>
+      <a class="sidebar__link" href="dashboard.html"><span class="ico">🏠</span> Dashboard</a>
+      <a class="sidebar__link" href="create-user.html"><span class="ico">➕</span> Create New User</a>
+      <a class="sidebar__link" href="users.html"><span class="ico">👥</span> Inspect Users</a>
+      <a class="sidebar__link is-active" href="view-logs.html"><span class="ico">📋</span> View User Logs</a>
+      <div class="sidebar__spacer"></div>
+      <a class="sidebar__link sidebar__logout" href="../login.html"><span class="ico">↩</span> Log Out</a>
+    </aside>
+
+    <main class="content">
+      <div class="content__inner">
+        <div class="page-head">
+          <p class="h-eyebrow">Administration</p>
+          <h1 class="title">View User Logs</h1>
+          <p class="lead">Inspect a machine account's access and invoice records, then export them as CSV.</p>
+        </div>
+
+        <div class="alert alert--info" data-demo-note hidden></div>
+
+        <div class="card">
+          <div class="form-grid" style="align-items:end">
+            <div class="field"><label for="user_select">Machine Account</label>
+              <select class="input" id="user_select">
+                <option>HIT-0427 — Pilbara Minerals</option>
+                <option>HIT-0381 — Goldfields Assay</option>
+                <option>HIT-0356 — Kalgoorlie Labs</option>
+                <option>HIT-0298 — Newcrest Metallurgy</option>
+              </select>
+            </div>
+            <div class="field">
+              <button class="btn btn--primary" data-demo="Demo only — the selected account's full audit log CSV would download here.">Download Log (CSV)</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 class="title" style="font-size:var(--fs-lg); margin-bottom:var(--sp-4)">Access &amp; Invoice Records — HIT-0427</h2>
+          <div class="table-wrap" style="border:none">
+            <table class="table">
+              <thead><tr><th>Date</th><th>Query Type</th><th>Version</th><th class="num">Samples</th><th>Calibration</th></tr></thead>
+              <tbody>
+                <tr><td>Today</td><td>AB</td><td>v3.1</td><td class="num">2</td><td>std-2026.1</td></tr>
+                <tr><td>Today</td><td>Bond</td><td>v3.1</td><td class="num">1</td><td>std-2026.1</td></tr>
+                <tr><td>Yesterday</td><td>AB</td><td>v3.1</td><td class="num">12</td><td>std-2026.1</td></tr>
+                <tr><td>Yesterday</td><td>Bond</td><td>v3.1</td><td class="num">8</td><td>std-2026.1</td></tr>
+                <tr><td>3 days ago</td><td>AB</td><td>v3.0</td><td class="num">5</td><td>std-2025.4</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__row"><span>&copy; SimSAGe Pty Ltd</span><a href="https://www.simsage.com.au">www.simsage.com.au</a></div>
+      <p>For authorised HIT machine users only. Calculator output does not constitute advice and must be used by qualified persons.</p>
+    </div>
+  </footer>
+
+</div>
+<script src="../assets/app.js"></script>
+</body>
+</html>

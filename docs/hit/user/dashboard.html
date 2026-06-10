@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — Hardness Index Test</title>
+  <link rel="stylesheet" href="../assets/base.css">
+</head>
+<body>
+<div class="app">
+
+  <header class="topbar">
+    <a class="topbar__brand" href="dashboard.html">
+      <img class="logo" src="../assets/logo.svg" alt="">
+      <span>Hardness Index Test<small>SimSage Calculator</small></span>
+    </a>
+    <div class="topbar__right">
+      <span class="badge-role">Operator</span>
+      <span class="topbar__user">HIT-0427</span>
+      <a class="topbar__link" href="../login.html">Log Out</a>
+    </div>
+  </header>
+
+  <div class="app__body">
+    <aside class="sidebar">
+      <div class="sidebar__group">Operator</div>
+      <a class="sidebar__link is-active" href="dashboard.html"><span class="ico">🏠</span> Dashboard</a>
+      <a class="sidebar__link" href="ab-single.html"><span class="ico">🧪</span> Single AB Test</a>
+      <a class="sidebar__link" href="ab-bulk.html"><span class="ico">📑</span> Bulk AB Test</a>
+      <a class="sidebar__link" href="bond-single.html"><span class="ico">🪨</span> Single Bond Test</a>
+      <a class="sidebar__link" href="bond-bulk.html"><span class="ico">🗂️</span> Bulk Bond Test</a>
+      <a class="sidebar__link" href="downloads.html"><span class="ico">⬇️</span> Download Logs</a>
+      <div class="sidebar__spacer"></div>
+      <a class="sidebar__link sidebar__logout" href="../login.html"><span class="ico">↩</span> Log Out</a>
+    </aside>
+
+    <main class="content">
+      <div class="content__inner">
+        <div class="page-head">
+          <p class="h-eyebrow">Welcome</p>
+          <h1 class="title">Good day, HIT-0427</h1>
+          <p class="lead">Run a hardness index test, process a batch, or download your logs.</p>
+        </div>
+
+        <div class="tile-grid">
+          <a class="tile" href="ab-single.html">
+            <div class="tile__icon">🧪</div>
+            <div class="tile__title">Single AB Test</div>
+            <div class="tile__desc">Enter one A*b proxy sample and calculate the HIT A*b estimate.</div>
+            <div class="tile__cta">Start &rarr;</div>
+          </a>
+          <a class="tile" href="ab-bulk.html">
+            <div class="tile__icon">📑</div>
+            <div class="tile__title">Bulk AB Test</div>
+            <div class="tile__desc">Upload a CSV of A*b samples and process them in one pass.</div>
+            <div class="tile__cta">Upload &rarr;</div>
+          </a>
+          <a class="tile" href="bond-single.html">
+            <div class="tile__icon">🪨</div>
+            <div class="tile__title">Single Bond Test</div>
+            <div class="tile__desc">Enter one Bond proxy sample and calculate the Bond Work Index.</div>
+            <div class="tile__cta">Start &rarr;</div>
+          </a>
+          <a class="tile" href="bond-bulk.html">
+            <div class="tile__icon">🗂️</div>
+            <div class="tile__title">Bulk Bond Test</div>
+            <div class="tile__desc">Upload a CSV of Bond samples and process them in one pass.</div>
+            <div class="tile__cta">Upload &rarr;</div>
+          </a>
+          <a class="tile" href="downloads.html">
+            <div class="tile__icon">⬇️</div>
+            <div class="tile__title">Download Logs</div>
+            <div class="tile__desc">Export your AB and Bond test history as CSV.</div>
+            <div class="tile__cta">View &rarr;</div>
+          </a>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__row"><span>&copy; SimSAGe Pty Ltd</span><a href="https://www.simsage.com.au">www.simsage.com.au</a></div>
+      <p>For authorised HIT machine users only. Calculator output does not constitute advice and must be used by qualified persons.</p>
+    </div>
+  </footer>
+
+</div>
+<script src="../assets/app.js"></script>
+</body>
+</html>

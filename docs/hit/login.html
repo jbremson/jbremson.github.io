@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log In — Hardness Index Test</title>
+  <link rel="stylesheet" href="assets/base.css">
+</head>
+<body>
+<div class="page-centered">
+
+  <header class="topbar">
+    <a class="topbar__brand" href="login.html">
+      <img class="logo" src="assets/logo.svg" alt="">
+      <span>Hardness Index Test<small>SimSage Calculator</small></span>
+    </a>
+    <div class="topbar__right">
+      <a class="topbar__link" href="https://www.simsage.com.au">simsage.com.au</a>
+    </div>
+  </header>
+
+  <main class="login-body">
+    <div class="card card--narrow">
+      <p class="h-eyebrow">Welcome back</p>
+      <h1 class="title">Sign in</h1>
+      <p class="lead" style="margin-bottom: var(--sp-5)">Access the HIT calculator with your machine credentials.</p>
+
+      <form data-goto="user/dashboard.html">
+        <div class="stack-sm" style="margin-bottom: var(--sp-5)">
+          <div class="field">
+            <label for="username">Machine ID / Username</label>
+            <input class="input" id="username" name="username" type="text" placeholder="e.g. HIT-0427" autocomplete="username">
+          </div>
+          <div class="field">
+            <label for="password">Password</label>
+            <input class="input" id="password" name="password" type="password" placeholder="••••••••" autocomplete="current-password">
+          </div>
+        </div>
+        <button class="btn btn--primary btn--block" type="submit">Log In</button>
+      </form>
+
+      <p class="center" style="margin-top: var(--sp-5); font-size: var(--fs-sm)">
+        <a href="admin/dashboard.html">Administrator sign-in &rarr;</a>
+      </p>
+      <p class="center muted" style="margin-top: var(--sp-3); font-size: var(--fs-xs)">
+        For authorised HIT machine users only.
+      </p>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__row">
+        <span>&copy; SimSAGe Pty Ltd</span>
+        <a href="https://www.simsage.com.au">www.simsage.com.au</a>
+      </div>
+      <p><strong>HIT Software Disclaimer.</strong> Nothing contained in the calculators,
+        equations or other information provided constitutes advice. Access is provided for HIT
+        machine users only and must be used by qualified persons. SimSAGe Pty Ltd and its
+        officers, employees and agents make no representations and give no warranties as to
+        accuracy, completeness or fitness for purpose.</p>
+    </div>
+  </footer>
+
+</div>
+<script src="assets/app.js"></script>
+</body>
+</html>

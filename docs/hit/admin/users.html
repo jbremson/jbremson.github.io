@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inspect Users — Hardness Index Test</title>
+  <link rel="stylesheet" href="../assets/base.css">
+</head>
+<body>
+<div class="app">
+
+  <header class="topbar">
+    <a class="topbar__brand" href="dashboard.html">
+      <img class="logo" src="../assets/logo.svg" alt="">
+      <span>Hardness Index Test<small>SimSage Calculator</small></span>
+    </a>
+    <div class="topbar__right">
+      <span class="badge-role">Administrator</span>
+      <span class="topbar__user">hit_admin</span>
+      <a class="topbar__link" href="../login.html">Log Out</a>
+    </div>
+  </header>
+
+  <div class="app__body">
+    <aside class="sidebar">
+      <div class="sidebar__group">Administration</div>
+      <a class="sidebar__link" href="dashboard.html"><span class="ico">🏠</span> Dashboard</a>
+      <a class="sidebar__link" href="create-user.html"><span class="ico">➕</span> Create New User</a>
+      <a class="sidebar__link is-active" href="users.html"><span class="ico">👥</span> Inspect Users</a>
+      <a class="sidebar__link" href="view-logs.html"><span class="ico">📋</span> View User Logs</a>
+      <div class="sidebar__spacer"></div>
+      <a class="sidebar__link sidebar__logout" href="../login.html"><span class="ico">↩</span> Log Out</a>
+    </aside>
+
+    <main class="content">
+      <div class="content__inner">
+        <div class="page-head" style="display:flex; align-items:flex-end; justify-content:space-between; gap:var(--sp-4); flex-wrap:wrap">
+          <div>
+            <p class="h-eyebrow">Administration</p>
+            <h1 class="title">Inspect Users</h1>
+            <p class="lead" style="margin-bottom:0">Select a machine account to review or update its parameters.</p>
+          </div>
+          <a class="btn btn--primary" href="create-user.html">+ New User</a>
+        </div>
+
+        <div class="card" style="padding: var(--sp-4)">
+          <div class="table-wrap" style="border:none">
+            <table class="table">
+              <thead><tr><th>Machine ID</th><th>Company</th><th class="num">Energy %</th><th class="num">K Coeff.</th><th>Last Active</th><th></th></tr></thead>
+              <tbody>
+                <tr><td><strong>HIT-0427</strong></td><td>Pilbara Minerals</td><td class="num">100</td><td class="num">0.000</td><td>Today</td><td><a class="btn btn--ghost btn--sm" href="update-user.html">Edit</a></td></tr>
+                <tr><td><strong>HIT-0381</strong></td><td>Goldfields Assay</td><td class="num">98</td><td class="num">-0.120</td><td>Yesterday</td><td><a class="btn btn--ghost btn--sm" href="update-user.html">Edit</a></td></tr>
+                <tr><td><strong>HIT-0356</strong></td><td>Kalgoorlie Labs</td><td class="num">102</td><td class="num">0.045</td><td>3 days ago</td><td><a class="btn btn--ghost btn--sm" href="update-user.html">Edit</a></td></tr>
+                <tr><td><strong>HIT-0298</strong></td><td>Newcrest Metallurgy</td><td class="num">95</td><td class="num">0.000</td><td>1 week ago</td><td><a class="btn btn--ghost btn--sm" href="update-user.html">Edit</a></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__row"><span>&copy; SimSAGe Pty Ltd</span><a href="https://www.simsage.com.au">www.simsage.com.au</a></div>
+      <p>For authorised HIT machine users only. Calculator output does not constitute advice and must be used by qualified persons.</p>
+    </div>
+  </footer>
+
+</div>
+<script src="../assets/app.js"></script>
+</body>
+</html>

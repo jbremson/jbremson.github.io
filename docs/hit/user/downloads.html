@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Download Logs — Hardness Index Test</title>
+  <link rel="stylesheet" href="../assets/base.css">
+</head>
+<body>
+<div class="app">
+
+  <header class="topbar">
+    <a class="topbar__brand" href="dashboard.html">
+      <img class="logo" src="../assets/logo.svg" alt="">
+      <span>Hardness Index Test<small>SimSage Calculator</small></span>
+    </a>
+    <div class="topbar__right">
+      <span class="badge-role">Operator</span>
+      <span class="topbar__user">HIT-0427</span>
+      <a class="topbar__link" href="../login.html">Log Out</a>
+    </div>
+  </header>
+
+  <div class="app__body">
+    <aside class="sidebar">
+      <div class="sidebar__group">Operator</div>
+      <a class="sidebar__link" href="dashboard.html"><span class="ico">🏠</span> Dashboard</a>
+      <a class="sidebar__link" href="ab-single.html"><span class="ico">🧪</span> Single AB Test</a>
+      <a class="sidebar__link" href="ab-bulk.html"><span class="ico">📑</span> Bulk AB Test</a>
+      <a class="sidebar__link" href="bond-single.html"><span class="ico">🪨</span> Single Bond Test</a>
+      <a class="sidebar__link" href="bond-bulk.html"><span class="ico">🗂️</span> Bulk Bond Test</a>
+      <a class="sidebar__link is-active" href="downloads.html"><span class="ico">⬇️</span> Download Logs</a>
+      <div class="sidebar__spacer"></div>
+      <a class="sidebar__link sidebar__logout" href="../login.html"><span class="ico">↩</span> Log Out</a>
+    </aside>
+
+    <main class="content">
+      <div class="content__inner">
+        <div class="page-head">
+          <p class="h-eyebrow">History</p>
+          <h1 class="title">Download Logs</h1>
+          <p class="lead">Export your test history as CSV. Recent runs are shown below.</p>
+        </div>
+
+        <div class="alert alert--info" data-demo-note hidden></div>
+
+        <div class="card">
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:var(--sp-3); margin-bottom:var(--sp-4); flex-wrap:wrap">
+            <h2 class="title" style="font-size:var(--fs-lg); margin:0">AB Proxy — Recent</h2>
+            <button class="btn btn--primary btn--sm" data-demo="Demo only — the full AB log CSV would download here.">Download AB Log (CSV)</button>
+          </div>
+          <div class="table-wrap">
+            <table class="table">
+              <thead><tr><th>Date</th><th>Job</th><th>Sample</th><th>Technician</th><th class="num">Ecs</th><th class="num">Slope</th><th class="num">HIT-A*b</th></tr></thead>
+              <tbody>
+                <tr><td>Today</td><td>J-10293</td><td>S-4471</td><td>A. Nguyen</td><td class="num">1.84</td><td class="num">0.231</td><td class="num">42.7</td></tr>
+                <tr><td>Today</td><td>J-10293</td><td>S-4470</td><td>A. Nguyen</td><td class="num">1.79</td><td class="num">0.226</td><td class="num">41.9</td></tr>
+                <tr><td>Yesterday</td><td>J-10288</td><td>S-4465</td><td>L. Park</td><td class="num">2.02</td><td class="num">0.244</td><td class="num">45.1</td></tr>
+                <tr><td>Yesterday</td><td>J-10288</td><td>S-4464</td><td>L. Park</td><td class="num">1.91</td><td class="num">0.238</td><td class="num">43.6</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:var(--sp-3); margin-bottom:var(--sp-4); flex-wrap:wrap">
+            <h2 class="title" style="font-size:var(--fs-lg); margin:0">Bond Proxy — Recent</h2>
+            <button class="btn btn--primary btn--sm" data-demo="Demo only — the full Bond log CSV would download here.">Download Bond Log (CSV)</button>
+          </div>
+          <div class="table-wrap">
+            <table class="table">
+              <thead><tr><th>Date</th><th>Job</th><th>Sample</th><th>Technician</th><th class="num">Ecs</th><th class="num">T10</th><th class="num">HIT-BMWi</th></tr></thead>
+              <tbody>
+                <tr><td>Today</td><td>J-10293</td><td>S-4472</td><td>A. Nguyen</td><td class="num">1.62</td><td class="num">22.1</td><td class="num">14.8</td></tr>
+                <tr><td>Yesterday</td><td>J-10290</td><td>S-4468</td><td>L. Park</td><td class="num">1.55</td><td class="num">21.4</td><td class="num">14.2</td></tr>
+                <tr><td>Yesterday</td><td>J-10290</td><td>S-4467</td><td>L. Park</td><td class="num">1.71</td><td class="num">23.0</td><td class="num">15.3</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__row"><span>&copy; SimSAGe Pty Ltd</span><a href="https://www.simsage.com.au">www.simsage.com.au</a></div>
+      <p>For authorised HIT machine users only. Calculator output does not constitute advice and must be used by qualified persons.</p>
+    </div>
+  </footer>
+
+</div>
+<script src="../assets/app.js"></script>
+</body>
+</html>

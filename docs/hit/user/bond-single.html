@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Single Bond Test — Hardness Index Test</title>
+  <link rel="stylesheet" href="../assets/base.css">
+</head>
+<body>
+<div class="app">
+
+  <header class="topbar">
+    <a class="topbar__brand" href="dashboard.html">
+      <img class="logo" src="../assets/logo.svg" alt="">
+      <span>Hardness Index Test<small>SimSage Calculator</small></span>
+    </a>
+    <div class="topbar__right">
+      <span class="badge-role">Operator</span>
+      <span class="topbar__user">HIT-0427</span>
+      <a class="topbar__link" href="../login.html">Log Out</a>
+    </div>
+  </header>
+
+  <div class="app__body">
+    <aside class="sidebar">
+      <div class="sidebar__group">Operator</div>
+      <a class="sidebar__link" href="dashboard.html"><span class="ico">🏠</span> Dashboard</a>
+      <a class="sidebar__link" href="ab-single.html"><span class="ico">🧪</span> Single AB Test</a>
+      <a class="sidebar__link" href="ab-bulk.html"><span class="ico">📑</span> Bulk AB Test</a>
+      <a class="sidebar__link is-active" href="bond-single.html"><span class="ico">🪨</span> Single Bond Test</a>
+      <a class="sidebar__link" href="bond-bulk.html"><span class="ico">🗂️</span> Bulk Bond Test</a>
+      <a class="sidebar__link" href="downloads.html"><span class="ico">⬇️</span> Download Logs</a>
+      <div class="sidebar__spacer"></div>
+      <a class="sidebar__link sidebar__logout" href="../login.html"><span class="ico">↩</span> Log Out</a>
+    </aside>
+
+    <main class="content">
+      <div class="content__inner">
+        <div class="page-head">
+          <p class="h-eyebrow">Bond Proxy</p>
+          <h1 class="title">Single Bond Proxy Test</h1>
+          <p class="lead">Enter the sample, screening and calibration values, then calculate the Bond Work Index.</p>
+        </div>
+
+        <form class="card" data-goto="bond-result.html">
+          <div class="section">
+            <h2 class="section__title">Sample Details</h2>
+            <div class="form-grid">
+              <div class="field"><label for="job_num">Job Number</label>
+                <input class="input" id="job_num" name="job_num" type="text" placeholder="e.g. J-10293"></div>
+              <div class="field"><label for="sample_id">Sample ID</label>
+                <input class="input" id="sample_id" name="sample_id" type="text" placeholder="e.g. S-4472"></div>
+              <div class="field"><label for="date">Date</label>
+                <input class="input" id="date" name="date" type="date"></div>
+              <div class="field"><label for="technician">Technician</label>
+                <input class="input" id="technician" name="technician" type="text" placeholder="Name"></div>
+              <div class="field"><label for="top_size">Top Size <span class="hint">(mm)</span></label>
+                <input class="input" id="top_size" name="top_size" type="number" step="any" min="0" placeholder="0.0"></div>
+              <div class="field"><label for="bot_size">Bot Size <span class="hint">(mm)</span></label>
+                <input class="input" id="bot_size" name="bot_size" type="number" step="any" min="0" placeholder="0.0"></div>
+              <div class="field"><label for="no_particles">Number of Particles</label>
+                <input class="input" id="no_particles" name="no_particles" type="number" step="1" placeholder="0"></div>
+              <div class="field"><label for="initial_mass">Initial Mass <span class="hint">(g)</span></label>
+                <input class="input" id="initial_mass" name="initial_mass" type="number" step="any" min="0" placeholder="0.0"></div>
+            </div>
+          </div>
+
+          <div class="section">
+            <h2 class="section__title">Test Product Screening — Mass Retained</h2>
+            <div class="form-grid--3 form-grid">
+              <div class="field"><label for="filter_1">+3.35 mm <span class="hint">(g)</span></label>
+                <input class="input" id="filter_1" name="filter_1" type="number" step="any" min="0" placeholder="0.0"></div>
+              <div class="field"><label for="filter_2">+2.36 mm <span class="hint">(g)</span></label>
+                <input class="input" id="filter_2" name="filter_2" type="number" step="any" min="0" placeholder="0.0"></div>
+              <div class="field"><label for="filter_3">+1.18 mm <span class="hint">(g)</span></label>
+                <input class="input" id="filter_3" name="filter_3" type="number" step="any" min="0" placeholder="0.0"></div>
+              <div class="field"><label for="filter_4">+0.600 mm <span class="hint">(g)</span></label>
+                <input class="input" id="filter_4" name="filter_4" type="number" step="any" min="0" placeholder="0.0"></div>
+              <div class="field"><label for="filter_5">+0.150 mm <span class="hint">(g)</span></label>
+                <input class="input" id="filter_5" name="filter_5" type="number" step="any" min="0" placeholder="0.0"></div>
+              <div class="field"><label for="filter_all">−0.150 mm <span class="hint">(g)</span></label>
+                <input class="input" id="filter_all" name="filter_all" type="number" step="any" min="0" placeholder="0.0"></div>
+            </div>
+          </div>
+
+          <div class="section">
+            <h2 class="section__title">External Factors — BondWi Calibration</h2>
+            <div class="form-grid--3 form-grid">
+              <div class="field"><label for="factor_1">Factor 1</label>
+                <input class="input" id="factor_1" name="factor_1" type="number" step="any" min="0" placeholder="0.0"></div>
+              <div class="field"><label for="factor_2">Factor 2</label>
+                <input class="input" id="factor_2" name="factor_2" type="number" step="any" min="0" placeholder="0.0"></div>
+              <div class="field"><label for="factor_3">Factor 3</label>
+                <input class="input" id="factor_3" name="factor_3" type="number" step="any" min="0" placeholder="0.0"></div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn btn--primary" type="submit">Calculate</button>
+            <a class="btn btn--ghost" href="dashboard.html">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__row"><span>&copy; SimSAGe Pty Ltd</span><a href="https://www.simsage.com.au">www.simsage.com.au</a></div>
+      <p>For authorised HIT machine users only. Calculator output does not constitute advice and must be used by qualified persons.</p>
+    </div>
+  </footer>
+
+</div>
+<script src="../assets/app.js"></script>
+</body>
+</html>

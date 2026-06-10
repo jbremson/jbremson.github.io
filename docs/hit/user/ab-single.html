@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Single AB Test — Hardness Index Test</title>
+  <link rel="stylesheet" href="../assets/base.css">
+</head>
+<body>
+<div class="app">
+
+  <header class="topbar">
+    <a class="topbar__brand" href="dashboard.html">
+      <img class="logo" src="../assets/logo.svg" alt="">
+      <span>Hardness Index Test<small>SimSage Calculator</small></span>
+    </a>
+    <div class="topbar__right">
+      <span class="badge-role">Operator</span>
+      <span class="topbar__user">HIT-0427</span>
+      <a class="topbar__link" href="../login.html">Log Out</a>
+    </div>
+  </header>
+
+  <div class="app__body">
+    <aside class="sidebar">
+      <div class="sidebar__group">Operator</div>
+      <a class="sidebar__link" href="dashboard.html"><span class="ico">🏠</span> Dashboard</a>
+      <a class="sidebar__link is-active" href="ab-single.html"><span class="ico">🧪</span> Single AB Test</a>
+      <a class="sidebar__link" href="ab-bulk.html"><span class="ico">📑</span> Bulk AB Test</a>
+      <a class="sidebar__link" href="bond-single.html"><span class="ico">🪨</span> Single Bond Test</a>
+      <a class="sidebar__link" href="bond-bulk.html"><span class="ico">🗂️</span> Bulk Bond Test</a>
+      <a class="sidebar__link" href="downloads.html"><span class="ico">⬇️</span> Download Logs</a>
+      <div class="sidebar__spacer"></div>
+      <a class="sidebar__link sidebar__logout" href="../login.html"><span class="ico">↩</span> Log Out</a>
+    </aside>
+
+    <main class="content">
+      <div class="content__inner">
+        <div class="page-head">
+          <p class="h-eyebrow">A*b Proxy</p>
+          <h1 class="title">Single AB Proxy Test</h1>
+          <p class="lead">Enter the sample and breakage measurements, then calculate the HIT&nbsp;A*b estimate.</p>
+        </div>
+
+        <form class="card" data-goto="ab-result.html">
+          <div class="section">
+            <h2 class="section__title">Sample Details</h2>
+            <div class="form-grid">
+              <div class="field"><label for="job_num">Job Number</label>
+                <input class="input" id="job_num" name="job_num" type="text" placeholder="e.g. J-10293"></div>
+              <div class="field"><label for="sample_id">Sample ID</label>
+                <input class="input" id="sample_id" name="sample_id" type="text" placeholder="e.g. S-4471"></div>
+              <div class="field"><label for="date">Date</label>
+                <input class="input" id="date" name="date" type="date"></div>
+              <div class="field"><label for="technician">Technician</label>
+                <input class="input" id="technician" name="technician" type="text" placeholder="Name"></div>
+            </div>
+          </div>
+
+          <div class="section">
+            <h2 class="section__title">Rock &amp; Breakage</h2>
+            <div class="form-grid">
+              <div class="field"><label for="rock_upper_size">Rock Upper Size <span class="hint">(mm, max 26.5)</span></label>
+                <input class="input" id="rock_upper_size" name="rock_upper_size" type="number" step="any" max="26.5" placeholder="0.0"></div>
+              <div class="field"><label for="rock_lower_size">Rock Lower Size <span class="hint">(mm, min 1)</span></label>
+                <input class="input" id="rock_lower_size" name="rock_lower_size" type="number" step="any" min="1" placeholder="0.0"></div>
+              <div class="field field--full"><label for="sieve">Recommended Sieve Size <span class="hint">(mm)</span></label>
+                <div class="input-group">
+                  <input class="input" id="sieve" data-sieve-out readonly placeholder="—">
+                  <button class="btn btn--ghost btn--sm" type="button" data-sieve-btn>Calculate</button>
+                </div></div>
+              <div class="field"><label for="no_particles">No. Particles <span class="hint">(10–100)</span></label>
+                <input class="input" id="no_particles" name="no_particles" type="number" min="10" max="100" placeholder="0"></div>
+              <div class="field"><label for="initial_mass">Initial Mass <span class="hint">(g, 10–500)</span></label>
+                <input class="input" id="initial_mass" name="initial_mass" type="number" step="any" min="10" max="500" placeholder="0.0"></div>
+              <div class="field"><label for="after_breakage">Initial Breakage Mass <span class="hint">(g)</span></label>
+                <input class="input" id="after_breakage" name="after_breakage" type="number" step="any" min="10" max="500" placeholder="0.0"></div>
+              <div class="field"><label for="q_factor">Q Factor <span class="hint">(optional)</span></label>
+                <input class="input" id="q_factor" name="q_factor" type="number" step="any" placeholder="—"></div>
+            </div>
+          </div>
+
+          <div class="section">
+            <h2 class="section__title">Test Product Screening</h2>
+            <div class="form-grid">
+              <div class="field"><label for="oversize">Oversize Mass <span class="hint">(g)</span></label>
+                <input class="input" id="oversize" name="oversize" type="number" step="any" min="10" max="500" placeholder="0.0"></div>
+              <div class="field"><label for="undersize">Undersize Mass <span class="hint">(g)</span></label>
+                <input class="input" id="undersize" name="undersize" type="number" step="any" min="1" max="500" placeholder="0.0"></div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn btn--primary" type="submit">Calculate</button>
+            <a class="btn btn--ghost" href="dashboard.html">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__row"><span>&copy; SimSAGe Pty Ltd</span><a href="https://www.simsage.com.au">www.simsage.com.au</a></div>
+      <p>For authorised HIT machine users only. Calculator output does not constitute advice and must be used by qualified persons.</p>
+    </div>
+  </footer>
+
+</div>
+<script src="../assets/app.js"></script>
+</body>
+</html>

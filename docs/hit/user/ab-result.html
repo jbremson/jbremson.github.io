@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AB Result — Hardness Index Test</title>
+  <link rel="stylesheet" href="../assets/base.css">
+</head>
+<body>
+<div class="app">
+
+  <header class="topbar">
+    <a class="topbar__brand" href="dashboard.html">
+      <img class="logo" src="../assets/logo.svg" alt="">
+      <span>Hardness Index Test<small>SimSage Calculator</small></span>
+    </a>
+    <div class="topbar__right">
+      <span class="badge-role">Operator</span>
+      <span class="topbar__user">HIT-0427</span>
+      <a class="topbar__link" href="../login.html">Log Out</a>
+    </div>
+  </header>
+
+  <div class="app__body">
+    <aside class="sidebar">
+      <div class="sidebar__group">Operator</div>
+      <a class="sidebar__link" href="dashboard.html"><span class="ico">🏠</span> Dashboard</a>
+      <a class="sidebar__link is-active" href="ab-single.html"><span class="ico">🧪</span> Single AB Test</a>
+      <a class="sidebar__link" href="ab-bulk.html"><span class="ico">📑</span> Bulk AB Test</a>
+      <a class="sidebar__link" href="bond-single.html"><span class="ico">🪨</span> Single Bond Test</a>
+      <a class="sidebar__link" href="bond-bulk.html"><span class="ico">🗂️</span> Bulk Bond Test</a>
+      <a class="sidebar__link" href="downloads.html"><span class="ico">⬇️</span> Download Logs</a>
+      <div class="sidebar__spacer"></div>
+      <a class="sidebar__link sidebar__logout" href="../login.html"><span class="ico">↩</span> Log Out</a>
+    </aside>
+
+    <main class="content">
+      <div class="content__inner">
+        <div class="page-head">
+          <p class="h-eyebrow">A*b Proxy · Result</p>
+          <h1 class="title">AB Test Result <span class="pill">Sample S-4471</span></h1>
+          <p class="lead">Calculated estimate for job <strong>J-10293</strong>. Sample values shown for review.</p>
+        </div>
+
+        <div class="card">
+          <div class="metrics">
+            <div class="metric metric--hero">
+              <p class="metric__label">HIT-A*b — Full DWT (est)</p>
+              <p class="metric__value">42.7</p>
+            </div>
+            <div class="metric"><p class="metric__label">Ecs</p><p class="metric__value">1.84 <span class="metric__unit">kWh/t</span></p></div>
+            <div class="metric"><p class="metric__label">Slope (T10 / Ecs)</p><p class="metric__value">0.231</p></div>
+            <div class="metric"><p class="metric__label">T10</p><p class="metric__value">26.4 <span class="metric__unit">%</span></p></div>
+          </div>
+
+          <div class="notes">
+            <strong>Notes.</strong> Result within expected range for the supplied sample. No anomalies
+            detected in breakage screening. <span class="muted">(Illustrative values — this is a
+            static prototype, not a live calculation.)</span>
+          </div>
+
+          <h2 class="section__title" style="margin-top: var(--sp-6)">Submitted Values</h2>
+          <ul class="summary">
+            <li><span class="k">Technician</span><span class="v">A. Nguyen</span></li>
+            <li><span class="k">Date</span><span class="v">Today</span></li>
+            <li><span class="k">Rock Upper / Lower</span><span class="v">26.5 / 22.4 mm</span></li>
+            <li><span class="k">No. Particles</span><span class="v">30</span></li>
+            <li><span class="k">Initial Mass</span><span class="v">312.0 g</span></li>
+            <li><span class="k">Oversize / Undersize</span><span class="v">198.4 / 110.2 g</span></li>
+          </ul>
+
+          <div class="form-actions">
+            <a class="btn btn--primary" href="ab-single.html">Run Another Test</a>
+            <a class="btn btn--ghost" href="downloads.html">Download Results</a>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__row"><span>&copy; SimSAGe Pty Ltd</span><a href="https://www.simsage.com.au">www.simsage.com.au</a></div>
+      <p>For authorised HIT machine users only. Calculator output does not constitute advice and must be used by qualified persons.</p>
+    </div>
+  </footer>
+
+</div>
+<script src="../assets/app.js"></script>
+</body>
+</html>

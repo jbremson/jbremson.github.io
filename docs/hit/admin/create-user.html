@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create User — Hardness Index Test</title>
+  <link rel="stylesheet" href="../assets/base.css">
+</head>
+<body>
+<div class="app">
+
+  <header class="topbar">
+    <a class="topbar__brand" href="dashboard.html">
+      <img class="logo" src="../assets/logo.svg" alt="">
+      <span>Hardness Index Test<small>SimSage Calculator</small></span>
+    </a>
+    <div class="topbar__right">
+      <span class="badge-role">Administrator</span>
+      <span class="topbar__user">hit_admin</span>
+      <a class="topbar__link" href="../login.html">Log Out</a>
+    </div>
+  </header>
+
+  <div class="app__body">
+    <aside class="sidebar">
+      <div class="sidebar__group">Administration</div>
+      <a class="sidebar__link" href="dashboard.html"><span class="ico">🏠</span> Dashboard</a>
+      <a class="sidebar__link is-active" href="create-user.html"><span class="ico">➕</span> Create New User</a>
+      <a class="sidebar__link" href="users.html"><span class="ico">👥</span> Inspect Users</a>
+      <a class="sidebar__link" href="view-logs.html"><span class="ico">📋</span> View User Logs</a>
+      <div class="sidebar__spacer"></div>
+      <a class="sidebar__link sidebar__logout" href="../login.html"><span class="ico">↩</span> Log Out</a>
+    </aside>
+
+    <main class="content">
+      <div class="content__inner">
+        <div class="page-head">
+          <p class="h-eyebrow">Administration</p>
+          <h1 class="title">Create New User</h1>
+          <p class="lead">Provision a HIT machine account. Coefficients are pre-filled with defaults and can be tuned per machine.</p>
+        </div>
+
+        <form class="card" data-goto="users.html">
+          <div class="section">
+            <h2 class="section__title">Account</h2>
+            <div class="form-grid">
+              <div class="field"><label for="user">Username <span class="hint">(min 5 chars)</span></label>
+                <input class="input" id="user" name="user" type="text" placeholder="e.g. HIT-0512"></div>
+              <div class="field"><label for="company">Company</label>
+                <input class="input" id="company" name="company" type="text" placeholder="Company name"></div>
+              <div class="field"><label for="password">Password <span class="hint">(min 8 chars)</span></label>
+                <input class="input" id="password" name="password" type="password" placeholder="••••••••"></div>
+              <div class="field"><label for="alt_password">Repeat Password</label>
+                <input class="input" id="alt_password" name="alt_password" type="password" placeholder="••••••••"></div>
+            </div>
+          </div>
+
+          <div class="section">
+            <h2 class="section__title">Machine Parameters</h2>
+            <div class="form-grid">
+              <div class="field"><label for="mass_of_weight">Mass of Weight <span class="hint">(kg)</span></label>
+                <input class="input" id="mass_of_weight" name="mass_of_weight" type="number" step="any" placeholder="0.0"></div>
+              <div class="field"><label for="total_height">Total Height <span class="hint">(cm)</span></label>
+                <input class="input" id="total_height" name="total_height" type="number" step="any" placeholder="0.0"></div>
+              <div class="field"><label for="k_coefficient">K Coefficient <span class="hint">(offset from 28.438)</span></label>
+                <input class="input" id="k_coefficient" name="k_coefficient" type="number" step="any" value="0"></div>
+              <div class="field"><label for="energy_utilisation">Energy Utilisation <span class="hint">(%, 0–150)</span></label>
+                <input class="input" id="energy_utilisation" name="energy_utilisation" type="number" step="any" min="0" max="150" value="100"></div>
+            </div>
+          </div>
+
+          <div class="section">
+            <h2 class="section__title">Coefficients</h2>
+            <div class="form-grid--3 form-grid">
+              <div class="field"><label for="a">a — Slope</label><input class="input" id="a" name="a" type="number" step="any" value="1.000"></div>
+              <div class="field"><label for="b">b — p150</label><input class="input" id="b" name="b" type="number" step="any" value="1.000"></div>
+              <div class="field"><label for="c">c — p3.35</label><input class="input" id="c" name="c" type="number" step="any" value="1.000"></div>
+              <div class="field"><label for="d">d — M20</label><input class="input" id="d" name="d" type="number" step="any" value="1.000"></div>
+              <div class="field"><label for="e">e — P80</label><input class="input" id="e" name="e" type="number" step="any" value="1.000"></div>
+              <div class="field"><label for="f">f — R²</label><input class="input" id="f" name="f" type="number" step="any" value="1.000"></div>
+              <div class="field"><label for="g">g — HDI</label><input class="input" id="g" name="g" type="number" step="any" value="1.000"></div>
+            </div>
+          </div>
+
+          <div class="section">
+            <h2 class="section__title">External Factors &amp; Exponents</h2>
+            <div class="form-grid--3 form-grid">
+              <div class="field"><label for="h">h — Factor 1</label><input class="input" id="h" name="h" type="number" step="any" value="1.000"></div>
+              <div class="field"><label for="i">i — Factor 2</label><input class="input" id="i" name="i" type="number" step="any" value="1.000"></div>
+              <div class="field"><label for="j">j — Factor 3</label><input class="input" id="j" name="j" type="number" step="any" value="1.000"></div>
+              <div class="field"><label for="m">m — Slope exponent</label><input class="input" id="m" name="m" type="number" step="any" value="1.000"></div>
+              <div class="field"><label for="n">n — p150 exponent</label><input class="input" id="n" name="n" type="number" step="any" value="1.000"></div>
+              <div class="field"><label for="p">p — p3.35 exponent</label><input class="input" id="p" name="p" type="number" step="any" value="1.000"></div>
+              <div class="field"><label for="q">q — P80 exponent</label><input class="input" id="q" name="q" type="number" step="any" value="1.000"></div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn btn--primary" type="submit">Create User</button>
+            <a class="btn btn--ghost" href="dashboard.html">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__row"><span>&copy; SimSAGe Pty Ltd</span><a href="https://www.simsage.com.au">www.simsage.com.au</a></div>
+      <p>For authorised HIT machine users only. Calculator output does not constitute advice and must be used by qualified persons.</p>
+    </div>
+  </footer>
+
+</div>
+<script src="../assets/app.js"></script>
+</body>
+</html>

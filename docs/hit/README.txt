@@ -1,46 +1,52 @@
-# SimSage HIT — Frontend Concept Prototype
+SimSage HIT — Frontend Prototype
+================================
 
-This is a **visual prototype** of a refreshed look for the SimSage HIT (Hardness Index Test)
-calculator. It is for **review only** — it is not connected to the real system.
+This is a visual prototype of a refreshed look for the SimSage HIT (Hardness
+Index Test) calculator. It is for review only — it is NOT connected to the real
+system and performs no calculations.
 
-## How to view
-
+How to view
+-----------
 1. Unzip this folder anywhere on your computer.
-2. Double-click **`index.html`** to open it in your web browser.
-3. From there, choose **Option A** or **Option B** and click through.
+2. Double-click "index.html" to open it in your web browser (it opens the login).
+3. Click through — no login, internet connection, or installation is required.
 
-No installation, internet connection, or login is required.
+Getting around
+--------------
+- Log In  -> takes you into the Operator area.
+- "Administrator sign-in" (link under the Log In button) -> the Admin area.
+- Use the left sidebar to move between screens. "Log Out" returns to the login.
+- Any username/password works (the fields are not checked in this prototype).
 
-## What's inside
+What's included
+---------------
+Operator area:
+  - Dashboard
+  - Single AB Proxy Test  ->  Result
+  - Bulk AB Proxy Test (CSV upload)
+  - Single Bond Proxy Test  ->  Result
+  - Bulk Bond Proxy Test (CSV upload)
+  - Download Logs (AB + Bond history)
 
-Two design directions to compare, each covering the same three screens:
+Administrator area:
+  - Dashboard
+  - Create New User
+  - Inspect Users  ->  Update User
+  - View User Logs
 
-| | |
-|---|---|
-| **Option A — Refined Teal** | Keeps SimSage's existing teal brand, modernised. |
-| **Option B — Fresh Neutral** | A cleaner, contemporary slate + indigo look. |
-
-The flow in each option:
-
-1. **Sign in** — login screen
-2. **Single AB Proxy Test** — the data entry form
-3. **Result** — the calculated AB / Ecs / Slope output
-
-## Please note
-
-- This is a **static mockup**. The numbers on the result screen are **illustrative examples**,
-  not real calculations. Entering your own values will not change them.
-- Only the **single AB test** flow is shown. Admin tools, the Bond test, bulk CSV upload and
-  log downloads are intentionally left out of this concept stage.
+Please note
+----------
+- This is a STATIC mockup. All numbers (results, logs, tables) are illustrative
+  examples, not real calculations. Typing your own values will not change them.
+- "Calculate", "Upload & Process" and form buttons move you to the next screen so
+  you can see the flow. "Download" buttons show a short note rather than producing
+  a file.
 - Nothing here affects the live application.
 
-## Feedback
+Feedback
+--------
+When reviewing, it helps to note anything about the layout, wording, colours or
+spacing you'd like changed. We'll refine the design and then build it into the
+working app.
 
-
-When reviewing, it helps to note: which option you prefer overall, and anything about the
-layout, wording, colours or spacing you'd like changed. We'll refine the chosen direction
-and then build it into the working app.
-
----
-
-*Prepared by the development team for SimSAGe Pty Ltd. © SimSAGe Pty Ltd.*
+(c) SimSAGe Pty Ltd. Prepared by the development team.
