@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HIT Testing Procedure (Rev 1.4) — Documents</title>
+  <link rel="stylesheet" href="../assets/base.css">
+  <style>
+    /* ---- Document reader styles (scoped to .doc) ----------------------- */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: var(--sp-2);
+      font-size: var(--fs-sm); font-weight: 600; text-decoration: none;
+      color: var(--color-brand-strong); margin-bottom: var(--sp-4);
+    }
+    .doc-back:hover { text-decoration: underline; }
+
+    .doc-cover {
+      background: linear-gradient(135deg, var(--color-sidebar), var(--color-brand-strong));
+      color: #fff; border-radius: var(--radius-lg); padding: var(--sp-7) var(--sp-6);
+      margin-bottom: var(--sp-6); box-shadow: var(--shadow);
+    }
+    .doc-cover .logo { height: 34px; margin-bottom: var(--sp-5); filter: brightness(0) invert(1); }
+    .doc-cover h1 { font-size: var(--fs-3xl); margin: 0; line-height: 1.05; letter-spacing: -0.01em; }
+    .doc-cover .sub { font-size: var(--fs-xl); font-weight: 600; opacity: 0.92; margin-top: var(--sp-2); }
+    .doc-cover .meta { margin-top: var(--sp-5); font-size: var(--fs-sm); opacity: 0.8; display: flex; gap: var(--sp-5); flex-wrap: wrap; }
+
+    .doc-toolbar { display: flex; gap: var(--sp-3); flex-wrap: wrap; margin-bottom: var(--sp-6); }
+
+    .doc { color: var(--color-text); }
+    .doc > section { margin-bottom: var(--sp-7); }
+    .doc h2 {
+      font-size: var(--fs-2xl); margin: 0 0 var(--sp-4); padding-bottom: var(--sp-3);
+      border-bottom: 2px solid var(--color-border); line-height: 1.15;
+    }
+    .doc h2 .n { color: var(--color-brand); font-variant-numeric: tabular-nums; margin-right: var(--sp-2); }
+    .doc h3 { font-size: var(--fs-xl); margin: var(--sp-6) 0 var(--sp-3); }
+    .doc h3 .n { color: var(--color-brand); margin-right: var(--sp-2); }
+    .doc p { margin: 0 0 var(--sp-4); max-width: 72ch; }
+    .doc ul, .doc ol { max-width: 72ch; margin: 0 0 var(--sp-4); padding-left: var(--sp-6); }
+    .doc li { margin-bottom: var(--sp-2); }
+    .doc :target { scroll-margin-top: 80px; }
+
+    /* Figures */
+    .figure { margin: var(--sp-5) 0 var(--sp-6); }
+    .figure img {
+      width: 100%; height: auto; border: 1px solid var(--color-border);
+      border-radius: var(--radius); box-shadow: var(--shadow-sm); background: #fff;
+    }
+    .figure--narrow img { max-width: 320px; margin: 0 auto; }
+    .figcaption {
+      font-size: var(--fs-sm); color: var(--color-text-muted); text-align: center;
+      margin-top: var(--sp-3); font-weight: 500;
+    }
+    .figcaption b { color: var(--color-text); font-weight: 700; }
+
+    /* Note callout */
+    .note {
+      display: flex; gap: var(--sp-4); align-items: flex-start;
+      background: color-mix(in srgb, var(--color-brand) 6%, var(--color-surface));
+      border: 1px solid color-mix(in srgb, var(--color-brand) 24%, var(--color-border));
+      border-left: 4px solid var(--color-brand);
+      border-radius: var(--radius-sm); padding: var(--sp-4) var(--sp-5); margin: var(--sp-5) 0;
+    }
+    .note__icon { font-size: 1.2rem; line-height: 1.4; }
+    .note p { margin: 0; }
+    .note__label {
+      display: block; font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: 0.08em;
+      font-weight: 700; color: var(--color-brand-strong); margin-bottom: var(--sp-1);
+    }
+
+    /* Table caption */
+    .tbl-caption { font-size: var(--fs-sm); font-weight: 700; text-align: center; margin: var(--sp-5) 0 var(--sp-3); }
+    .tbl-note { font-size: var(--fs-xs); color: var(--color-text-muted); font-style: italic; margin-top: var(--sp-2); }
+
+    /* Data-entry "spreadsheet" sheets */
+    .sheets { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: var(--sp-5); }
+    .datasheet { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); border: 1px solid #b9c2d0; background: #fff; }
+    .datasheet th, .datasheet td { border: 1px solid #d4dae3; padding: 4px 8px; text-align: left; }
+    .datasheet .sheet-title th { background: #eef1f6; font-weight: 700; font-size: var(--fs-sm); }
+    .datasheet .grp th { background: #f1f4f8; font-weight: 700; }
+    .datasheet td.v { text-align: right; font-variant-numeric: tabular-nums; width: 38%; }
+    .datasheet td.in { background: #cfeffb; color: #0b6c8a; font-weight: 600; } /* blue input cell */
+    .datasheet td.calc { color: var(--color-text-muted); }
+    .datasheet td.ok { color: var(--color-success); font-weight: 700; }
+    .datasheet td.qc { color: #b4232a; font-weight: 700; }
+    .datasheet .export td { background: #3b5bdb; color: #fff; text-align: center; font-weight: 600; }
+
+    /* SOP blocks */
+    .sop { border: 1px solid var(--color-border); border-radius: var(--radius); overflow: hidden; margin: var(--sp-4) 0 var(--sp-6); }
+    .sop__head { background: var(--color-surface-2); padding: var(--sp-4) var(--sp-5); border-bottom: 1px solid var(--color-border); }
+    .sop__head .t { text-align: center; font-weight: 700; letter-spacing: 0.04em; }
+    .sop__head .t small { display: block; font-weight: 600; color: var(--color-brand-strong); margin-top: var(--sp-1); }
+    .sop__meta { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); }
+    .sop__meta th { text-align: left; vertical-align: top; width: 190px; padding: var(--sp-2) var(--sp-4); color: var(--color-text); background: var(--color-surface-2); border-top: 1px solid var(--color-border); font-weight: 700; }
+    .sop__meta td { padding: var(--sp-2) var(--sp-4); border-top: 1px solid var(--color-border); }
+    .sop__steps { width: 100%; }
+
+    @media (max-width: 720px) {
+      .sheets { grid-template-columns: 1fr; }
+      .doc-cover h1 { font-size: var(--fs-2xl); }
+    }
+    @media print {
+      .topbar, .sidebar, .footer, .doc-toolbar, .doc-back { display: none !important; }
+      .app__body { grid-template-columns: 1fr; }
+      .content { padding: 0; }
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+
+  <header class="topbar">
+    <a class="topbar__brand" href="dashboard.html">
+      <img class="logo" src="../assets/logo.svg" alt="">
+      <span>Hardness Index Test<small>SimSage Calculator</small></span>
+    </a>
+    <div class="topbar__right">
+      <span class="badge-role">Operator</span>
+      <span class="topbar__user">HIT-0427</span>
+      <a class="topbar__link" href="../login.html">Log Out</a>
+    </div>
+  </header>
+
+  <div class="app__body">
+    <aside class="sidebar">
+      <div class="sidebar__group">Operator</div>
+      <a class="sidebar__link" href="dashboard.html"><span class="ico">🏠</span> Dashboard</a>
+      <a class="sidebar__link" href="ab-single.html"><span class="ico">🧪</span> Single AB Test</a>
+      <a class="sidebar__link" href="ab-bulk.html"><span class="ico">📑</span> Bulk AB Test</a>
+      <a class="sidebar__link" href="bond-single.html"><span class="ico">🪨</span> Single Bond Test</a>
+      <a class="sidebar__link" href="bond-bulk.html"><span class="ico">🗂️</span> Bulk Bond Test</a>
+      <a class="sidebar__link" href="downloads.html"><span class="ico">⬇️</span> Download Logs</a>
+      <a class="sidebar__link is-active" href="documents.html"><span class="ico">📚</span> Documents</a>
+      <div class="sidebar__spacer"></div>
+      <a class="sidebar__link sidebar__logout" href="../login.html"><span class="ico">↩</span> Log Out</a>
+    </aside>
+
+    <main class="content">
+      <div class="content__inner">
+        <a class="doc-back" href="documents.html">&larr; Documents</a>
+
+        <!-- Cover -->
+        <div class="doc-cover">
+          <img class="logo" src="../assets/logo.svg" alt="SimSage">
+          <h1>HIT — Hardness Index Tester</h1>
+          <div class="sub">User's Guide v1.4</div>
+          <div class="meta">
+            <span>SimSAGe Pty Ltd</span>
+            <span>Rev 1.4</span>
+            <span>Modelling &amp; Simulation Consulting Services</span>
+          </div>
+        </div>
+
+        <div class="doc-toolbar">
+          <button class="btn btn--ghost btn--sm" onclick="window.print()">🖨️ Print / Save as PDF</button>
+          <a class="btn btn--ghost btn--sm" href="#sec-1-1">Jump to start &rarr;</a>
+        </div>
+
+        <!-- Table of contents -->
+        <div class="card" style="margin-bottom:var(--sp-6)">
+          <h2 class="title" style="font-size:var(--fs-lg);margin-bottom:var(--sp-4)">Contents</h2>
+          <ul style="columns:2;column-gap:var(--sp-6);margin:0;padding-left:var(--sp-5);font-size:var(--fs-sm)">
+            <li><a href="#sec-1-1">1.1&nbsp; Introduction</a></li>
+            <li><a href="#sec-1-2">1.2&nbsp; Development of HIT</a></li>
+            <li><a href="#sec-1-3">1.3&nbsp; Sample Preparation</a></li>
+            <li><a href="#sec-1-4">1.4&nbsp; HIT Testing Procedure</a></li>
+            <li><a href="#sec-1-4-1">1.4.1&nbsp; Initial Set-up and QA/QC Tests</a></li>
+            <li><a href="#sec-1-4-2">1.4.2&nbsp; Monitoring of Wear Plates</a></li>
+            <li><a href="#sec-1-4-3">1.4.3&nbsp; Breakage Tests</a></li>
+            <li><a href="#sec-1-5">1.5&nbsp; HIT Product Analysis</a></li>
+            <li><a href="#sec-1-6">1.6&nbsp; HIT Data Entry / Analysis</a></li>
+            <li><a href="#sec-1-7">1.7&nbsp; References</a></li>
+            <li><a href="#sec-1-8">1.8&nbsp; Disclaimer</a></li>
+          </ul>
+        </div>
+
+        <article class="doc">
+
+          <!-- 1.1 -->
+          <section id="sec-1-1">
+            <h2><span class="n">1.1</span>Introduction</h2>
+            <p>The mining industry has for the longest time been determining comminution parameters via expensive and time-consuming laboratory tests, typically Bond Ball Mill Work Index and SMC™/DWT Axb (Bond, 1961; Morrell, 2004; Napier-Munn et al, 1996). Due to budgetary constraints, this has curtailed the collection of sufficient numbers of BMWi or Axb measurements to allow the inherent variability to be adequately quantified, for direct estimation into a block model for mine planning. Ultimately operations have and continue to experience difficulties in reaching or sustaining target production rates because the mill circuit design is derived from averaged core data, determined at the exploration/study phase for the project. Too often this data proves inadequate in response to the ore variability encountered as the resource is mined, making successful management of the process a challenge.</p>
+            <p>SimSAGe believes the historical precedence of inappropriate mill design and sub-optimal performance could have been mitigated if the industry had access to a simple, rapid, and less expensive test, which could provide sufficiently reliable comminution parameters like Axb and BMWi. To address this critical void, a new device has been developed, referred to as the Hardness Index Tester or HIT, exploiting a central feature of single particle impact testing — 1) that the Axb can be reliably estimated using one precise low energy test, and 2) that the Bond grindability can be linked to the breakage response at one precise high energy test. The HIT has undergone two industrial trials in the US and Canada, and the results to date have proved it can deliver on all fronts. The HIT was launched in October 2016 at the AusIMM MillOps16 conference in Perth (Kojovic, 2016). Examples of successful applications can be found in technical papers by Bergeron et al (2017) and Leetmaa et al (2019).</p>
+          </section>
+
+          <!-- 1.2 -->
+          <section id="sec-1-2">
+            <h2><span class="n">1.2</span>Development of HIT</h2>
+            <p>SimSAGe believed it was possible to design and build a fit-for-purpose small device to measure Axb using a single low energy test. The device was called the Hardness Index Tester or HIT. The HIT design criteria included the following features:</p>
+            <ul>
+              <li>Safe to use</li>
+              <li>Portable and easy to use with minimal training</li>
+              <li>Rapid turn-around time (&lt;5 mins per test)</li>
+              <li>Requires no power, air or hydraulics</li>
+              <li>Low noise and dust generation</li>
+              <li>Axb index can be calculated at site — eliminating the need to send either the ore samples or the raw data offsite for analysis</li>
+              <li>Generates on the spot results allowing for real time decision making</li>
+            </ul>
+            <p>The first prototype was built in Oct 2013 in Brisbane, and sent to Teck ART Laboratory in Trail, BC Canada for trials. The results were promising, but the machine design did not adequately meet the above criteria, requiring further development to improve its consistency. The second-generation prototype was precision engineered, generating accurate and repeatable results, and is safe and easy to use. The fabrication was completed in California, USA. The materials were selected to suit the intended use and portability (15kg), whilst minimizing cost when compared to other methods/equipment required for achieving similar results/data. The device is supplied with a consistency measurement feature, to ensure that the available input energy is consistently delivered, over the life of the machine. The rock top size chosen for hardness testing was 25mm. The HIT device was granted US patent No. 10,739,238 on August 11, 2020.</p>
+            <p>Figure 1 shows the second generation HIT prototype, which comprises a frame, a sample cup to hold the fragment to be crushed, the crusher hammer assembly, and dual lever mechanism to trigger the release of the hammer onto the fragment in the cup. The sample cup sits in a dedicated grooved inset on the top surface of the frame base plate, and comprises a handle allowing a user to easily remove the sample cup from the frame during testing (see Figure 2). The apparatus includes a non-rock means of monitoring the consistency of the input energy delivered to a specimen over time (via lead shot supplied with a very low diameter tolerance, 0.44 ± 0.007 inches). Similarly, the lead shot is used to check the suitability of the working surface on which the HIT will be positioned for testing.</p>
+
+            <figure class="figure">
+              <img src="../assets/docs/hit-procedure/fig01-components.png" alt="HIT showing major components: crusher hammer lifting handle, shaft, shaft bearing, release levers, leveling eye, HIT frame assembly, crusher hammer, cup handle and sample cup">
+              <figcaption class="figcaption"><b>Figure 1:</b> HIT showing major components</figcaption>
+            </figure>
+
+            <figure class="figure">
+              <img src="../assets/docs/hit-procedure/fig02-cup-recess.png" alt="View of the sample cup recess in the base plate and the cup impact plate">
+              <figcaption class="figcaption"><b>Figure 2:</b> View of sample cup recess in base plate and cup impact plate</figcaption>
+            </figure>
+          </section>
+
+          <!-- 1.3 -->
+          <section id="sec-1-3">
+            <h2><span class="n">1.3</span>Sample Preparation</h2>
+            <p>The sample preparation for the Axb and BondWi Proxy tests will usually require sized fragments, but quarter core pieces can also be used following a special protocol. Hence the two main steps in the sample preparation include staged crushing of the source material (drill core or coarse lump) followed by sizing using standard screens (manually or using shaker) into various root 2 sieve size fractions depending on target size and sample availability. Alternatively, one can skip stage crushing and move to screening if the source material has sufficient fragments for testing, for example, SAG feed or blast hole reject samples. The typical size fractions that are suitable for HIT testing are:</p>
+            <ul>
+              <li>22.4×19.0mm (Axb proxy)</li>
+              <li>19.0×16.0mm (Axb proxy)</li>
+              <li>16.0×13.2mm (Axb proxy)</li>
+              <li>11.2×9.5mm (BondWi proxy)</li>
+              <li>9.5×8.0mm (BondWi proxy)</li>
+            </ul>
+            <p>Please note that a single test consists of selection of at least 10 rocks to be broken in the HIT device. It is recommended that every rock sample chosen for testing be done in triplicate (ie. 3 splits of 10 rocks from the same size fraction) providing three separate hardness measurements from which the average hardness and variability can be quantified for each sample. Figure 3 summarizes the steps in the sample preparation and testing protocol for the HIT Axb (22.4×19mm) and BondWi (11.2×9.5mm) Proxy tests. Table 1 shows the proposed test conditions. As the input energy in the HIT device is fixed (nominally 4.5kg and 25cm or 11 Joules), the specific energy applied will vary with the mass of fragment used in the tests.</p>
+
+            <p class="tbl-caption">Table 1: HIT Test Conditions</p>
+            <div class="table-wrap">
+              <table class="table">
+                <thead>
+                  <tr><th>Size Range (mm)</th><th>Test Type</th><th class="num">No. of Tests/Sample</th><th class="num">Number of Particles/Test</th><th class="num">Estimated Total Mass (kg)</th><th class="num">Expected Ecs (kWh/t)</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>−22.4 +19</td><td>Axb</td><td class="num">3</td><td class="num">10</td><td class="num">0.450</td><td class="num">0.20</td></tr>
+                  <tr><td>−19 +16.0</td><td>Axb</td><td class="num">3</td><td class="num">10</td><td class="num">0.267</td><td class="num">0.35</td></tr>
+                  <tr><td>−16 +13.2</td><td>Axb</td><td class="num">3</td><td class="num">10</td><td class="num">0.155</td><td class="num">0.60</td></tr>
+                  <tr><td>−11.2 +9.5</td><td>BondWi</td><td class="num">3</td><td class="num">20</td><td class="num">0.110</td><td class="num">1.60</td></tr>
+                  <tr><td>−9.5 +8.0</td><td>BondWi</td><td class="num">3</td><td class="num">20</td><td class="num">0.067</td><td class="num">2.83</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="tbl-note">Note: sample mass estimates are based on ore SG of 2.8 g/cm³.</p>
+
+            <figure class="figure">
+              <img src="../assets/docs/hit-procedure/fig03-protocols.png" alt="Flowchart of HIT sample preparation and testing protocols, showing crushing, screening into size fractions, and the Axb and BondWi proxy paths">
+              <figcaption class="figcaption"><b>Figure 3:</b> HIT sample preparation and testing protocols</figcaption>
+            </figure>
+          </section>
+
+          <!-- 1.4 -->
+          <section id="sec-1-4">
+            <h2><span class="n">1.4</span>HIT Testing Procedure</h2>
+
+            <h3 id="sec-1-4-1"><span class="n">1.4.1</span>Initial Set-up and QA/QC Tests</h3>
+            <p>The HIT device should be used on a SOLID, LEVEL bench. An unstable or flimsy bench could dissipate the energy released by the HIT and skew the results. The bullseye circular level is provided to check the machine is level in two dimensions, making sure the circular bubble is ideally within the inner black circle, as shown in Figure 4. In operation, the HIT can make a small movement with each impact, especially if the work bench is not solid. Hence the user may benefit from providing a simple docking mechanism to lock the base plate to the work bench, thereby avoiding any HIT displacement during use.</p>
+
+            <figure class="figure figure--narrow">
+              <img src="../assets/docs/hit-procedure/fig04-level.png" alt="Bullseye circular level showing the bubble centred within the inner black circle, a level position">
+              <figcaption class="figcaption"><b>Figure 4:</b> Bullseye level showing a level position</figcaption>
+            </figure>
+
+            <p>Before commencing any testing using rock samples, at least five lead shot balls should be used to check the consistency of the machine and the firmness/support of the proposed work bench, in terms of the final thickness of each lead shot ball. This procedure requires each ball to be placed in the sample cup, one at a time, and then compressed by pulling on the two levers simultaneously to release the crusher hammer onto the lead shot. The thickness of each ball should then be measured using digital Vernier callipers, as shown in Figure 5. Temperature of the lead shot at the time of the testing should be recorded; a non-contact infrared thermometer is ideal for this application.</p>
+            <p>The lead shot is supplied by McMaster-Carr, product code 9030K29, in boxes of 250 pieces.</p>
+
+            <figure class="figure">
+              <img src="../assets/docs/hit-procedure/fig05-leadshot.png" alt="Two digital callipers measuring a lead shot ball, new (0.442 inches) and compressed on solid table support (0.247 inches)">
+              <figcaption class="figcaption"><b>Figure 5:</b> Example lead shot measurements before and after compression in HIT</figcaption>
+            </figure>
+
+            <p>The QA/QC checks should be repeated approximately every 500 drops to ensure the device is delivering the same energy. The temperature of the lead shot needs to be measured each time.</p>
+
+            <div class="note">
+              <div class="note__icon">⚠️</div>
+              <p><span class="note__label">Note</span>If the HIT device is relocated, ensure the work bench provides similar support to the original location, by checking the average thickness of the lead shot (in triplicate) before starting any rock sample testing.</p>
+            </div>
+
+            <p>The best support is provided by a concrete floor or base, which should result in thicknesses averaging 0.233 inches for the second generation HIT device. Normal work benches will offer less rigid support, resulting in somewhat increased thicknesses, typically around 0.250 inches. The average lead shot thickness for the selected support work bench will be used in the final calculation of the applied energy in the HIT breakage tests, based on available data from DWT calibration using lead shot.</p>
+            <p>An Excel data entry s/sheet is provided by SimSAGe for tracking the lead shot measurements (see Table 2). Note that the blue shaded cells represent user inputs. This spreadsheet should be used to keep track of the lead shot measurements from the start, during testing (every ~500 drops) and anytime the HIT is relocated to a new support bench. The data are used to monitor the consistency of the HIT device over time, and the energy utilization percentage for each support location. The energy utilisation percentage is an input to the online software for checking, processing, and downloading of the estimated ore hardness results (Axb or BondWi proxies) back to the site. The expected variation in the lead shot compression strength is equivalent to ±0.003 inches. Hence no adjustment to the energy utilization percentage is necessary if the lead shot average thickness is within this tolerance.</p>
+
+            <p class="tbl-caption">Table 2: Example Data Entry for HIT Lead Shot Monitoring and Temperature Measurement</p>
+            <div class="table-wrap" style="max-width:460px">
+              <table class="datasheet">
+                <tr class="sheet-title"><th colspan="2">HIT Lead Shot Data Entry <span style="float:right;font-weight:600">Steel Bench</span></th></tr>
+                <tr><td>Machine Serial No.</td><td class="v in">PHAJB</td></tr>
+                <tr><td>Client</td><td class="v in">ABC</td></tr>
+                <tr><td>Date</td><td class="v in">1-Jan-19</td></tr>
+                <tr><td>Temperature (°C, Lead Shot)</td><td class="v in">21.0</td></tr>
+                <tr class="grp"><th>Lead Shot Results</th><th class="v">Value</th></tr>
+                <tr><td>Shot #1 Thickness (inches)</td><td class="v in">0.2460</td></tr>
+                <tr><td>Shot #2 Thickness (inches)</td><td class="v in">0.2455</td></tr>
+                <tr><td>Shot #3 Thickness (inches)</td><td class="v in">0.2450</td></tr>
+                <tr><td>Shot #4 Thickness (inches)</td><td class="v in">0.2455</td></tr>
+                <tr><td>Shot #5 Thickness (inches)</td><td class="v in">0.2445</td></tr>
+                <tr><td>Average Lead Shot Thickness</td><td class="v calc">0.2453</td></tr>
+                <tr><td>QC Outcome?</td><td class="v ok">OK</td></tr>
+                <tr class="grp"><th>Machine Energy Parameters</th><th class="v">Value</th></tr>
+                <tr><td>Mass of Weight (kg)</td><td class="v in">4.51</td></tr>
+                <tr><td>Total Height (cm)</td><td class="v in">25.40</td></tr>
+                <tr><td>Temperature Corrected Thickness (inches)</td><td class="v calc">0.2453</td></tr>
+                <tr><td>Nominal Input Energy Applied (J)</td><td class="v calc">10.573</td></tr>
+                <tr><td>Nominal Available Energy (J)</td><td class="v calc">11.238</td></tr>
+                <tr><td>Energy Utilization (%)</td><td class="v calc">94.084</td></tr>
+              </table>
+            </div>
+
+            <h3 id="sec-1-4-2"><span class="n">1.4.2</span>Monitoring of Impact and Sample Cup Wear Plates</h3>
+            <p>The wear on the crusher hammer and sample cup impact surfaces should be monitored weekly to ensure the plates are not pitted or cracked, which could affect the integrity of the HIT breakage tests. The beta trials suggest the plates should last at least 18,000 drops. A spare head impact plate and sample cup is supplied with the device for change-out when deemed necessary. Figure 6 shows an example of some pitting observed in the first industrial trial after 20,000 drops. When not in use, the HIT device should be stored in a dry and dust free area, with the crusher hammer released, sitting in the sample cup.</p>
+
+            <figure class="figure">
+              <img src="../assets/docs/hit-procedure/fig06-pitting.png" alt="Pitting visible in the sample cup and on the crusher hammer impact plate after more than 20,000 drops">
+              <figcaption class="figcaption"><b>Figure 6:</b> Example of pitting in sample cup and crusher hammer impact plate &gt; 20,000 drops</figcaption>
+            </figure>
+
+            <h3 id="sec-1-4-3"><span class="n">1.4.3</span>Breakage Tests</h3>
+            <p>As noted above, triplicate testing allows for greater reliability in determining the rock hardness proxy and will require 30 drops of the head. The HIT beta testing has proven this triplicate testing to be the most reliable and recommended approach to use with the minimum of 10 rocks per test.</p>
+            <p>Though sorting or filtering of rocks based on mass/shape is not critical if the sizing and preparation is completed minus too much manual intervention, the user should avoid selecting unusually large or misshapen fragments, or very small light fragments. This sorting approach follows the SMC™ test protocol, which prescribes the rejection of any fragment whose mass is not within 30% of the expected mass for the size fraction (based on expected volume and measured SG).</p>
+            <p>Figure 7 shows an example of 10 randomly selected fragments from the 22.4×19mm size fraction, which was part of a round-robin SMC™ testing program. The images show the variation in fragment mass and shape; the expected mass for this sample was 15.6g, with the 30% tolerance representing 10.9 to 20.3g. In this set of 10 fragments, four fragments would have been rejected if subjected to the SMC™ protocol.</p>
+            <p>The sorting is likely to be necessary in selecting rocks from crushed drill core samples, which have a greater tendency of generating unusually shaped fragments, as per the example shown in Figure 8.</p>
+
+            <figure class="figure">
+              <img src="../assets/docs/hit-procedure/fig07-rocks.png" alt="Ten rock fragments in the 22.4 by 19mm size fraction laid out with their individual masses marked, beside a ruler">
+              <figcaption class="figcaption"><b>Figure 7:</b> Example of rocks in 22.4×19mm size fraction, as supplied post sizing of crushed drill core interval, showing individual masses and shapes</figcaption>
+            </figure>
+
+            <figure class="figure figure--narrow">
+              <img src="../assets/docs/hit-procedure/fig08-fragment.png" alt="A single blue-grey rock fragment with unusual shape and higher than expected mass (24.9g), beside a ruler">
+              <figcaption class="figcaption"><b>Figure 8:</b> Example of rock fragment in 22.4×19mm size fraction, showing unusual shape and higher than expected mass, arising from crushing of drill core sample</figcaption>
+            </figure>
+
+            <p>Following the preparation and selection of the fragments, the main steps in the HIT testing procedure are as follows:</p>
+            <ol>
+              <li>Place each rock in the sample cup, approximately in the centre of the cup, then place the sample cup in position, ensuring the cup is always properly seated in recess before releasing crusher hammer (see warning sign on base plate, see Figure 9).</li>
+              <li>Release crusher hammer by pulling on the two levers simultaneously. Figure 10 shows an example of a 22.4×19mm fragment, pre- and post-breakage in the cup. Figure 11 shows an example of a 11.2×9.5mm fragment used in BondWi proxy testing, pre- and post-breakage in the cup.</li>
+              <li>The broken fragments are removed from the cup and the process repeated until all 10 rocks are broken. To minimize housekeeping losses, the cup should be brushed out if there is any residual fine material in the cup. Similarly, material may adhere to the head impact plate, especially with soft samples and/or BondWi proxy testing. This material should be brushed off during testing and collected with the broken fragments from the cup.</li>
+              <li>The combined product is screened on one sieve to derive the mass of oversize and undersize in the case of Axb proxy testing, or five sieves to derive the mass distribution in the case of BondWi proxy testing.</li>
+              <li>The raw data collected post sizing of the combined product generated from the 10 or 20 drops are captured in an Excel data entry spreadsheet and later can be uploaded at the tester's convenience to an online calculator which converts them to a hardness index proxy (either Axb or BondWi).</li>
+            </ol>
+            <p>The above steps form part of the SOPs supplied for HIT Axb and BondWi proxy testing as described in Section 1.6.</p>
+
+            <figure class="figure">
+              <img src="../assets/docs/hit-procedure/fig09-sign.png" alt="Warning sign on the HIT base plate reminding users to ensure the cup is properly seated in the recess before releasing the drop head">
+              <figcaption class="figcaption"><b>Figure 9:</b> Sign on HIT base plate reminding users to ensure cup is properly seated in recess before releasing crusher hammer</figcaption>
+            </figure>
+
+            <figure class="figure">
+              <img src="../assets/docs/hit-procedure/fig10-break-ab.png" alt="A 22.4 by 19mm rock fragment shown pre-breakage and post-breakage inside the HIT cup">
+              <figcaption class="figcaption"><b>Figure 10:</b> Example of 22.4×19mm rock fragment, pre- and post-breakage in HIT cup</figcaption>
+            </figure>
+
+            <figure class="figure">
+              <img src="../assets/docs/hit-procedure/fig11-break-bond.png" alt="An 11.2 by 9.5mm rock fragment shown pre-breakage and post-breakage inside the HIT cup">
+              <figcaption class="figcaption"><b>Figure 11:</b> Example of 11.2×9.5mm rock fragment, pre- and post-breakage in HIT cup</figcaption>
+            </figure>
+          </section>
+
+          <!-- 1.5 -->
+          <section id="sec-1-5">
+            <h2><span class="n">1.5</span>HIT Product Analysis</h2>
+            <p>The products from each HIT test will need to be dry sized using a single or multiple sieves, depending on the fragment size and/or test type (see Figure 12).</p>
+
+            <figure class="figure">
+              <img src="../assets/docs/hit-procedure/fig12-sieve.png" alt="A 200mm brass test sieve beside a Ro-Tap shaker holding a stack of six sieves plus pan">
+              <figcaption class="figcaption"><b>Figure 12:</b> Example 200mm sieve and Ro-Tap shaker with a stack of six sieves plus pan</figcaption>
+            </figure>
+
+            <p>For the Axb proxy testing the target product sizing sieves are as follows:</p>
+            <ul>
+              <li>22.4×19.0 mm — 2.0mm</li>
+              <li>19.0×16.0 mm — 1.7mm</li>
+              <li>16.0×13.2 mm — 1.4mm</li>
+            </ul>
+            <p>The basic dry sizing procedure is as follows:</p>
+            <ul>
+              <li>Record starting weight of each sample.</li>
+              <li>Dry sieve the HIT products over the target screen and pan using a sieve shaker/vibrator for 3 minutes. If the sample is very friable (eg. bright coal), a shorter time or hand sizing of the coarse fractions might be warranted to minimize the degradation.</li>
+            </ul>
+            <p>The sieving for the BondWi proxy test products needs 5 sieves plus pan (see Figure 13), as follows: 3.35, 2.36, 1.18, 0.60 and 0.15 mm.</p>
+            <ul>
+              <li>Record weight retained on each sieve and pan in grams (see Figure 14).</li>
+              <li>Combine fractions from each sieve and store in clearly labelled sample bag.</li>
+            </ul>
+
+            <div class="note">
+              <div class="note__icon">⚠️</div>
+              <p><span class="note__label">Note</span>Ensure the sieves are cleaned after each use, to minimize contamination and blinding.</p>
+            </div>
+
+            <figure class="figure figure--narrow">
+              <img src="../assets/docs/hit-procedure/fig13-sievestack.png" alt="A stack of five half-height 200mm sieves plus pan used in screening BondWi proxy test products">
+              <figcaption class="figcaption"><b>Figure 13:</b> Stack of 5 half-height 200mm sieves plus pan used in screening BondWi proxy test products</figcaption>
+            </figure>
+
+            <figure class="figure">
+              <img src="../assets/docs/hit-procedure/fig14-retained.png" alt="Material retained on each sieve and pan after BondWi test screening, at +3.35mm, +2.36mm, +1.18mm, +0.600mm, +0.150mm and -0.150mm">
+              <figcaption class="figcaption"><b>Figure 14:</b> Example of material retained on each sieve and pan post BondWi test screening</figcaption>
+            </figure>
+          </section>
+
+          <!-- 1.6 -->
+          <section id="sec-1-6">
+            <h2><span class="n">1.6</span>HIT Data Entry / Analysis</h2>
+            <p>The results from the sizing analysis, recorded as per section 1.5, need to be transferred to an Excel datasheet template supplied by SimSAGe (see Table 3). Note that the blue shaded cells represent user inputs. The datasheet template will automatically highlight any unusually high losses incurred in the testing or subsequent sieving. The t10 percentage is calculated for each test.</p>
+            <p>Note that the Axb proxy test can be completed on either sorted or unsorted rocks, depending on user preference. The BondWi proxy test is completed on unsorted fragments. SOPs for the three HIT test options are included at the end of this document (see Tables 4 to 6).</p>
+            <p>Once the Excel data entry is complete, the user can upload the raw data to the HIT Online Calculator via a 'csv' file upload, for checking, processing and downloading of the estimated ore hardness results (Axb or BondWi proxies) back to the site.</p>
+
+            <p class="tbl-caption">Table 3: Example Data Entry and Results from HIT Axb and BondWi Proxy Tests</p>
+            <div class="sheets">
+              <table class="datasheet">
+                <tr class="sheet-title"><th colspan="2">HIT A*b Test Data Entry for Broken Rocks</th></tr>
+                <tr><td>Job #</td><td class="v in">ABC160515</td></tr>
+                <tr><td>Client sample ID</td><td class="v in">XYZ-1</td></tr>
+                <tr><td>Date</td><td class="v in">15-May-16</td></tr>
+                <tr><td>Rock Upper Size (mm):</td><td class="v in">22.40</td></tr>
+                <tr><td>Rock Lower Size (mm):</td><td class="v in">19.00</td></tr>
+                <tr><td>Rock Size Fraction (mm):</td><td class="v calc">22.4 × 19 mm</td></tr>
+                <tr><td>Target Ave Rock Size (mm):</td><td class="v calc">20.63</td></tr>
+                <tr><td>A*b q factor (size effect):</td><td class="v in">0.58</td></tr>
+                <tr class="grp"><th>Test Parameter</th><th class="v">Value</th></tr>
+                <tr><td>Mass of Weight (kg)</td><td class="v in">4.51</td></tr>
+                <tr><td>Total Height (cm)</td><td class="v in">25.40</td></tr>
+                <tr><td>Ave Size of Rock (cm)</td><td class="v calc">2.06</td></tr>
+                <tr><td>Ecs (kWh/t) – nominal</td><td class="v calc">0.19</td></tr>
+                <tr><td>No. Particles</td><td class="v in">10</td></tr>
+                <tr><td>Initial mass (g)</td><td class="v in">160.25</td></tr>
+                <tr><td>After breakage (g)</td><td class="v in">160.21</td></tr>
+                <tr class="grp"><th colspan="2">Raw Sizing Data</th></tr>
+                <tr><td>OVERSIZE : +2.06mm (g)</td><td class="v in">148.57</td></tr>
+                <tr><td>UNDERSIZE : −2.06mm (g)</td><td class="v in">11.60</td></tr>
+                <tr><td>Sum (g)</td><td class="v calc">160.2</td></tr>
+                <tr><td>Breakage loss (g)</td><td class="v calc">0.0</td></tr>
+                <tr><td>Loss Breakage (%)</td><td class="v calc">0.02</td></tr>
+                <tr><td>Sieving loss (g)</td><td class="v calc">0.04</td></tr>
+                <tr><td>Loss Sieving (%)</td><td class="v calc">0.02</td></tr>
+                <tr><td>Break Status</td><td class="v ok">OK</td></tr>
+                <tr><td>Sieve Status</td><td class="v ok">OK</td></tr>
+                <tr><td>t10 (%)</td><td class="v qc">7.24</td></tr>
+                <tr class="export"><td colspan="2">Export Raw Data to HITexportAB.CSV</td></tr>
+              </table>
+
+              <table class="datasheet">
+                <tr class="sheet-title"><th colspan="2">HIT Bond Proxy Test Data Entry for Broken Rocks</th></tr>
+                <tr><td>Job #</td><td class="v in">ABC160515</td></tr>
+                <tr><td>Client sample ID</td><td class="v in">XYZ-1</td></tr>
+                <tr><td>Date</td><td class="v in">15-May-16</td></tr>
+                <tr><td>Rock Upper Size (mm):</td><td class="v in">11.20</td></tr>
+                <tr><td>Rock Lower Size (mm):</td><td class="v in">9.50</td></tr>
+                <tr><td>Rock Size Fraction (mm):</td><td class="v calc">11.2 × 9.5 mm</td></tr>
+                <tr><td>Target Ave Rock Size (mm):</td><td class="v calc">10.32</td></tr>
+                <tr class="grp"><th>Test Parameter</th><th class="v">Value</th></tr>
+                <tr><td>Mass of Weight (kg)</td><td class="v in">4.51</td></tr>
+                <tr><td>Total Height (cm)</td><td class="v in">25.40</td></tr>
+                <tr><td>Ave Size of Rock (cm)</td><td class="v calc">1.03</td></tr>
+                <tr><td>Ecs (kWh/t) – nominal</td><td class="v calc">1.53</td></tr>
+                <tr><td>No. Particles</td><td class="v in">20</td></tr>
+                <tr><td>Initial mass (g)</td><td class="v in">40.90</td></tr>
+                <tr><td>After breakage (g)</td><td class="v in">40.90</td></tr>
+                <tr class="grp"><th colspan="2">Raw Sizing Data</th></tr>
+                <tr><td>+3.35mm</td><td class="v in">13.84</td></tr>
+                <tr><td>+2.36−3.35mm</td><td class="v in">6.32</td></tr>
+                <tr><td>+1.18−2.36mm</td><td class="v in">8.94</td></tr>
+                <tr><td>+0.600−1.18mm</td><td class="v in">4.70</td></tr>
+                <tr><td>+0.150−0.600mm</td><td class="v in">4.14</td></tr>
+                <tr><td>−0.150mm</td><td class="v in">2.74</td></tr>
+                <tr><td>Sum (g)</td><td class="v calc">40.68</td></tr>
+                <tr><td>Breakage loss (g)</td><td class="v calc">0.00</td></tr>
+                <tr><td>Loss Breakage (%)</td><td class="v calc">0.00</td></tr>
+                <tr><td>Sieving loss (g)</td><td class="v calc">0.22</td></tr>
+                <tr><td>Loss Sieving (%)</td><td class="v calc">0.54</td></tr>
+                <tr><td>Break Status</td><td class="v ok">OK</td></tr>
+                <tr><td>Sieve Status</td><td class="v ok">OK</td></tr>
+                <tr><td>t10 (%)</td><td class="v qc">25.799</td></tr>
+                <tr class="export"><td colspan="2">Export Raw Data to HITexportBOND.CSV</td></tr>
+              </table>
+            </div>
+
+            <!-- Table 4 -->
+            <p class="tbl-caption">Table 4: SOP for Axb Proxy Test (Sorted Rocks)</p>
+            <div class="sop">
+              <div class="sop__head"><div class="t">SAFE OPERATING PROCEDURE<small>HIT (Hardness Index Tester) — Axb SORTED FRAGMENTS</small></div></div>
+              <table class="sop__meta">
+                <tr><th>Task Background:</th><td>Single particles are placed in a cup, and broken by dropping the crusher hammer from a fixed height; broken particles are collected, sized on one sieve, and the mass split across the sieve recorded.</td></tr>
+                <tr><th>Scope &amp; Application:</th><td>This SOP details the safe method of using the HIT device.</td></tr>
+                <tr><th>Hazards:</th><td>Noise, dust, physical strain, physical injury.</td></tr>
+                <tr><th>PPE:</th><td>Standard site requirements, Hearing Protection, Eye Protection, Dust Mask.</td></tr>
+                <tr><th>Tools/Equipment:</th><td>Brush, Tray, Tongs, Scale, Sieves.</td></tr>
+                <tr><th>Related documents:</th><td>HIT Data Entry (Axb SORTED).XLS</td></tr>
+              </table>
+              <div class="table-wrap" style="border:0;border-radius:0">
+                <table class="table sop__steps">
+                  <thead><tr><th style="width:120px">Step</th><th>Explanation</th><th style="width:30%">Critical Comments</th></tr></thead>
+                  <tbody>
+                    <tr><td>1. Sample prep</td><td>Obtain approximately 500g of sample. Screen out the particles in the 22.4×19.0mm size range using a 200mm diameter screen. Count and weigh all the particles. Select a minimum of 10 to maximum of 20 particles using a random selection method (ensuring that each particle conforms to ±20% mass tolerance from the mean mass, and the average mass of the 10 particles conforms to the ±5% mass tolerance from the mean mass, as per the Excel data entry template).</td><td>The sorting by mass eliminates outliers and improves the consistency of the applied specific energy Ecs. Excel template is set-up for up to 20 particles.</td></tr>
+                    <tr><td>2. Test</td><td>Record the mass of the combined 10 particles. Place first particle into cup, approximately in the centre of the cup. Place the sample cup in position, and release crusher hammer mass by pulling on the pair of red levers simultaneously. Lift up the crusher hammer until it automatically locks into an engaged position using the latch pins. Using the handle on the sample cup, remove the cup and transfer the crushed fine particles to a tray, including any dust which may have adhered to the crusher hammer impact plate. Repeat the procedure for the remaining 9 particles.</td><td>Ensure sample cup is always properly seated in recess. Brush out cup (and impact plate if required).</td></tr>
+                    <tr><td>3. Sizing</td><td>Record the mass of the combined total of 10 broken particles. Place the broken material onto 2.00mm sieve, with a pan and lid. Shake or sift for 5 minutes. Record the mass of the screen oversize. The u/size (pan) mass is calculated from the initial mass of broken particles less the mass of the oversize. Store oversize and undersize material into pre-labelled sample bag(s).</td><td>Time required for screening will depend on mass of particles, their friability, and method (RoTap or manual). The sieve is selected to determine the t10 percentage.</td></tr>
+                    <tr><td>4. Report</td><td>Raw results are saved in Excel data entry template and uploaded to the online calculator for processing.</td><td>HIT users are provided username and password to access calculator.</td></tr>
+                    <tr><td>5. Calculation of Axb</td><td>The slope (t10/Ecs) is determined from the raw data for each sample. Conversion of slope to an equivalent DWT basis Axb is provided by SimSAGe via the Online HIT Calculator.</td><td></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Table 5 -->
+            <p class="tbl-caption">Table 5: SOP for Axb Proxy Test (Un-Sorted Rocks)</p>
+            <div class="sop">
+              <div class="sop__head"><div class="t">SAFE OPERATING PROCEDURE<small>HIT (Hardness Index Tester) — Axb UNSORTED FRAGMENTS</small></div></div>
+              <table class="sop__meta">
+                <tr><th>Task Background:</th><td>Single particles are placed in a cup, and broken by dropping the crusher hammer from a fixed height; broken particles are collected, sized on one sieve, and the mass split recorded.</td></tr>
+                <tr><th>Scope &amp; Application:</th><td>This SOP details the safe method of using the HIT device.</td></tr>
+                <tr><th>Hazards:</th><td>Noise, dust, physical strain, physical injury.</td></tr>
+                <tr><th>PPE:</th><td>Standard site requirements, Hearing Protection, Eye Protection, Dust Mask.</td></tr>
+                <tr><th>Tools/Equipment:</th><td>Brush, Tray, Tongs, Scale, Sieves.</td></tr>
+                <tr><th>Related documents:</th><td>HIT Data Entry (Axb UNSORTED).XLS</td></tr>
+              </table>
+              <div class="table-wrap" style="border:0;border-radius:0">
+                <table class="table sop__steps">
+                  <thead><tr><th style="width:120px">Step</th><th>Explanation</th><th style="width:30%">Critical Comments</th></tr></thead>
+                  <tbody>
+                    <tr><td>1. Sample prep</td><td>Obtain approximately 500g of sample. Screen out the particles in the 22.4×19.0mm size range using 200mm diameter screen. Count and weigh all the particles. Select a minimum of 10, maximum of 20, particles using a random selection method.</td><td>Excel template is set-up for up to 20 particles.</td></tr>
+                    <tr><td>2. Test</td><td>Record the mass of the combined 10 particles. Place first particle into cup, approximately in the centre of the cup. Place the sample cup in position, and release crusher hammer mass by pulling on the pair of red levers simultaneously. Lift up the crusher hammer until it automatically locks into an engaged position using the latch pins. Using the handle on the sample cup, remove the cup and transfer the crushed fine particles to a tray, including any dust which may have adhered to the crusher hammer impact plate. Repeat the procedure for the remaining 9 particles.</td><td>Ensure sample cup is always properly seated in recess. Brush out cup (and impact plate if required).</td></tr>
+                    <tr><td>3. Sizing</td><td>Record the mass of the combined total of 10 broken particles. Place the broken material onto 2.00mm sieve, with a pan and lid. Shake or sift for 5 minutes. Record the mass of the screen oversize. The u/size (pan) mass is calculated from the initial mass of broken particles less the mass of the oversize. Store oversize and undersize material into pre-labelled sample bag(s).</td><td>Time required for screening will depend on mass of particles, their friability, and method (RoTap or manual). The sieve is selected to determine the t10 percentage.</td></tr>
+                    <tr><td>4. Report</td><td>Raw results are saved in Excel data entry template and uploaded to online calculator for processing.</td><td>HIT users are provided username and password to access calculator.</td></tr>
+                    <tr><td>5. Calculation of Axb</td><td>The slope (t10/Ecs) is determined from the raw data for each sample. Conversion of slope to an equivalent DWT basis Axb is provided by SimSAGe via the Online HIT Calculator.</td><td></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Table 6 -->
+            <p class="tbl-caption">Table 6: SOP for BondWi Proxy Test (Un-Sorted Rocks)</p>
+            <div class="sop">
+              <div class="sop__head"><div class="t">SAFE OPERATING PROCEDURE<small>HIT (Hardness Index Tester) — BOND PROXY TEST</small></div></div>
+              <table class="sop__meta">
+                <tr><th>Task Background:</th><td>Single particles are placed in a cup, and broken by dropping the crusher hammer from a fixed height; broken particles are collected, sized using 5 sieves, and the mass retained on each sieve and pan recorded.</td></tr>
+                <tr><th>Scope &amp; Application:</th><td>This SOP details the safe method of using the HIT device.</td></tr>
+                <tr><th>Hazards:</th><td>Noise, dust, physical strain, physical injury.</td></tr>
+                <tr><th>PPE:</th><td>Standard site requirements, Hearing Protection, Eye Protection, Dust Mask.</td></tr>
+                <tr><th>Tools/Equipment:</th><td>Brush, Tray, Tongs, Scale, Sieves.</td></tr>
+                <tr><th>Related documents:</th><td>HIT Data Entry (Bond Proxy UNSORTED).XLS</td></tr>
+              </table>
+              <div class="table-wrap" style="border:0;border-radius:0">
+                <table class="table sop__steps">
+                  <thead><tr><th style="width:120px">Step</th><th>Explanation</th><th style="width:30%">Critical Comments</th></tr></thead>
+                  <tbody>
+                    <tr><td>1. Sample prep</td><td>Obtain approximately 100g of sample. Screen out the particles in the 11.2×9.5mm size range using 200mm diameter screen. Select a minimum of 20 particles using a random selection method.</td><td></td></tr>
+                    <tr><td>2. Test</td><td>Record the mass of the combined 20 particles. Place first particle into cup, approximately in the centre of the cup. Place the sample cup in position, and release crusher hammer mass by pulling on the pair of red levers simultaneously. Lift up the crusher hammer until it automatically locks into an engaged position using the latch pins. Using the handle on the sample cup, remove the cup and transfer the crushed fine particles to a tray, including any dust which may have adhered to the crusher hammer impact plate. Repeat the procedure for the remaining 19 particles.</td><td>Ensure sample cup is always properly seated in recess. Brush out cup (and impact plate if required).</td></tr>
+                    <tr><td>3. Sizing</td><td>Record the mass of the combined total of 20 broken particles. Place the broken material onto sieve stack, with a pan and lid, and following screens: 3.35mm, 2.36mm, 1.18mm, 0.600mm and 0.150mm. Shake or sift stack for 5 minutes. Record the mass retained on each screen. The u/size (pan) mass is calculated from the initial mass of broken particles by difference. Store broken sized material into pre-labelled sample bag(s).</td><td>The 5 screens are required to reliably determine slope of broken size distribution. Other combinations of screens could be used, but SimSAGe should be consulted before changing the procedure.</td></tr>
+                    <tr><td>4. Report</td><td>Raw results are saved in Excel data entry template and uploaded to online calculator for processing.</td><td>HIT users are provided username and password to access calculator.</td></tr>
+                    <tr><td>5. Calculation of BMWi</td><td>Several parameters are determined from the raw data for each sample. These parameters are used to estimate the Bond BMWi using a universal calibration model, provided by SimSAGe via the Online HIT Calculator.</td><td>The calibration can be updated for each ore deposit.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <!-- 1.7 -->
+          <section id="sec-1-7">
+            <h2><span class="n">1.7</span>References</h2>
+            <ul style="list-style:none;padding-left:0">
+              <li style="margin-bottom:var(--sp-3)">Bergeron, Y., Kojovic, T., Gagnon, M-d-N. and Okono, P., 2017. Applicability of the HIT for Evaluating Comminution and Geomechanical Parameters from Drill Core Samples — The Odyssey Project Case Study. Proceedings COM 2017 World Gold Conference, August, Vancouver BC, Canada.</li>
+              <li style="margin-bottom:var(--sp-3)">Bond, F.C., Crushing and grinding calculations. Brit. Chem. Eng., 1961, Part I 6 (6), 378–385, Part II 6 (8) 543–548.</li>
+              <li style="margin-bottom:var(--sp-3)">Kojovic, T., 2016. HIT — A Portable Field Device for Rapid Hardness Index Testing at Site. Proceedings AusIMM Mill Operators' Conference 2016, October, Perth WA, pp9-16.</li>
+              <li style="margin-bottom:var(--sp-3)">Leetmaa, K., Bergeron, Y. and Kojovic, T., (2019). The value of Daily HIT Ore Hardness Testing of SAG Feed at the Meadowbank Gold Mine, Proceedings from SAG2019, Vancouver, September.</li>
+              <li style="margin-bottom:var(--sp-3)">Morrell, S., 2004. Predicting the Specific Energy of Autogenous and Semi-Autogenous Mills from Small Diameter Drill Core Samples, Minerals Engineering, Vol 17/3 pp 447-451.</li>
+              <li style="margin-bottom:var(--sp-3)">Napier-Munn, T.J., Morrell, S., Morrison, R.D., and Kojovic, T., Mineral comminution circuits: their operation and optimisation. ISBN 0 646 28861 x, 1996, Julius Kruttschnitt Mineral Research Centre, Australia.</li>
+            </ul>
+          </section>
+
+          <!-- 1.8 -->
+          <section id="sec-1-8">
+            <h2><span class="n">1.8</span>Disclaimer</h2>
+            <ul>
+              <li>SimSAGe Pty Ltd and its employees make reasonable efforts to ensure an accurate understanding of client requirements. The information in this document is based on that understanding and SimSAGe Pty Ltd strives to be accurate in its advice.</li>
+              <li>While reasonable care has been taken in the preparation of this document, this document and all information, assumptions, and recommendations herein are published, given, made or expressed without any responsibility whatsoever on the part of SimSAGe Pty Ltd, whether arising by way of negligence, breach of contract, breach of statutory duty or otherwise.</li>
+              <li>No warranty or representation of accuracy or reliability in respect of the document is given by SimSAGe Pty Ltd or its directors, employees, servants, agents, consultants, successors in title or assigns.</li>
+              <li>This disclaimer shall apply to liability to any person whatsoever, irrespective of how such liability arises, whether by use of this document by that person or you or any other person or otherwise.</li>
+              <li>You shall indemnify SimSAGe Pty Ltd and its directors, employees, servants, agents, consultants, successors in title or assigns against any claim made against any or all of them by third parties arising out of the disclosure of this document, whether directly or indirectly, to a third party.</li>
+            </ul>
+          </section>
+
+        </article>
+      </div>
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__row"><span>&copy; SimSAGe Pty Ltd</span><a href="https://www.simsage.com.au">www.simsage.com.au</a></div>
+      <p>For authorised HIT machine users only. Calculator output does not constitute advice and must be used by qualified persons.</p>
+    </div>
+  </footer>
+
+</div>
+<script src="../assets/app.js"></script>
+</body>
+</html>

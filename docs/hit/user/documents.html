@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bulk AB Test — Hardness Index Test</title>
+  <title>Documents — Hardness Index Test</title>
   <link rel="stylesheet" href="../assets/base.css">
 </head>
 <body>
@@ -26,11 +26,11 @@
       <div class="sidebar__group">Operator</div>
       <a class="sidebar__link" href="dashboard.html"><span class="ico">🏠</span> Dashboard</a>
       <a class="sidebar__link" href="ab-single.html"><span class="ico">🧪</span> Single AB Test</a>
-      <a class="sidebar__link is-active" href="ab-bulk.html"><span class="ico">📑</span> Bulk AB Test</a>
+      <a class="sidebar__link" href="ab-bulk.html"><span class="ico">📑</span> Bulk AB Test</a>
       <a class="sidebar__link" href="bond-single.html"><span class="ico">🪨</span> Single Bond Test</a>
       <a class="sidebar__link" href="bond-bulk.html"><span class="ico">🗂️</span> Bulk Bond Test</a>
       <a class="sidebar__link" href="downloads.html"><span class="ico">⬇️</span> Download Logs</a>
-      <a class="sidebar__link" href="documents.html"><span class="ico">📚</span> Documents</a>
+      <a class="sidebar__link is-active" href="documents.html"><span class="ico">📚</span> Documents</a>
       <div class="sidebar__spacer"></div>
       <a class="sidebar__link sidebar__logout" href="../login.html"><span class="ico">↩</span> Log Out</a>
     </aside>
@@ -38,30 +38,36 @@
     <main class="content">
       <div class="content__inner">
         <div class="page-head">
-          <p class="h-eyebrow">A*b Proxy · Batch</p>
-          <h1 class="title">Bulk AB Proxy Test</h1>
-          <p class="lead">Upload a CSV containing multiple A*b samples. Each valid row is processed and the
-            results are returned as a single CSV download.</p>
+          <p class="h-eyebrow">Reference Library</p>
+          <h1 class="title">Documents</h1>
+          <p class="lead">Guides, procedures and reference material for HIT machine operators. Open a document to read it in the browser or print it.</p>
         </div>
 
-        <form class="card" data-goto="downloads.html">
-          <div class="dropzone">
-            <div class="dropzone__icon">📄</div>
-            <p><strong>Drop your CSV here</strong> or choose a file</p>
-            <p class="muted" data-file-name>No file selected</p>
-            <input type="file" name="data" accept="text/csv" data-file-out="[data-file-name]">
-          </div>
+        <div class="tile-grid">
+          <a class="tile" href="doc-hit-testing-procedure.html">
+            <div class="tile__icon">📘</div>
+            <div class="tile__title">HIT Testing Procedure</div>
+            <div class="tile__desc">Hardness Index Tester (HIT) User's Guide v1.4 — setup, QA/QC, breakage tests, product analysis, data entry and SOPs.</div>
+            <div class="tile__cta">Read &rarr;</div>
+          </a>
+        </div>
 
-          <div class="alert alert--info" style="margin-top: var(--sp-5)">
-            <strong>Expected columns:</strong> job_num, sample_id, date, technician, rock_upper_size,
-            rock_lower_size, no_particles, initial_mass, after_breakage, oversize, undersize, q_factor
+        <div class="card" style="margin-top:var(--sp-6)">
+          <h2 class="title" style="font-size:var(--fs-lg);margin-bottom:var(--sp-4)">All documents</h2>
+          <div class="table-wrap">
+            <table class="table">
+              <thead><tr><th>Document</th><th>Type</th><th>Revision</th><th></th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>HIT — Hardness Index Tester User's Guide</td>
+                  <td><span class="pill">Procedure</span></td>
+                  <td>Rev 1.4</td>
+                  <td><a href="doc-hit-testing-procedure.html">Open &rarr;</a></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-
-          <div class="form-actions">
-            <button class="btn btn--primary" type="submit">Upload &amp; Process</button>
-            <a class="btn btn--ghost" href="dashboard.html">Cancel</a>
-          </div>
-        </form>
+        </div>
       </div>
     </main>
   </div>
