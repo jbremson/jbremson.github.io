@@ -99,8 +99,22 @@
       .sheets { grid-template-columns: 1fr; }
       .doc-cover h1 { font-size: var(--fs-2xl); }
     }
+    /* Back-to-top button */
+    .to-top {
+      position: fixed; right: var(--sp-5); bottom: var(--sp-5);
+      width: 46px; height: 46px; border-radius: 50%;
+      display: grid; place-items: center; padding: 0;
+      background: var(--color-brand); color: #fff; border: none;
+      box-shadow: var(--shadow); cursor: pointer; font-size: 1.25rem; line-height: 1;
+      opacity: 0; visibility: hidden; transform: translateY(8px);
+      transition: opacity .2s ease, transform .2s ease, visibility .2s ease, background-color .15s ease;
+      z-index: 30;
+    }
+    .to-top.is-visible { opacity: 1; visibility: visible; transform: none; }
+    .to-top:hover { background: var(--color-brand-strong); }
+
     @media print {
-      .topbar, .sidebar, .footer, .doc-toolbar, .doc-back { display: none !important; }
+      .topbar, .sidebar, .footer, .doc-toolbar, .doc-back, .to-top { display: none !important; }
       .app__body { grid-template-columns: 1fr; }
       .content { padding: 0; }
     }
@@ -587,6 +601,8 @@
       <p>For authorised HIT machine users only. Calculator output does not constitute advice and must be used by qualified persons.</p>
     </div>
   </footer>
+
+  <button class="to-top" data-to-top aria-label="Back to top" title="Back to top">↑</button>
 
 </div>
 <script src="../assets/app.js"></script>

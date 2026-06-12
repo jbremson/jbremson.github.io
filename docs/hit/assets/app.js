@@ -60,5 +60,18 @@
         window.location.href = form.getAttribute("data-goto");
       });
     });
+
+    // Back-to-top button (long doc pages). Shows after scrolling down.
+    var toTop = document.querySelector("[data-to-top]");
+    if (toTop) {
+      var toggleToTop = function () {
+        toTop.classList.toggle("is-visible", window.scrollY > 400);
+      };
+      window.addEventListener("scroll", toggleToTop, { passive: true });
+      toggleToTop();
+      toTop.addEventListener("click", function () {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    }
   });
 })();

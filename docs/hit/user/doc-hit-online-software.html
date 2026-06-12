@@ -64,8 +64,22 @@
     @media (max-width: 720px) {
       .doc-cover h1 { font-size: var(--fs-2xl); }
     }
+    /* Back-to-top button */
+    .to-top {
+      position: fixed; right: var(--sp-5); bottom: var(--sp-5);
+      width: 46px; height: 46px; border-radius: 50%;
+      display: grid; place-items: center; padding: 0;
+      background: var(--color-brand); color: #fff; border: none;
+      box-shadow: var(--shadow); cursor: pointer; font-size: 1.25rem; line-height: 1;
+      opacity: 0; visibility: hidden; transform: translateY(8px);
+      transition: opacity .2s ease, transform .2s ease, visibility .2s ease, background-color .15s ease;
+      z-index: 30;
+    }
+    .to-top.is-visible { opacity: 1; visibility: visible; transform: none; }
+    .to-top:hover { background: var(--color-brand-strong); }
+
     @media print {
-      .topbar, .sidebar, .footer, .doc-toolbar, .doc-back { display: none !important; }
+      .topbar, .sidebar, .footer, .doc-toolbar, .doc-back, .to-top { display: none !important; }
       .app__body { grid-template-columns: 1fr; }
       .content { padding: 0; }
     }
@@ -189,6 +203,7 @@
             <p>Appendix 2 shows examples of the HOS interface for both the Bulk AB and Bulk BOND Proxy Tests, having uploaded the HITexportAB.csv and HITexportBOND.csv files for the respective calculations. The resulting Excel .csv file downloads are shown below each interface.</p>
 
             <h3 id="sec-1-3-1"><span class="n">1.3.1</span>Single AB Proxy Test</h3>
+            <p style="margin-top:var(--sp-3)"><a class="btn btn--ghost btn--sm" href="ab-single.html">▶ Open Single AB Test in the app</a></p>
             <p>The Single AB Proxy Test is the best option to demonstrate the software on a single set of A*b proxy test raw data. Allows direct entry of inputs to software on screen, and immediate calculation of results, and optional download to Excel 'ab download.csv' file. By using 'save as' the user can select a different file name. The file will be downloaded to the Windows Downloads folder. An example set of data for the Single AB Proxy Test is shown in Table 1.1. The HOS screen post processing of the user entered data is shown in Figure 1.3.</p>
 
             <p class="tbl-caption">Table 1.1: Example Data for Single AB Proxy Test</p>
@@ -213,6 +228,7 @@
             </figure>
 
             <h3 id="sec-1-3-2"><span class="n">1.3.2</span>Bulk AB Proxy Test</h3>
+            <p style="margin-top:var(--sp-3)"><a class="btn btn--ghost btn--sm" href="ab-bulk.html">▶ Open Bulk AB Test in the app</a></p>
             <p>The Bulk AB Proxy Test is the best option for processing multiple sets of A*b proxy test raw data. This option allows upload of user specified Excel .csv file, automatically generated from the Excel Data Entry files. The 'upload and submit for calculation' generates an Excel 'ab download.csv' file with the latest results contained in the associated Excel .csv file. By using 'save as' the user can select a different file name.</p>
             <p>There are two Excel Data Entry file options, depending on whether the user has elected to sort the rocks prior to testing, 'HIT Data Entry (Axb SORTED) 1SEP17', or simply randomly selected a set of rocks post sizing, 'HIT Data Entry (Axb UNSORTED) 1SEP17'. Both templates allow users to enter up to 100 sets of data in column format, and can be renamed. Each template also includes a Macro to transfer the key inputs to a user specified Excel .csv name and location, required for upload to the AWS software. The user needs to keep track of the file name and its location before uploading to the HOS.</p>
 
@@ -222,6 +238,7 @@
             </figure>
 
             <h3 id="sec-1-3-3"><span class="n">1.3.3</span>Download AB Proxy Logs</h3>
+            <p style="margin-top:var(--sp-3)"><a class="btn btn--ghost btn--sm" href="downloads.html">▶ Open Download Logs in the app</a></p>
             <p>The Download AB Proxy Logs allows download of all tests processed with HOS to Excel 'ab download.csv' file. By using 'save as' user can select a different file name. The file will be downloaded to the Windows Downloads folder. The results are listed chronologically, showing the most recent at the top of the page, as shown in Figure 1.5.</p>
 
             <figure class="figure">
@@ -233,6 +250,7 @@
             <p>The HOS allows the user to enter a Q factor which controls the Axb parameter scale-up from the test rock size to the nominal DWT average rock size (~32mm). The scale-up is based on the simple power expression published by Frank, Kojovic and Brennan (2015). The default Q value used by the HOS is 0.58 reflecting the average observed in DWT testing, as published on the SMC Testing website (Morrell, 2017). Values closer to 1.0 indicate no softening with size, whereas Q values around 0.2 indicate a strong influence of size on the impact strength.</p>
 
             <h3 id="sec-1-3-5"><span class="n">1.3.5</span>Single BOND Proxy Test</h3>
+            <p style="margin-top:var(--sp-3)"><a class="btn btn--ghost btn--sm" href="bond-single.html">▶ Open Single Bond Test in the app</a></p>
             <p>The Single BOND Test is the best option to demonstrate the software on a single set of BOND proxy test raw data. This option allows direct entry of inputs to software on screen, and immediate calculation of results, and optionally download to Excel 'bond download.csv' file. By using 'save as' the user can select a different file name. The file will be downloaded to the Windows Downloads folder. An example set of data for the Single BOND Proxy Test is shown in Table 1.2. The HOS screen post processing of the user entered data is shown in Figure 1.6.</p>
 
             <p class="tbl-caption">Table 1.2: Example Data for Single BOND Proxy Test</p>
@@ -259,6 +277,7 @@
             </figure>
 
             <h3 id="sec-1-3-6"><span class="n">1.3.6</span>Bulk BOND Proxy Test</h3>
+            <p style="margin-top:var(--sp-3)"><a class="btn btn--ghost btn--sm" href="bond-bulk.html">▶ Open Bulk Bond Test in the app</a></p>
             <p>The Bulk BOND Proxy Test is the best option for processing multiple sets of BOND proxy test raw data. This option allows upload of user specified Excel .csv file, automatically generated from the Excel Data Entry file. The 'upload and submit for calculation' generates an Excel 'bond download.csv' file. By using 'save as' the user can select a different file name.</p>
             <p>The Excel data entry template, 'HIT Data Entry (Bond Proxy UNSORTED) 1APR17', allows users to enter up to 100 sets of data in column format, and can be renamed. The template also includes a Macro to transfer the key inputs to a user specified Excel .csv name and location, required for upload to the AWS software. The user needs to keep track of the file name and its location before uploading to the HOS.</p>
 
@@ -268,6 +287,7 @@
             </figure>
 
             <h3 id="sec-1-3-7"><span class="n">1.3.7</span>Download BOND Proxy Logs</h3>
+            <p style="margin-top:var(--sp-3)"><a class="btn btn--ghost btn--sm" href="downloads.html">▶ Open Download Logs in the app</a></p>
             <p>The Download BOND Proxy Logs allows download of all BOND tests processed with software to Excel 'bond download.csv' file. By using 'save as' the user can select a different file name. The file will be downloaded to the Windows Downloads folder. The results are listed chronologically, showing the most recent at the top of the page, as shown in Figure 1.8.</p>
 
             <figure class="figure">
@@ -358,6 +378,8 @@
       <p>For authorised HIT machine users only. Calculator output does not constitute advice and must be used by qualified persons.</p>
     </div>
   </footer>
+
+  <button class="to-top" data-to-top aria-label="Back to top" title="Back to top">↑</button>
 
 </div>
 <script src="../assets/app.js"></script>

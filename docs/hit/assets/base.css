@@ -142,6 +142,19 @@ h1.title { font-size: var(--fs-2xl); margin: 0 0 var(--sp-2); line-height: 1.15;
 h2.title { font-size: var(--fs-xl); margin: 0 0 var(--sp-2); }
 .lead { color: var(--color-text-muted); margin: 0 0 var(--sp-5); max-width: 70ch; }
 
+/* Contextual documentation link (app page -> matching guide section) */
+.doc-link {
+  display: inline-flex; align-items: center; gap: var(--sp-2);
+  font-size: var(--fs-sm); font-weight: 600; text-decoration: none;
+  color: var(--color-brand-strong);
+  padding: var(--sp-2) var(--sp-3); border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--color-brand) 8%, var(--color-surface));
+  border: 1px solid color-mix(in srgb, var(--color-brand) 22%, var(--color-border));
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+.doc-link:hover { background: color-mix(in srgb, var(--color-brand) 14%, var(--color-surface)); border-color: var(--color-brand); }
+.doc-link .ico { font-size: 1rem; }
+
 /* ---- Cards & sections -------------------------------------------------- */
 .card {
   background: var(--color-surface); border: 1px solid var(--color-border);
