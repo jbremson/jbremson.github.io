@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HIT Online Software Guide (Rev 1.0) — Documents</title>
+  <link rel="stylesheet" href="../assets/base.css">
+  <style>
+    /* ---- Document reader styles (scoped to .doc) ----------------------- */
+    .doc-back {
+      display: inline-flex; align-items: center; gap: var(--sp-2);
+      font-size: var(--fs-sm); font-weight: 600; text-decoration: none;
+      color: var(--color-brand-strong); margin-bottom: var(--sp-4);
+    }
+    .doc-back:hover { text-decoration: underline; }
+
+    .doc-cover {
+      background: linear-gradient(135deg, var(--color-sidebar), var(--color-brand-strong));
+      color: #fff; border-radius: var(--radius-lg); padding: var(--sp-7) var(--sp-6);
+      margin-bottom: var(--sp-6); box-shadow: var(--shadow);
+    }
+    .doc-cover .logo { height: 34px; margin-bottom: var(--sp-5); filter: brightness(0) invert(1); }
+    .doc-cover h1 { font-size: var(--fs-3xl); margin: 0; line-height: 1.05; letter-spacing: -0.01em; }
+    .doc-cover .sub { font-size: var(--fs-xl); font-weight: 600; opacity: 0.92; margin-top: var(--sp-2); }
+    .doc-cover .meta { margin-top: var(--sp-5); font-size: var(--fs-sm); opacity: 0.8; display: flex; gap: var(--sp-5); flex-wrap: wrap; }
+
+    .doc-toolbar { display: flex; gap: var(--sp-3); flex-wrap: wrap; margin-bottom: var(--sp-6); }
+
+    .doc { color: var(--color-text); }
+    .doc > section { margin-bottom: var(--sp-7); }
+    .doc h2 {
+      font-size: var(--fs-2xl); margin: 0 0 var(--sp-4); padding-bottom: var(--sp-3);
+      border-bottom: 2px solid var(--color-border); line-height: 1.15;
+    }
+    .doc h2 .n { color: var(--color-brand); font-variant-numeric: tabular-nums; margin-right: var(--sp-2); }
+    .doc h3 { font-size: var(--fs-xl); margin: var(--sp-6) 0 var(--sp-3); }
+    .doc h3 .n { color: var(--color-brand); margin-right: var(--sp-2); }
+    .doc p { margin: 0 0 var(--sp-4); max-width: 72ch; }
+    .doc ul, .doc ol { max-width: 72ch; margin: 0 0 var(--sp-4); padding-left: var(--sp-6); }
+    .doc li { margin-bottom: var(--sp-2); }
+    .doc :target { scroll-margin-top: 80px; }
+
+    /* Figures */
+    .figure { margin: var(--sp-5) 0 var(--sp-6); }
+    .figure img {
+      width: 100%; height: auto; border: 1px solid var(--color-border);
+      border-radius: var(--radius); box-shadow: var(--shadow-sm); background: #fff;
+    }
+    .figure--narrow img { max-width: 540px; margin: 0 auto; }
+    .figcaption {
+      font-size: var(--fs-sm); color: var(--color-text-muted); text-align: center;
+      margin-top: var(--sp-3); font-weight: 500;
+    }
+    .figcaption b { color: var(--color-text); font-weight: 700; }
+
+    /* Table caption */
+    .tbl-caption { font-size: var(--fs-sm); font-weight: 700; text-align: center; margin: var(--sp-5) 0 var(--sp-3); }
+
+    /* Simple key/value example-data table */
+    .kv { width: 100%; max-width: 460px; border-collapse: collapse; font-size: var(--fs-sm); border: 1px solid var(--color-border); background: #fff; }
+    .kv th, .kv td { border: 1px solid var(--color-border); padding: 6px 10px; text-align: left; }
+    .kv td.v { text-align: right; font-variant-numeric: tabular-nums; width: 45%; }
+
+    @media (max-width: 720px) {
+      .doc-cover h1 { font-size: var(--fs-2xl); }
+    }
+    @media print {
+      .topbar, .sidebar, .footer, .doc-toolbar, .doc-back { display: none !important; }
+      .app__body { grid-template-columns: 1fr; }
+      .content { padding: 0; }
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+
+  <header class="topbar">
+    <a class="topbar__brand" href="dashboard.html">
+      <img class="logo" src="../assets/logo.svg" alt="">
+      <span>Hardness Index Test<small>SimSage Calculator</small></span>
+    </a>
+    <div class="topbar__right">
+      <span class="badge-role">Operator</span>
+      <span class="topbar__user">HIT-0427</span>
+      <a class="topbar__link" href="../login.html">Log Out</a>
+    </div>
+  </header>
+
+  <div class="app__body">
+    <aside class="sidebar">
+      <div class="sidebar__group">Operator</div>
+      <a class="sidebar__link" href="dashboard.html"><span class="ico">🏠</span> Dashboard</a>
+      <a class="sidebar__link" href="ab-single.html"><span class="ico">🧪</span> Single AB Test</a>
+      <a class="sidebar__link" href="ab-bulk.html"><span class="ico">📑</span> Bulk AB Test</a>
+      <a class="sidebar__link" href="bond-single.html"><span class="ico">🪨</span> Single Bond Test</a>
+      <a class="sidebar__link" href="bond-bulk.html"><span class="ico">🗂️</span> Bulk Bond Test</a>
+      <a class="sidebar__link" href="downloads.html"><span class="ico">⬇️</span> Download Logs</a>
+      <a class="sidebar__link is-active" href="documents.html"><span class="ico">📚</span> Documents</a>
+      <div class="sidebar__spacer"></div>
+      <a class="sidebar__link sidebar__logout" href="../login.html"><span class="ico">↩</span> Log Out</a>
+    </aside>
+
+    <main class="content">
+      <div class="content__inner">
+        <a class="doc-back" href="documents.html">&larr; Documents</a>
+
+        <!-- Cover -->
+        <div class="doc-cover">
+          <img class="logo" src="../assets/logo.svg" alt="SimSage">
+          <h1>Instructions for Using HIT Online Software</h1>
+          <div class="sub">v1.0</div>
+          <div class="meta">
+            <span>SimSAGe Pty Ltd</span>
+            <span>Rev 1.0</span>
+            <span>Modelling &amp; Simulation Consulting Services</span>
+          </div>
+        </div>
+
+        <div class="doc-toolbar">
+          <button class="btn btn--ghost btn--sm" onclick="window.print()">🖨️ Print / Save as PDF</button>
+          <a class="btn btn--ghost btn--sm" href="#sec-1-1">Jump to start &rarr;</a>
+        </div>
+
+        <!-- Table of contents -->
+        <div class="card" style="margin-bottom:var(--sp-6)">
+          <h2 class="title" style="font-size:var(--fs-lg);margin-bottom:var(--sp-4)">Contents</h2>
+          <ul style="columns:2;column-gap:var(--sp-6);margin:0;padding-left:var(--sp-5);font-size:var(--fs-sm)">
+            <li><a href="#sec-1-1">1.1&nbsp; Introduction</a></li>
+            <li><a href="#sec-1-2">1.2&nbsp; Initial Log-In</a></li>
+            <li><a href="#sec-1-3">1.3&nbsp; Calculation Options</a></li>
+            <li><a href="#sec-1-3-1">1.3.1&nbsp; Single AB Proxy Test</a></li>
+            <li><a href="#sec-1-3-2">1.3.2&nbsp; Bulk AB Proxy Test</a></li>
+            <li><a href="#sec-1-3-3">1.3.3&nbsp; Download AB Proxy Logs</a></li>
+            <li><a href="#sec-1-3-4">1.3.4&nbsp; Effect of Size on Axb Parameter</a></li>
+            <li><a href="#sec-1-3-5">1.3.5&nbsp; Single BOND Proxy Test</a></li>
+            <li><a href="#sec-1-3-6">1.3.6&nbsp; Bulk BOND Proxy Test</a></li>
+            <li><a href="#sec-1-3-7">1.3.7&nbsp; Download BOND Proxy Logs</a></li>
+            <li><a href="#sec-1-4">1.4&nbsp; Bond BMWi Calibration Model</a></li>
+            <li><a href="#sec-1-5">1.5&nbsp; References</a></li>
+            <li><a href="#sec-1-6">1.6&nbsp; Disclaimer</a></li>
+            <li><a href="#sec-appx">Appendices 1 &amp; 2</a></li>
+          </ul>
+        </div>
+
+        <article class="doc">
+
+          <!-- 1.1 -->
+          <section id="sec-1-1">
+            <h2><span class="n">1.1</span>Introduction</h2>
+            <p>This document outlines how to use the HIT Online Software (HOS) for calculating the A*b and Bond Wi proxy estimates using the raw data associated with the two HIT testing options. This document provides details on the link to the Amazon Web Services (AWS) website where the HOS is located. The document assumes the user has read the HIT User Guide (Kojovic, 2017), has been issued a Username and Password, and has access to the HIT Training folder in the SimSAGe Dropbox space, containing the key Excel Data Entry spreadsheets that allow users to record the HIT test information and generate the Excel .csv files necessary for upload to the HOS to initiate calculation of the A*b and Bond Wi ore hardness estimates. Note that the supplied Excel Data Entry spreadsheets use Macros which must be enabled on the user's computer to function correctly.</p>
+            <p>The steps required to launch and use the HOS are outlined below.</p>
+          </section>
+
+          <!-- 1.2 -->
+          <section id="sec-1-2">
+            <h2><span class="n">1.2</span>Initial Log-In</h2>
+            <p>The first step is to launch the software either directly through an internet browser or via the SimSAGe website link to www.hit.simsage.com.</p>
+            <p>The Home page for the HOS will open with the option to Log-In, as per the example below.</p>
+
+            <figure class="figure">
+              <img src="../assets/docs/online-software/fig1-1-home.png" alt="HIT online software home page with Machine ID / Username and Password fields, a Log In button, and the HIT Software Disclaimer">
+              <figcaption class="figcaption"><b>Figure 1.1:</b> HIT home page</figcaption>
+            </figure>
+
+            <p>Log-in using the supplied Username and Password.</p>
+            <p>The main software page will open, showing a range of data entry and calculation options, as shown in Figure 1.2 below.</p>
+            <p>Appendix 1 and 2 show examples of Excel files used and generated by the HOS.</p>
+
+            <figure class="figure">
+              <img src="../assets/docs/online-software/fig1-2-calc.png" alt="HIT online software calculation page showing the navigation header with Single/Bulk AB and BOND Proxy Test options, Download log options, and Log Out">
+              <figcaption class="figcaption"><b>Figure 1.2:</b> HIT online software calculation page</figcaption>
+            </figure>
+          </section>
+
+          <!-- 1.3 -->
+          <section id="sec-1-3">
+            <h2><span class="n">1.3</span>Calculation Options</h2>
+            <p>The HOS software options include the following calculation and download options:</p>
+            <ol style="list-style:lower-alpha">
+              <li>Single AB Proxy Test</li>
+              <li>Bulk AB Proxy Test</li>
+              <li>Download AB Proxy Logs</li>
+              <li>Single BOND Proxy Test</li>
+              <li>Bulk BOND Proxy Test</li>
+              <li>Download BOND Proxy Logs</li>
+            </ol>
+            <p>The above options are accessed by clicking on the respective header. The main functions of each option are described below.</p>
+            <p>Appendix 1 shows examples of Excel .csv files generated from the Data Entry spreadsheets, HIT Data Entry (Axb UNSORTED) 1SEP17 and HIT Data Entry (Bond Proxy UNSORTED) 1SEP17 for the demo data supplied.</p>
+            <p>Appendix 2 shows examples of the HOS interface for both the Bulk AB and Bulk BOND Proxy Tests, having uploaded the HITexportAB.csv and HITexportBOND.csv files for the respective calculations. The resulting Excel .csv file downloads are shown below each interface.</p>
+
+            <h3 id="sec-1-3-1"><span class="n">1.3.1</span>Single AB Proxy Test</h3>
+            <p>The Single AB Proxy Test is the best option to demonstrate the software on a single set of A*b proxy test raw data. Allows direct entry of inputs to software on screen, and immediate calculation of results, and optional download to Excel 'ab download.csv' file. By using 'save as' the user can select a different file name. The file will be downloaded to the Windows Downloads folder. An example set of data for the Single AB Proxy Test is shown in Table 1.1. The HOS screen post processing of the user entered data is shown in Figure 1.3.</p>
+
+            <p class="tbl-caption">Table 1.1: Example Data for Single AB Proxy Test</p>
+            <table class="kv">
+              <tr><td>Job #</td><td class="v">XYZ</td></tr>
+              <tr><td>Client sample ID</td><td class="v">XYZ-001 100-103</td></tr>
+              <tr><td>Date</td><td class="v">04/03/2017</td></tr>
+              <tr><td>Technician</td><td class="v">TESTER</td></tr>
+              <tr><td>Rock Upper Size (mm):</td><td class="v">22.4</td></tr>
+              <tr><td>Rock Lower Size (mm):</td><td class="v">19.0</td></tr>
+              <tr><td>No. Particles</td><td class="v">10</td></tr>
+              <tr><td>Initial mass (g)</td><td class="v">160.25</td></tr>
+              <tr><td>After breakage (g)</td><td class="v">160.21</td></tr>
+              <tr><td>OVERSIZE (g)</td><td class="v">148.57</td></tr>
+              <tr><td>UNDERSIZE (g)</td><td class="v">11.6</td></tr>
+              <tr><td>q factor (size effect)</td><td class="v">0.58</td></tr>
+            </table>
+
+            <figure class="figure figure--narrow">
+              <img src="../assets/docs/online-software/fig1-3-single-ab.png" alt="Single AB Proxy Test screen with the example inputs entered and results: Ecs 0.144, Slope (T10/Ecs) 50.431, HIT-A*b Full DWT (est) 64.699, Notes OK">
+              <figcaption class="figcaption"><b>Figure 1.3:</b> HIT online software calculation example for Single AB Proxy Test</figcaption>
+            </figure>
+
+            <h3 id="sec-1-3-2"><span class="n">1.3.2</span>Bulk AB Proxy Test</h3>
+            <p>The Bulk AB Proxy Test is the best option for processing multiple sets of A*b proxy test raw data. This option allows upload of user specified Excel .csv file, automatically generated from the Excel Data Entry files. The 'upload and submit for calculation' generates an Excel 'ab download.csv' file with the latest results contained in the associated Excel .csv file. By using 'save as' the user can select a different file name.</p>
+            <p>There are two Excel Data Entry file options, depending on whether the user has elected to sort the rocks prior to testing, 'HIT Data Entry (Axb SORTED) 1SEP17', or simply randomly selected a set of rocks post sizing, 'HIT Data Entry (Axb UNSORTED) 1SEP17'. Both templates allow users to enter up to 100 sets of data in column format, and can be renamed. Each template also includes a Macro to transfer the key inputs to a user specified Excel .csv name and location, required for upload to the AWS software. The user needs to keep track of the file name and its location before uploading to the HOS.</p>
+
+            <figure class="figure">
+              <img src="../assets/docs/online-software/fig1-4-bulk-ab.png" alt="Bulk AB Proxy Test screen prompting the user to upload a csv file containing A*b test data, with a Browse button and Upload and Submit for Processing button">
+              <figcaption class="figcaption"><b>Figure 1.4:</b> HIT online software calculation example for Bulk AB Proxy Test</figcaption>
+            </figure>
+
+            <h3 id="sec-1-3-3"><span class="n">1.3.3</span>Download AB Proxy Logs</h3>
+            <p>The Download AB Proxy Logs allows download of all tests processed with HOS to Excel 'ab download.csv' file. By using 'save as' user can select a different file name. The file will be downloaded to the Windows Downloads folder. The results are listed chronologically, showing the most recent at the top of the page, as shown in Figure 1.5.</p>
+
+            <figure class="figure">
+              <img src="../assets/docs/online-software/fig1-5-ab-logs.png" alt="Spreadsheet of downloaded AB proxy logs, one row per test, with columns for job, sample, sizes, masses, q factor, Ecs, slope and HIT-A*b">
+              <figcaption class="figcaption"><b>Figure 1.5:</b> HIT online software example AB Proxy Logs download</figcaption>
+            </figure>
+
+            <h3 id="sec-1-3-4"><span class="n">1.3.4</span>Effect of Size on Axb Parameter</h3>
+            <p>The HOS allows the user to enter a Q factor which controls the Axb parameter scale-up from the test rock size to the nominal DWT average rock size (~32mm). The scale-up is based on the simple power expression published by Frank, Kojovic and Brennan (2015). The default Q value used by the HOS is 0.58 reflecting the average observed in DWT testing, as published on the SMC Testing website (Morrell, 2017). Values closer to 1.0 indicate no softening with size, whereas Q values around 0.2 indicate a strong influence of size on the impact strength.</p>
+
+            <h3 id="sec-1-3-5"><span class="n">1.3.5</span>Single BOND Proxy Test</h3>
+            <p>The Single BOND Test is the best option to demonstrate the software on a single set of BOND proxy test raw data. This option allows direct entry of inputs to software on screen, and immediate calculation of results, and optionally download to Excel 'bond download.csv' file. By using 'save as' the user can select a different file name. The file will be downloaded to the Windows Downloads folder. An example set of data for the Single BOND Proxy Test is shown in Table 1.2. The HOS screen post processing of the user entered data is shown in Figure 1.6.</p>
+
+            <p class="tbl-caption">Table 1.2: Example Data for Single BOND Proxy Test</p>
+            <table class="kv">
+              <tr><td>Job #</td><td class="v">ABC160515</td></tr>
+              <tr><td>Client sample ID</td><td class="v">XYZ-001 100-103</td></tr>
+              <tr><td>Date</td><td class="v">09/07/2017</td></tr>
+              <tr><td>Technician</td><td class="v">TESTER</td></tr>
+              <tr><td>Rock Upper Size (mm):</td><td class="v">11.2</td></tr>
+              <tr><td>Rock Lower Size (mm):</td><td class="v">9.5</td></tr>
+              <tr><td>No. Particles</td><td class="v">20</td></tr>
+              <tr><td>Initial mass (g)</td><td class="v">40.9</td></tr>
+              <tr><td>+3.35mm</td><td class="v">13.84</td></tr>
+              <tr><td>+2.36mm</td><td class="v">6.32</td></tr>
+              <tr><td>+1.18mm</td><td class="v">8.94</td></tr>
+              <tr><td>+0.600mm</td><td class="v">4.70</td></tr>
+              <tr><td>+0.150mm</td><td class="v">4.14</td></tr>
+              <tr><td>−0.150mm</td><td class="v">2.74</td></tr>
+            </table>
+
+            <figure class="figure figure--narrow">
+              <img src="../assets/docs/online-software/fig1-6-single-bond.png" alt="Single Bond Proxy Test screen with the example inputs entered and results: Ecs 1.229, Slope 0.694, T10 (%) 25.799, HIT-BMWI 14.850">
+              <figcaption class="figcaption"><b>Figure 1.6:</b> HIT online software calculation example for Single BOND Proxy Test</figcaption>
+            </figure>
+
+            <h3 id="sec-1-3-6"><span class="n">1.3.6</span>Bulk BOND Proxy Test</h3>
+            <p>The Bulk BOND Proxy Test is the best option for processing multiple sets of BOND proxy test raw data. This option allows upload of user specified Excel .csv file, automatically generated from the Excel Data Entry file. The 'upload and submit for calculation' generates an Excel 'bond download.csv' file. By using 'save as' the user can select a different file name.</p>
+            <p>The Excel data entry template, 'HIT Data Entry (Bond Proxy UNSORTED) 1APR17', allows users to enter up to 100 sets of data in column format, and can be renamed. The template also includes a Macro to transfer the key inputs to a user specified Excel .csv name and location, required for upload to the AWS software. The user needs to keep track of the file name and its location before uploading to the HOS.</p>
+
+            <figure class="figure">
+              <img src="../assets/docs/online-software/fig1-7-bulk-bond.png" alt="Bulk Bond Proxy Test screen prompting the user to upload a csv file containing Bond proxy test data, with a Browse button and Upload and Submit for Processing button">
+              <figcaption class="figcaption"><b>Figure 1.7:</b> HIT online software calculation example for Bulk BOND Proxy Test</figcaption>
+            </figure>
+
+            <h3 id="sec-1-3-7"><span class="n">1.3.7</span>Download BOND Proxy Logs</h3>
+            <p>The Download BOND Proxy Logs allows download of all BOND tests processed with software to Excel 'bond download.csv' file. By using 'save as' the user can select a different file name. The file will be downloaded to the Windows Downloads folder. The results are listed chronologically, showing the most recent at the top of the page, as shown in Figure 1.8.</p>
+
+            <figure class="figure">
+              <img src="../assets/docs/online-software/fig1-8-bond-logs.png" alt="Spreadsheet of downloaded BOND proxy logs, one row per test, with columns for job, sample, sizes, retained masses on each screen, Ecs, slope, T10 and HIT-BMWi">
+              <figcaption class="figcaption"><b>Figure 1.8:</b> HIT online software example BOND Proxy Logs download</figcaption>
+            </figure>
+          </section>
+
+          <!-- 1.4 -->
+          <section id="sec-1-4">
+            <h2><span class="n">1.4</span>Bond BMWi Calibration Model</h2>
+            <p>The HOS uses a default empirical model based on the measured HIT Bond Proxy Test results to estimate the Bond BMWi. This approach approximates the BMWi for which additional Bond BMWi testing may be warranted to confirm the accuracy of the default model, depending on the intended use of the data. The indicated 7 % average relative error suggests the HIT Bond proxy test should provide sufficient accuracy to rank samples into 2 kWh/t bins (Bergeron et al, 2017).</p>
+            <p>The coefficients in the default empirical model were calibrated using 106 samples covering eight ore deposits. To accommodate changes in the closed screen setting and other unknown factors, the HOS includes one site-specific constant. However, if required the model could be further adjusted should that be required. This is included in the SimSAGe technical assistance covered by the HIT lease agreement.</p>
+          </section>
+
+          <!-- 1.5 -->
+          <section id="sec-1-5">
+            <h2><span class="n">1.5</span>References</h2>
+            <ul style="list-style:none;padding-left:0">
+              <li style="margin-bottom:var(--sp-3)">Bergeron, Y., Kojovic, T., Gagnon, M-d-N. and Okono, P., 2017. Applicability of the HIT for Evaluating Comminution and Geomechanical Parameters from Drill Core Samples — The Odyssey Project Case Study, Proceedings from COM2017, Vancouver, August.</li>
+              <li style="margin-bottom:var(--sp-3)">Kojovic, T., 2017. HIT v1.2 User's Guide. SimSAGe Pty Ltd document, 28th July, 18 pp.</li>
+              <li style="margin-bottom:var(--sp-3)">Morrell, S., 2017. About the SMC Test®. http://www.smctesting.com/about/technical-information.</li>
+              <li style="margin-bottom:var(--sp-3)">Shi, F., Kojovic, T. and Brennan, M., 2015. Modelling of Vertical Spindle Mills - Part 1: Sub-Models for Comminution and Classification. Fuel (143), pp595-601.</li>
+            </ul>
+          </section>
+
+          <!-- 1.6 -->
+          <section id="sec-1-6">
+            <h2><span class="n">1.6</span>Disclaimer</h2>
+            <ul>
+              <li>SimSAGe Pty Ltd and its employees make reasonable efforts to ensure an accurate understanding of client requirements. The information in this document is based on that understanding and SimSAGe Pty Ltd strives to be accurate in its advice.</li>
+              <li>While reasonable care has been taken in the preparation of this document, this document and all information, assumptions, and recommendations herein are published, given, made or expressed without any responsibility whatsoever on the part of SimSAGe Pty Ltd, whether arising by way of negligence, breach of contract, breach of statutory duty or otherwise.</li>
+              <li>No warranty or representation of accuracy or reliability in respect of the document is given by SimSAGe Pty Ltd or its directors, employees, servants, agents, consultants, successors in title or assigns.</li>
+              <li>This disclaimer shall apply to liability to any person whatsoever, irrespective of how such liability arises, whether by use of this document by that person or you or any other person or otherwise.</li>
+              <li>You shall indemnify SimSAGe Pty Ltd and its directors, employees, servants, agents, consultants, successors in title or assigns against any claim made against any or all of them by third parties arising out of the disclosure of this document, whether directly or indirectly, to a third party.</li>
+            </ul>
+          </section>
+
+          <!-- Appendices -->
+          <section id="sec-appx">
+            <h2>Appendices</h2>
+
+            <h3>Appendix 1 — Example Excel .csv Files generated from HIT Data Entry Spreadsheets</h3>
+            <p>"HITexportAB.csv" from HIT Data Entry (Axb UNSORTED) 1SEP17:</p>
+            <figure class="figure">
+              <img src="../assets/docs/online-software/appx1-ab-csv.png" alt="Excel spreadsheet HITexportAB showing rows of A*b test input data per job/sample">
+              <figcaption class="figcaption">"HITexportAB.csv" from HIT Data Entry (Axb UNSORTED) 1SEP17</figcaption>
+            </figure>
+            <p>"HITexportBOND.csv" from HIT Data Entry (Bond Proxy UNSORTED) 1SEP17:</p>
+            <figure class="figure">
+              <img src="../assets/docs/online-software/appx1-bond-csv.png" alt="Excel spreadsheet HITexportBOND showing rows of Bond proxy test input data per job/sample">
+              <figcaption class="figcaption">"HITexportBOND.csv" from HIT Data Entry (Bond Proxy UNSORTED) 1SEP17</figcaption>
+            </figure>
+
+            <h3>Appendix 2a — Bulk AB Proxy Test Upload and Excel .csv Download File</h3>
+            <p>HIT Online Software Bulk AB Test interface after clicking "Upload and Submit for Processing":</p>
+            <figure class="figure">
+              <img src="../assets/docs/online-software/appx2a-interface.png" alt="Bulk AB Proxy Test interface after upload, showing the chosen HITexportAB.CSV file, the disclaimer, and the browser Open/Save dialog for ab download.csv">
+              <figcaption class="figcaption">Bulk AB Test interface after clicking "Upload and Submit for Processing"</figcaption>
+            </figure>
+            <p>Excel "ab download.csv" file (with inputs and results) automatically generated by HOS:</p>
+            <figure class="figure">
+              <img src="../assets/docs/online-software/appx2a-csv.png" alt="Excel ab download spreadsheet with input columns plus calculated Ecs, slope, T10 and HIT-A*b results columns">
+              <figcaption class="figcaption">Excel "ab download.csv" file automatically generated by HOS</figcaption>
+            </figure>
+
+            <h3>Appendix 2b — Bulk BOND Proxy Test Upload and Excel .csv Download File</h3>
+            <p>HIT Online Software Bulk Bond Proxy Test interface after clicking "Upload and Submit for Processing":</p>
+            <figure class="figure">
+              <img src="../assets/docs/online-software/appx2b-interface.png" alt="Bulk Bond Proxy Test interface after upload, showing the chosen HITexportBOND.CSV file, the disclaimer, and the browser Open/Save dialog for bond download.csv">
+              <figcaption class="figcaption">Bulk Bond Proxy Test interface after clicking "Upload and Submit for Processing"</figcaption>
+            </figure>
+            <p>Excel "bond download.csv" file (with inputs and results) automatically generated by HOS:</p>
+            <figure class="figure">
+              <img src="../assets/docs/online-software/appx2b-csv.png" alt="Excel bond download spreadsheet with input columns plus calculated Ecs, slope, T10 and HIT-BMWi results columns">
+              <figcaption class="figcaption">Excel "bond download.csv" file automatically generated by HOS</figcaption>
+            </figure>
+          </section>
+
+        </article>
+      </div>
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__row"><span>&copy; SimSAGe Pty Ltd</span><a href="https://www.simsage.com.au">www.simsage.com.au</a></div>
+      <p>For authorised HIT machine users only. Calculator output does not constitute advice and must be used by qualified persons.</p>
+    </div>
+  </footer>
+
+</div>
+<script src="../assets/app.js"></script>
+</body>
+</html>
