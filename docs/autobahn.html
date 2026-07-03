@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Autopia: Autobahn (Single Player)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .stat-card { min-width: 130px; }
+    table.game td, table.game th { padding: 6px 10px; border-bottom: 1px solid #e5e7eb; text-align: left; }
+    table.game th { background: #f3f4f6; font-weight: 600; }
+    input[type=range] { width: 100%; }
+    .pos { color: #047857; } .neg { color: #b91c1c; }
+  </style>
+</head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DR00KCFH4G"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-DR00KCFH4G');
+</script>
+<body class="bg-gray-100 font-sans text-gray-800">
+
+<header class="bg-blue-600 text-white py-5">
+  <div class="container mx-auto px-4 flex items-center justify-between flex-wrap gap-2">
+    <div>
+      <h1 class="text-3xl font-bold">Autopia: Autobahn</h1>
+      <p class="text-blue-100">Single-player Vehicle Producer &mdash; you build cars, the computer runs the market.</p>
+    </div>
+    <div class="flex gap-2">
+      <button id="how-btn" class="bg-blue-500 hover:bg-blue-400 px-3 py-2 rounded text-sm">How to Play</button>
+      <button id="new-btn" class="bg-blue-800 hover:bg-blue-900 px-3 py-2 rounded text-sm">New Game</button>
+    </div>
+  </div>
+</header>
+
+<main class="container mx-auto px-4 py-6 space-y-6">
+
+  <!-- How to play -->
+  <section id="how" class="bg-white shadow rounded-lg p-6 hidden">
+    <h2 class="text-xl font-semibold mb-3">How to Play</h2>
+    <p class="mb-2">You are a <strong>Vehicle Producer</strong>. Each turn (4 game years) you:</p>
+    <ol class="list-decimal pl-6 mb-3 space-y-1">
+      <li><strong>Design &amp; build vehicles</strong> to sell next turn &mdash; pick a drivetrain, style, performance, production run, and profit margin.</li>
+      <li><strong>Invest R&amp;D points</strong> (earned by making a profit) to make a drivetrain more efficient or cheaper.</li>
+      <li>Click <strong>Advance Turn</strong>. Computer consumers buy the most attractive cars; your unsold cars are dumped at 75% of build cost.</li>
+    </ol>
+    <p class="mb-2 text-sm text-gray-600">Watch out for <strong>CAFE</strong>: the required fleet fuel economy rises over the years
+      (27.5 &rarr; 35 &rarr; 54.5 &rarr; 62 MPG). Miss it and you pay a penalty on every car you sell. Electrified drivetrains
+      pass easily but cost more to build. Bigger production runs lower your per-unit cost (minimum at a run of 250).</p>
+    <p class="text-sm text-gray-500">This is an MVP prototype of the "autobahn" single-player mode of Autopia, reimplemented in the browser.
+      Formulas follow the original game (price = (1+margin)&times;cost + feebate; CAFE penalty = (goal&minus;mpg)&times;55&times;units).</p>
+  </section>
+
+  <!-- Top stats -->
+  <section class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+    <div class="stat-card bg-white shadow rounded-lg p-4"><div class="text-xs uppercase text-gray-500">Year</div><div id="s-year" class="text-2xl font-bold">—</div></div>
+    <div class="stat-card bg-white shadow rounded-lg p-4"><div class="text-xs uppercase text-gray-500">Balance</div><div id="s-balance" class="text-2xl font-bold">—</div></div>
+    <div class="stat-card bg-white shadow rounded-lg p-4"><div class="text-xs uppercase text-gray-500">R&amp;D Points</div><div id="s-rd" class="text-2xl font-bold">—</div></div>
+    <div class="stat-card bg-white shadow rounded-lg p-4"><div class="text-xs uppercase text-gray-500">CAFE Req.</div><div id="s-cafereq" class="text-2xl font-bold">—</div></div>
+    <div class="stat-card bg-white shadow rounded-lg p-4"><div class="text-xs uppercase text-gray-500">Last Fleet MPG</div><div id="s-cafe" class="text-2xl font-bold">—</div></div>
+    <div class="stat-card bg-white shadow rounded-lg p-4"><div class="text-xs uppercase text-gray-500">Turn</div><div id="s-turn" class="text-2xl font-bold">—</div></div>
+  </section>
+
+  <div class="grid lg:grid-cols-2 gap-6">
+    <!-- Design panel -->
+    <section class="bg-white shadow rounded-lg p-6">
+      <h2 class="text-xl font-semibold mb-4">Design a Vehicle</h2>
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium mb-1">Name</label>
+          <input id="d-name" type="text" class="w-full border rounded px-2 py-1" placeholder="e.g. Comet GT">
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Drivetrain</label>
+          <select id="d-drivetrain" class="w-full border rounded px-2 py-1"></select>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium mb-1">Style: <span id="d-style-v">5</span></label>
+            <input id="d-style" type="range" min="1" max="10" value="5">
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Performance: <span id="d-perf-v">5</span></label>
+            <input id="d-perf" type="range" min="1" max="10" value="5">
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium mb-1">Production Run: <span id="d-run-v">250</span></label>
+            <input id="d-run" type="range" min="50" max="1000" step="50" value="250">
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Margin: <span id="d-margin-v">10</span>%</label>
+            <input id="d-margin" type="range" min="0" max="60" step="1" value="10">
+          </div>
+        </div>
+
+        <table class="game w-full text-sm">
+          <tbody>
+            <tr><td>MPG</td><td id="o-mpg" class="text-right font-semibold">—</td></tr>
+            <tr><td>Unit build cost</td><td id="o-unitcost" class="text-right">—</td></tr>
+            <tr><td>Feebate (per car)</td><td id="o-feebate" class="text-right">—</td></tr>
+            <tr><td>Sale price</td><td id="o-price" class="text-right font-semibold">—</td></tr>
+            <tr><td>Total build cost</td><td id="o-buildcost" class="text-right">—</td></tr>
+            <tr><td>Max revenue (all sold)</td><td id="o-revenue" class="text-right">—</td></tr>
+            <tr><td>Max profit (all sold)</td><td id="o-profit" class="text-right font-semibold">—</td></tr>
+            <tr><td>Predicted CAFE penalty (this car)</td><td id="o-penalty" class="text-right">—</td></tr>
+          </tbody>
+        </table>
+        <button id="build-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Build for Next Turn</button>
+        <p id="build-msg" class="text-sm text-red-600 h-4"></p>
+      </div>
+    </section>
+
+    <!-- Right column: R&D + scheduled -->
+    <div class="space-y-6">
+      <section class="bg-white shadow rounded-lg p-6">
+        <h2 class="text-xl font-semibold mb-4">R&amp;D Investment</h2>
+        <p class="text-sm text-gray-600 mb-3">Spend R&amp;D points to permanently upgrade a drivetrain. Each point = +3 MPG or &minus;$800 unit cost.</p>
+        <div class="flex flex-wrap items-end gap-3">
+          <div>
+            <label class="block text-sm font-medium mb-1">Drivetrain</label>
+            <select id="rd-drivetrain" class="border rounded px-2 py-1"></select>
+          </div>
+          <button id="rd-mpg-btn" class="bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded text-sm">+3 MPG (1 pt)</button>
+          <button id="rd-cost-btn" class="bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded text-sm">&minus;$800 cost (1 pt)</button>
+        </div>
+        <div id="rd-table-wrap" class="mt-4 overflow-x-auto"></div>
+      </section>
+
+      <section class="bg-white shadow rounded-lg p-6">
+        <h2 class="text-xl font-semibold mb-3">Built for Next Turn</h2>
+        <div id="scheduled-wrap" class="overflow-x-auto text-sm"></div>
+        <button id="advance-btn" class="mt-4 w-full bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-3 rounded text-lg font-semibold">Advance Turn ▶</button>
+      </section>
+    </div>
+  </div>
+
+  <!-- Last turn results -->
+  <section class="bg-white shadow rounded-lg p-6">
+    <h2 class="text-xl font-semibold mb-3">Last Turn Results</h2>
+    <div id="results-wrap" class="overflow-x-auto text-sm">
+      <p class="text-gray-500">No turns played yet. Build a vehicle and advance the turn.</p>
+    </div>
+  </section>
+
+  <!-- History -->
+  <section class="bg-white shadow rounded-lg p-6">
+    <h2 class="text-xl font-semibold mb-3">History</h2>
+    <div id="history-wrap" class="overflow-x-auto text-sm"><p class="text-gray-500">—</p></div>
+  </section>
+
+  <p class="text-center">
+    <a href="index.html" class="text-blue-600 hover:underline">&#8592; Back to Main Page</a>
+  </p>
+</main>
+
+<footer class="bg-gray-800 text-white py-4 mt-8">
+  <div class="container mx-auto px-4 text-center text-sm">
+    <p>© 2025 Autopia Simulation Project. Developed by Joel Bremson at UC Davis.</p>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   Autopia "Autobahn" single-player — browser MVP engine
+   Grounded in the original game's formulas & settings.py params.
+   ============================================================ */
+
+// ---- Constants (from auto/settings.py) ----
+const YEAR_START = 2004;
+const YEARS_PER_TURN = 4;
+const CAFE_LEVELS = { 1975: 27.5, 2016: 35, 2025: 54.5, 2040: 62 }; // settings.py:182
+const CAFE_PENALTY_PER_MPG = 55;   // (goal-mpg)*55*units  (new_vehicle.html:205)
+const FEEBATE_LEVEL_GPM = 1 / 16;  // settings.py:216
+// Prototype-scaled from settings.py:217 (original $1000 per .01 GPM = $100k/GPM). Reduced to
+// $400 per .01 GPM so the efficiency fee/rebate nudges pricing without swamping profit margins.
+const FEEBATE_COST_PER_GPM = 400 / 0.01;
+const MIN_COST_RUN = 250;          // guide.html:38 — min unit cost at run 250
+const DISTRESS_FRACTION = 0.75;    // guide.html:80-82 — unsold dumped at 75% of build cost
+const STARTING_BALANCE = 15_000_000; // $15M
+const STARTING_RD = 6;
+
+// Drivetrains: base MPG (or MPGe) and base unit cost ($). Order per settings.py:191/224.
+const DRIVETRAINS = {
+  'gas':      { label: 'Gasoline',        baseMpg: 25,  baseCost: 12000 },
+  'diesel':   { label: 'Diesel',          baseMpg: 32,  baseCost: 14000 },
+  'gas hev':  { label: 'Hybrid (HEV)',    baseMpg: 45,  baseCost: 17000 },
+  'phev':     { label: 'Plug-in (PHEV)',  baseMpg: 65,  baseCost: 22000 },
+  'bev':      { label: 'Electric (BEV)',  baseMpg: 100, baseCost: 28000 },
+  'h2':       { label: 'Hydrogen (H2)',   baseMpg: 68,  baseCost: 35000 },
+};
+
+// Consumer segments — style_to_perf ratios from CONSUMER_INIT (settings.py:205-212).
+// size = relative market volume; priceSens = price sensitivity; maxPrice = budget cap.
+const SEGMENTS = {
+  green:      { ratio: 1.4, size: 160, priceSens: 1.0, maxPrice: 45000 },
+  family:     { ratio: 1.2, size: 380, priceSens: 1.2, maxPrice: 32000 },
+  executive:  { ratio: 0.9, size: 240, priceSens: 0.6, maxPrice: 70000 },
+  spec1_high: { ratio: 0.9, size: 190, priceSens: 0.7, maxPrice: 60000 },
+  enthusiast: { ratio: 0.9, size: 200, priceSens: 0.8, maxPrice: 55000 },
+  young:      { ratio: 1.0, size: 300, priceSens: 1.4, maxPrice: 22000 },
+};
+
+const VEIL = 5; // computer VP smartness knob (settings.py:184). Lower = tougher rivals.
+
+// ---- State ----
+let state = null;
+
+function newGame() {
+  state = {
+    turn: 1,
+    year: YEAR_START,
+    balance: STARTING_BALANCE,
+    rdPoints: STARTING_RD,
+    // per-drivetrain R&D upgrades
+    rd: Object.fromEntries(Object.keys(DRIVETRAINS).map(k => [k, { mpgBonus: 0, costCut: 0 }])),
+    scheduled: [],   // vehicles built for next turn
+    lastResults: null,
+    history: [],
+  };
+  save();
+  renderAll();
+}
+
+function save() { try { localStorage.setItem('autobahn_save', JSON.stringify(state)); } catch (e) {} }
+function load() {
+  try {
+    const raw = localStorage.getItem('autobahn_save');
+    if (raw) { state = JSON.parse(raw); return true; }
+  } catch (e) {}
+  return false;
+}
+
+// ---- Derived drivetrain values (after R&D) ----
+function dtMpg(key) { return DRIVETRAINS[key].baseMpg + state.rd[key].mpgBonus; }
+function dtCost(key) { return Math.max(4000, DRIVETRAINS[key].baseCost - state.rd[key].costCut); }
+
+// ---- CAFE requirement for a given year (highest threshold year <= year) ----
+function cafeRequirement(year) {
+  let req = 0;
+  for (const y of Object.keys(CAFE_LEVELS).map(Number).sort((a, b) => a - b)) {
+    if (year >= y) req = CAFE_LEVELS[y];
+  }
+  return req;
+}
+
+// ---- Volume multiplier: min cost at run 250, higher below, flat above (guide.html:38) ----
+function volumeMultiplier(run) {
+  if (run >= MIN_COST_RUN) return 1.0;
+  return 1 + (MIN_COST_RUN - run) / MIN_COST_RUN * 0.4; // up to 1.4x for tiny runs
+}
+
+// ---- Compute all derived numbers for a design ----
+function computeDesign(d) {
+  const style_mpg = (d.style - 5) * 0.5;        // styling/aero: minor mpg effect
+  const perf_mpg = -(d.performance - 5) * 2.5;  // more power -> worse mpg
+  const mpg = Math.max(6, dtMpg(d.drivetrain) + style_mpg + perf_mpg);
+
+  const style_cost = (d.style - 5) * 1200;
+  const perf_cost = (d.performance - 5) * 1500;
+  const rawUnit = dtCost(d.drivetrain) + style_cost + perf_cost;
+  const unitCost = Math.round(rawUnit * volumeMultiplier(d.run));
+
+  // Feebate: (vehicle GPM - 1/16) * $100k. Efficient cars get a rebate (negative). settings.py:216-217
+  const gpm = 1 / mpg;
+  const feebate = Math.round((gpm - FEEBATE_LEVEL_GPM) * FEEBATE_COST_PER_GPM);
+
+  const price = Math.round((1 + d.margin / 100) * unitCost + feebate); // new_vehicle.html:176
+  const buildCost = unitCost * d.run;                 // total $ committed
+  const maxRevenue = price * d.run;
+  const maxProfit = maxRevenue - buildCost;
+
+  // Predicted CAFE penalty if all sold: (goal - mpg)*55*units, floored at 0
+  const goal = cafeRequirement(state.year + YEARS_PER_TURN);
+  const penalty = Math.max(0, (goal - mpg) * CAFE_PENALTY_PER_MPG * d.run);
+
+  return { mpg, unitCost, feebate, price, buildCost, maxRevenue, maxProfit, penalty };
+}
+
+// ---- Read the design form ----
+function readDesign() {
+  return {
+    name: document.getElementById('d-name').value.trim() || 'Unnamed',
+    drivetrain: document.getElementById('d-drivetrain').value,
+    style: +document.getElementById('d-style').value,
+    performance: +document.getElementById('d-perf').value,
+    run: +document.getElementById('d-run').value,
+    margin: +document.getElementById('d-margin').value,
+  };
+}
+
+// ========================= TURN ENGINE =========================
+function advanceTurn() {
+  if (state.scheduled.length === 0) {
+    flash('build-msg', 'Build at least one vehicle before advancing.');
+    return;
+  }
+
+  // 1. Assemble the market: player vehicles (on sale) + computer competitors.
+  const player = state.scheduled.map(v => ({ ...v, owner: 'you', sold: 0, remaining: v.run }));
+  const rivals = makeCompetitors();
+  const market = player.concat(rivals);
+
+  // 2. Each consumer segment allocates its demand by desirability. Rivals have deep inventory.
+  for (const segKey of Object.keys(SEGMENTS)) {
+    const seg = SEGMENTS[segKey];
+    const candidates = market.filter(v => v.remaining > 0 && v.price <= seg.maxPrice);
+    if (candidates.length === 0) continue;
+
+    const scored = candidates.map(v => {
+      const styleW = seg.ratio;
+      const perfW = 2 - seg.ratio;
+      const mpgW = seg.ratio;
+      const desir = styleW * v.style + perfW * v.performance + mpgW * (v.mpg / 8);
+      const priceUtil = -(v.price / 1000) * seg.priceSens;
+      return { v, weight: Math.exp((desir + priceUtil) / 6) };
+    });
+    const total = scored.reduce((s, x) => s + x.weight, 0);
+    for (const { v, weight } of scored) {
+      let demand = Math.round(seg.size * weight / total);
+      demand = Math.min(demand, v.remaining);
+      v.sold += demand;
+      v.remaining -= demand;
+    }
+  }
+
+  // 3. Settle the player's books: revenue, distress sale of unsold, CAFE, R&D.
+  let turnRevenue = 0, unitsSold = 0, unitsUnsold = 0, distress = 0;
+  let harmDenom = 0; // for harmonic-mean fleet MPG (CAFE)
+  const vehResults = [];
+  for (const v of player) {
+    const unsold = v.run - v.sold;
+    const rev = v.sold * v.price;
+    const dump = Math.round(unsold * v.unitCost * DISTRESS_FRACTION);
+    turnRevenue += rev;
+    distress += dump;
+    unitsSold += v.sold;
+    unitsUnsold += unsold;
+    if (v.sold > 0) harmDenom += v.sold / v.mpg;
+    // profit = cash in (sales + distress) minus what was spent building it
+    const profit = rev + dump - v.buildCost;
+    vehResults.push({ name: v.name, drivetrain: v.drivetrain, mpg: v.mpg, price: v.price,
+                      run: v.run, sold: v.sold, unsold, revenue: rev, distress: dump, profit });
+  }
+
+  const fleetMpg = unitsSold > 0 ? unitsSold / harmDenom : 0;
+  const goal = cafeRequirement(state.year);
+  const cafePenalty = fleetMpg > 0 && fleetMpg < goal
+    ? Math.round((goal - fleetMpg) * CAFE_PENALTY_PER_MPG * unitsSold) : 0;
+
+  // R&D points: earned for profitable vehicles (guide.html: "RD awarded for profit").
+  let rdEarned = 0;
+  for (const r of vehResults) if (r.profit > 0) rdEarned += Math.max(1, Math.round(r.profit / 1_500_000));
+
+  // Apply cash flows (build costs were already deducted at build time).
+  const netCash = turnRevenue + distress - cafePenalty;
+  state.balance += netCash;
+  state.rdPoints += rdEarned;
+
+  const turnProfit = vehResults.reduce((s, r) => s + r.profit, 0) - cafePenalty;
+
+  state.lastResults = {
+    year: state.year, vehicles: vehResults, unitsSold, unitsUnsold,
+    revenue: turnRevenue, distress, cafePenalty, fleetMpg, goal, rdEarned,
+    turnProfit, rivals: rivals.map(r => ({ name: r.name, drivetrain: r.drivetrain, mpg: r.mpg, price: r.price, sold: r.sold })),
+  };
+  state.history.push({
+    turn: state.turn, year: state.year, produced: unitsSold + unitsUnsold, sold: unitsSold,
+    unsold: unitsUnsold, profit: turnProfit, rd: rdEarned, balance: state.balance,
+    fleetMpg: fleetMpg, cafeReq: goal,
+  });
+
+  // Advance clock, clear the build slate.
+  state.scheduled = [];
+  state.turn += 1;
+  state.year += YEARS_PER_TURN;
+
+  save();
+  renderAll();
+  document.getElementById('results-wrap').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// ---- Computer competitors (lightweight stand-in for popveh, tuned by VEIL) ----
+function makeCompetitors() {
+  const quality = (10 - VEIL) / 10; // 0..1 — higher = tougher rivals
+  const picks = ['gas', 'gas hev', 'bev']; // a cheap one, an efficient one, an electric one
+  const names = ['MegaMotors', 'AsianCo', 'GreenTech'];
+  const rivals = [];
+  picks.forEach((dt, i) => {
+    const style = Math.round(4 + quality * 4 + Math.random() * 2);       // 4..10
+    const performance = Math.round(4 + quality * 3 + Math.random() * 2);  // 4..9
+    const mpg = Math.max(6, DRIVETRAINS[dt].baseMpg + (dt === 'gas' ? 2 : 0)
+                 - (performance - 5) * 2.5 + (style - 5) * 0.5);
+    const unitCost = Math.round(DRIVETRAINS[dt].baseCost + (style - 5) * 1200 + (performance - 5) * 1500);
+    const gpm = 1 / mpg;
+    const feebate = Math.round((gpm - FEEBATE_LEVEL_GPM) * FEEBATE_COST_PER_GPM);
+    const margin = 6 + Math.random() * 8; // rivals run 6-14% margins
+    const price = Math.round((1 + margin / 100) * unitCost + feebate);
+    rivals.push({ name: names[i], owner: 'cpu', drivetrain: dt, style, performance,
+                  mpg, unitCost, price, run: 99999, remaining: 99999, sold: 0 });
+  });
+  return rivals;
+}
+
+// ========================= BUILD =========================
+function buildVehicle() {
+  const d = readDesign();
+  const c = computeDesign(d);
+  if (c.buildCost > state.balance) {
+    flash('build-msg', `Not enough cash: build costs ${money(c.buildCost)} but you have ${money(state.balance)}.`);
+    return;
+  }
+  state.balance -= c.buildCost;
+  state.scheduled.push({ ...d, ...c });
+  save();
+  renderAll();
+  flash('build-msg', '');
+}
+
+// ---- R&D ----
+function rdInvest(kind) {
+  if (state.rdPoints < 1) { return; }
+  const key = document.getElementById('rd-drivetrain').value;
+  state.rdPoints -= 1;
+  if (kind === 'mpg') state.rd[key].mpgBonus += 3;
+  else state.rd[key].costCut += 800;
+  save();
+  renderAll();
+}
+
+// ========================= RENDERING =========================
+function renderAll() {
+  renderStats();
+  renderDesignOutputs();
+  renderRdTable();
+  renderScheduled();
+  renderResults();
+  renderHistory();
+}
+
+function renderStats() {
+  document.getElementById('s-year').textContent = state.year;
+  document.getElementById('s-balance').textContent = money(state.balance);
+  document.getElementById('s-rd').textContent = state.rdPoints;
+  document.getElementById('s-cafereq').textContent = cafeRequirement(state.year).toFixed(1);
+  document.getElementById('s-turn').textContent = state.turn;
+  const fm = state.history.length ? state.history[state.history.length - 1].fleetMpg : 0;
+  document.getElementById('s-cafe').textContent = fm ? fm.toFixed(1) : '—';
+}
+
+function renderDesignOutputs() {
+  const d = readDesign();
+  const c = computeDesign(d);
+  document.getElementById('d-style-v').textContent = d.style;
+  document.getElementById('d-perf-v').textContent = d.performance;
+  document.getElementById('d-run-v').textContent = d.run;
+  document.getElementById('d-margin-v').textContent = d.margin;
+  document.getElementById('o-mpg').textContent = c.mpg.toFixed(1);
+  document.getElementById('o-unitcost').textContent = money(c.unitCost);
+  document.getElementById('o-feebate').textContent = (c.feebate >= 0 ? '+' : '−') + money(Math.abs(c.feebate)).slice(1) + (c.feebate < 0 ? ' (rebate)' : ' (fee)');
+  document.getElementById('o-price').textContent = money(c.price);
+  document.getElementById('o-buildcost').textContent = moneyM(c.buildCost);
+  document.getElementById('o-revenue').textContent = moneyM(c.maxRevenue);
+  const pe = document.getElementById('o-profit');
+  pe.textContent = moneyM(c.maxProfit);
+  pe.className = 'text-right font-semibold ' + (c.maxProfit >= 0 ? 'pos' : 'neg');
+  document.getElementById('o-penalty').textContent = c.penalty > 0 ? moneyM(c.penalty) : '$0';
+}
+
+function renderRdTable() {
+  const rows = Object.keys(DRIVETRAINS).map(k =>
+    `<tr><td>${DRIVETRAINS[k].label}</td><td class="text-right">${dtMpg(k).toFixed(0)}</td>
+      <td class="text-right">${money(dtCost(k))}</td>
+      <td class="text-right text-green-700">${state.rd[k].mpgBonus ? '+' + state.rd[k].mpgBonus : ''}${state.rd[k].mpgBonus && state.rd[k].costCut ? ' / ' : ''}${state.rd[k].costCut ? '−' + money(state.rd[k].costCut).slice(1) : ''}</td></tr>`
+  ).join('');
+  document.getElementById('rd-table-wrap').innerHTML =
+    `<table class="game w-full text-sm"><thead><tr><th>Drivetrain</th><th class="text-right">MPG</th><th class="text-right">Unit Cost</th><th class="text-right">R&D</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+function renderScheduled() {
+  const w = document.getElementById('scheduled-wrap');
+  if (state.scheduled.length === 0) { w.innerHTML = '<p class="text-gray-500">Nothing built yet.</p>'; return; }
+  const rows = state.scheduled.map((v, i) =>
+    `<tr><td>${esc(v.name)}</td><td>${DRIVETRAINS[v.drivetrain].label}</td><td class="text-right">${v.mpg.toFixed(0)}</td>
+      <td class="text-right">${v.run}</td><td class="text-right">${money(v.price)}</td><td class="text-right">${moneyM(v.buildCost)}</td>
+      <td class="text-right"><button data-del="${i}" class="text-red-600 hover:underline">delete</button></td></tr>`).join('');
+  w.innerHTML = `<table class="game w-full"><thead><tr><th>Name</th><th>Drivetrain</th><th class="text-right">MPG</th>
+    <th class="text-right">Run</th><th class="text-right">Price</th><th class="text-right">Cost</th><th></th></tr></thead><tbody>${rows}</tbody></table>`;
+  w.querySelectorAll('button[data-del]').forEach(b => b.addEventListener('click', () => {
+    const i = +b.dataset.del;
+    state.balance += state.scheduled[i].buildCost; // refund committed cash
+    state.scheduled.splice(i, 1);
+    save(); renderAll();
+  }));
+}
+
+function renderResults() {
+  const w = document.getElementById('results-wrap');
+  const r = state.lastResults;
+  if (!r) return;
+  const vrows = r.vehicles.map(v =>
+    `<tr><td>${esc(v.name)}</td><td>${DRIVETRAINS[v.drivetrain].label}</td><td class="text-right">${v.mpg.toFixed(0)}</td>
+      <td class="text-right">${money(v.price)}</td><td class="text-right">${v.sold}/${v.run}</td>
+      <td class="text-right">${moneyM(v.revenue)}</td><td class="text-right">${moneyM(v.distress)}</td>
+      <td class="text-right ${v.profit >= 0 ? 'pos' : 'neg'}">${moneyM(v.profit)}</td></tr>`).join('');
+  const rivalTxt = r.rivals.map(rv => `${esc(rv.name)} (${DRIVETRAINS[rv.drivetrain].label}, ${money(rv.price)}, sold ${rv.sold})`).join(' • ');
+  w.innerHTML = `
+    <p class="mb-2">Year <strong>${r.year}</strong>: sold <strong>${r.unitsSold}</strong>, unsold <strong>${r.unitsUnsold}</strong>,
+      fleet MPG <strong>${r.fleetMpg ? r.fleetMpg.toFixed(1) : '—'}</strong> vs required <strong>${r.goal.toFixed(1)}</strong>,
+      CAFE penalty <strong class="${r.cafePenalty ? 'neg' : ''}">${moneyM(r.cafePenalty)}</strong>,
+      R&amp;D earned <strong>${r.rdEarned}</strong>,
+      turn profit <strong class="${r.turnProfit >= 0 ? 'pos' : 'neg'}">${moneyM(r.turnProfit)}</strong>.</p>
+    <table class="game w-full"><thead><tr><th>Name</th><th>Drivetrain</th><th class="text-right">MPG</th><th class="text-right">Price</th>
+      <th class="text-right">Sold/Run</th><th class="text-right">Revenue</th><th class="text-right">Salvage</th><th class="text-right">Profit</th></tr></thead>
+      <tbody>${vrows}</tbody></table>
+    <p class="mt-2 text-xs text-gray-500">Rivals this turn: ${rivalTxt}</p>`;
+}
+
+function renderHistory() {
+  const w = document.getElementById('history-wrap');
+  if (state.history.length === 0) { w.innerHTML = '<p class="text-gray-500">—</p>'; return; }
+  const rows = state.history.slice().reverse().map(h =>
+    `<tr><td>${h.turn}</td><td>${h.year}</td><td class="text-right">${h.produced}</td><td class="text-right">${h.sold}</td>
+      <td class="text-right">${h.unsold}</td><td class="text-right ${h.profit >= 0 ? 'pos' : 'neg'}">${moneyM(h.profit)}</td>
+      <td class="text-right">${h.rd}</td><td class="text-right">${h.fleetMpg ? h.fleetMpg.toFixed(1) : '—'}/${h.cafeReq.toFixed(0)}</td>
+      <td class="text-right">${moneyM(h.balance)}</td></tr>`).join('');
+  w.innerHTML = `<table class="game w-full"><thead><tr><th>Turn</th><th>Year</th><th class="text-right">Produced</th><th class="text-right">Sold</th>
+    <th class="text-right">Unsold</th><th class="text-right">Profit</th><th class="text-right">R&D</th><th class="text-right">MPG/Req</th><th class="text-right">Balance</th></tr></thead>
+    <tbody>${rows}</tbody></table>`;
+}
+
+// ---- formatting helpers ----
+function money(n) { return '$' + Math.round(n).toLocaleString('en-US'); }
+function moneyM(n) { return (n < 0 ? '−$' : '$') + (Math.abs(n) / 1e6).toFixed(2) + 'M'; }
+function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+function flash(id, msg) { document.getElementById(id).textContent = msg; }
+
+// ========================= WIRING =========================
+function populateSelects() {
+  const opts = Object.keys(DRIVETRAINS).map(k => `<option value="${k}">${DRIVETRAINS[k].label}</option>`).join('');
+  document.getElementById('d-drivetrain').innerHTML = opts;
+  document.getElementById('rd-drivetrain').innerHTML = opts;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  populateSelects();
+  if (!load()) newGame();
+  // Migrate/guard against older saves missing fields
+  if (!state || !state.rd) newGame();
+  renderAll();
+
+  ['d-drivetrain', 'd-style', 'd-perf', 'd-run', 'd-margin'].forEach(id =>
+    document.getElementById(id).addEventListener('input', renderDesignOutputs));
+  document.getElementById('build-btn').addEventListener('click', buildVehicle);
+  document.getElementById('advance-btn').addEventListener('click', advanceTurn);
+  document.getElementById('rd-mpg-btn').addEventListener('click', () => rdInvest('mpg'));
+  document.getElementById('rd-cost-btn').addEventListener('click', () => rdInvest('cost'));
+  document.getElementById('new-btn').addEventListener('click', () => {
+    if (confirm('Start a new game? This erases your current progress.')) newGame();
+  });
+  document.getElementById('how-btn').addEventListener('click', () =>
+    document.getElementById('how').classList.toggle('hidden'));
+});
+</script>
+</body>
+</html>
